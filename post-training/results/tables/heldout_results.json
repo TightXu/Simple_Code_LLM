@@ -1,0 +1,870 @@
+{
+ "G9-g5to1-s45-bestval|sig": {
+  "bubble_sort": [
+   0,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   10,
+   10,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   10,
+   10,
+   10
+  ],
+  "caesar": [
+   2,
+   2,
+   10
+  ],
+  "word_count": [
+   2,
+   2,
+   10
+  ],
+  "longest_common_prefix": [
+   8,
+   8,
+   10
+  ],
+  "transpose": [
+   0,
+   0,
+   10
+  ],
+  "count_occurrences": [
+   2,
+   2,
+   10
+  ],
+  "digit_sum": [
+   0,
+   0,
+   10
+  ]
+ },
+ "G9-g5to1-s45-bestval|nl": {
+  "bubble_sort": [
+   10,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   8,
+   8,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   8,
+   8,
+   10
+  ],
+  "caesar": [
+   0,
+   0,
+   10
+  ],
+  "word_count": [
+   10,
+   10,
+   10
+  ],
+  "longest_common_prefix": [
+   0,
+   0,
+   10
+  ],
+  "transpose": [
+   6,
+   6,
+   10
+  ],
+  "count_occurrences": [
+   10,
+   10,
+   10
+  ],
+  "digit_sum": [
+   8,
+   8,
+   10
+  ]
+ },
+ "G9-g5to1-s46-bestval|sig": {
+  "bubble_sort": [
+   0,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   10,
+   10,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   2,
+   2,
+   10
+  ],
+  "caesar": [
+   1,
+   1,
+   10
+  ],
+  "word_count": [
+   0,
+   0,
+   10
+  ],
+  "longest_common_prefix": [
+   4,
+   4,
+   10
+  ],
+  "transpose": [
+   7,
+   9,
+   10
+  ],
+  "count_occurrences": [
+   10,
+   10,
+   10
+  ],
+  "digit_sum": [
+   0,
+   0,
+   10
+  ]
+ },
+ "G9-g5to1-s46-bestval|nl": {
+  "bubble_sort": [
+   10,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   10,
+   10,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   10,
+   10,
+   10
+  ],
+  "caesar": [
+   8,
+   8,
+   10
+  ],
+  "word_count": [
+   8,
+   8,
+   10
+  ],
+  "longest_common_prefix": [
+   10,
+   10,
+   10
+  ],
+  "transpose": [
+   5,
+   5,
+   10
+  ],
+  "count_occurrences": [
+   10,
+   10,
+   10
+  ],
+  "digit_sum": [
+   10,
+   10,
+   10
+  ]
+ },
+ "G9-g5to1-s44-bestval|sig": {
+  "bubble_sort": [
+   0,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   10,
+   10,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   10,
+   10,
+   10
+  ],
+  "caesar": [
+   6,
+   6,
+   10
+  ],
+  "word_count": [
+   3,
+   3,
+   10
+  ],
+  "longest_common_prefix": [
+   2,
+   2,
+   10
+  ],
+  "transpose": [
+   0,
+   1,
+   10
+  ],
+  "count_occurrences": [
+   1,
+   1,
+   10
+  ],
+  "digit_sum": [
+   0,
+   0,
+   10
+  ]
+ },
+ "G9-g5to1-s44-bestval|nl": {
+  "bubble_sort": [
+   10,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   9,
+   9,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   10,
+   10,
+   10
+  ],
+  "caesar": [
+   4,
+   4,
+   10
+  ],
+  "word_count": [
+   10,
+   10,
+   10
+  ],
+  "longest_common_prefix": [
+   4,
+   4,
+   10
+  ],
+  "transpose": [
+   4,
+   4,
+   10
+  ],
+  "count_occurrences": [
+   10,
+   10,
+   10
+  ],
+  "digit_sum": [
+   10,
+   10,
+   10
+  ]
+ },
+ "G9-g5to1-bestval|sig": {
+  "bubble_sort": [
+   0,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   9,
+   9,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   1,
+   1,
+   10
+  ],
+  "caesar": [
+   10,
+   10,
+   10
+  ],
+  "word_count": [
+   0,
+   0,
+   10
+  ],
+  "longest_common_prefix": [
+   0,
+   0,
+   10
+  ],
+  "transpose": [
+   8,
+   8,
+   10
+  ],
+  "count_occurrences": [
+   8,
+   8,
+   10
+  ],
+  "digit_sum": [
+   0,
+   0,
+   10
+  ]
+ },
+ "G9-g5to1-bestval|nl": {
+  "bubble_sort": [
+   6,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   10,
+   10,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   10,
+   10,
+   10
+  ],
+  "caesar": [
+   10,
+   10,
+   10
+  ],
+  "word_count": [
+   10,
+   10,
+   10
+  ],
+  "longest_common_prefix": [
+   1,
+   1,
+   10
+  ],
+  "transpose": [
+   10,
+   10,
+   10
+  ],
+  "count_occurrences": [
+   10,
+   10,
+   10
+  ],
+  "digit_sum": [
+   10,
+   10,
+   10
+  ]
+ },
+ "SOUP-G9top2-bestval|sig": {
+  "bubble_sort": [
+   0,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   10,
+   10,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   2,
+   2,
+   10
+  ],
+  "caesar": [
+   9,
+   9,
+   10
+  ],
+  "word_count": [
+   3,
+   3,
+   10
+  ],
+  "longest_common_prefix": [
+   0,
+   0,
+   10
+  ],
+  "transpose": [
+   7,
+   8,
+   10
+  ],
+  "count_occurrences": [
+   4,
+   4,
+   10
+  ],
+  "digit_sum": [
+   0,
+   0,
+   10
+  ]
+ },
+ "SOUP-G9top2-bestval|nl": {
+  "bubble_sort": [
+   10,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   8,
+   8,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   10,
+   10,
+   10
+  ],
+  "caesar": [
+   6,
+   6,
+   10
+  ],
+  "word_count": [
+   10,
+   10,
+   10
+  ],
+  "longest_common_prefix": [
+   3,
+   3,
+   10
+  ],
+  "transpose": [
+   6,
+   6,
+   10
+  ],
+  "count_occurrences": [
+   10,
+   10,
+   10
+  ],
+  "digit_sum": [
+   10,
+   10,
+   10
+  ]
+ },
+ "SOUP-G8x3-bestval|sig": {
+  "bubble_sort": [
+   0,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   10,
+   10,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   10,
+   10,
+   10
+  ],
+  "caesar": [
+   2,
+   2,
+   10
+  ],
+  "word_count": [
+   0,
+   0,
+   10
+  ],
+  "longest_common_prefix": [
+   8,
+   8,
+   10
+  ],
+  "transpose": [
+   2,
+   2,
+   10
+  ],
+  "count_occurrences": [
+   8,
+   8,
+   10
+  ],
+  "digit_sum": [
+   0,
+   0,
+   10
+  ]
+ },
+ "SOUP-G8x3-bestval|nl": {
+  "bubble_sort": [
+   10,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   10,
+   10,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   10,
+   10,
+   10
+  ],
+  "caesar": [
+   0,
+   0,
+   10
+  ],
+  "word_count": [
+   10,
+   10,
+   10
+  ],
+  "longest_common_prefix": [
+   1,
+   1,
+   10
+  ],
+  "transpose": [
+   10,
+   10,
+   10
+  ],
+  "count_occurrences": [
+   10,
+   10,
+   10
+  ],
+  "digit_sum": [
+   10,
+   10,
+   10
+  ]
+ },
+ "G8-g3to1-bestval|sig": {
+  "bubble_sort": [
+   0,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   10,
+   10,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   10,
+   10,
+   10
+  ],
+  "caesar": [
+   3,
+   3,
+   10
+  ],
+  "word_count": [
+   0,
+   0,
+   10
+  ],
+  "longest_common_prefix": [
+   7,
+   7,
+   10
+  ],
+  "transpose": [
+   1,
+   1,
+   10
+  ],
+  "count_occurrences": [
+   7,
+   7,
+   10
+  ],
+  "digit_sum": [
+   0,
+   0,
+   10
+  ]
+ },
+ "G8-g3to1-bestval|nl": {
+  "bubble_sort": [
+   10,
+   10,
+   10
+  ],
+  "gcd": [
+   10,
+   10,
+   10
+  ],
+  "lcm": [
+   0,
+   0,
+   10
+  ],
+  "remove_duplicates": [
+   10,
+   10,
+   10
+  ],
+  "flatten": [
+   10,
+   10,
+   10
+  ],
+  "is_anagram": [
+   10,
+   10,
+   10
+  ],
+  "caesar": [
+   1,
+   1,
+   10
+  ],
+  "word_count": [
+   10,
+   10,
+   10
+  ],
+  "longest_common_prefix": [
+   0,
+   0,
+   10
+  ],
+  "transpose": [
+   10,
+   10,
+   10
+  ],
+  "count_occurrences": [
+   10,
+   10,
+   10
+  ],
+  "digit_sum": [
+   10,
+   10,
+   10
+  ]
+ }
+}

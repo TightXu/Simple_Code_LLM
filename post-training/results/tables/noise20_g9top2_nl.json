@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "column": "natural-language instruction",
+    "prompt_template": "### Task\n{instruction}\n\n### Code\n",
+    "prompt_template_source": "build_instr_data.PROMPT_TEMPLATES['marker']",
+    "judge": "extract after last '### Code' → strip fences → dedent → truncate → run_script(timeout=3)",
+    "tests_source": "eval_sft.ALGORITHMS + eval_sft.SIMPLE_TASKS (same list object)",
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "gen": {
+      "max_new": 256,
+      "temperature": 0.2,
+      "top_k": 50,
+      "repetition_penalty": 1.2,
+      "min_p": 0.05,
+      "device": "cuda"
+    },
+    "n_tasks": 11,
+    "comparable_to": "results/tables/eval_sft_summary.json (signature-column protocol)"
+  },
+  "models": [
+    {
+      "model": "SOUP-G9top2-bestval",
+      "column": "nl",
+      "ckpt": "fine-tuning/ck_soup/sG9top2bv",
+      "params_m": 434.7,
+      "layers": 22,
+      "tasks": {
+        "fibonacci": "20/20",
+        "quicksort": "0/20",
+        "binary_search": "20/20",
+        "two_sum": "20/20",
+        "mergesort": "20/20",
+        "is_palindrome": "20/20",
+        "is_prime": "20/20",
+        "reverse_string": "19/20",
+        "count_vowels": "20/20",
+        "sum_list": "12/20",
+        "factorial": "20/20"
+      },
+      "total_nl": "191/220",
+      "elapsed_s": 390.1
+    }
+  ]
+}

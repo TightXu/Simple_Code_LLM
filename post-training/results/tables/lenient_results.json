@@ -1,0 +1,292 @@
+{
+ "generated": "2026-09-14T12:06:22",
+ "note": "Lenient-criterion offline re-judge of the failed samples only; inputs = the generation files, scores rescaled to the 55-point-per-column scale",
+ "models": {
+  "G9-g5to1-s45-bestval": {
+   "tag": "g9s45",
+   "sig": {
+    "n": 220,
+    "strict": 162,
+    "lenient": 163,
+    "strict55": 40.5,
+    "lenient55": 40.8
+   },
+   "nl": {
+    "n": 220,
+    "strict": 197,
+    "lenient": 197,
+    "strict55": 49.2,
+    "lenient55": 49.2
+   },
+   "total": {
+    "strict": 89.8,
+    "lenient": 90.0,
+    "delta": 0.2
+   },
+   "sources": {
+    "sig": "generations_g9s45_sig.jsonl",
+    "nl": "generations_g9s45_nl.jsonl"
+   }
+  },
+  "G9-g5to1-s46-bestval": {
+   "tag": "g9s46",
+   "sig": {
+    "n": 220,
+    "strict": 130,
+    "lenient": 144,
+    "strict55": 32.5,
+    "lenient55": 36.0
+   },
+   "nl": {
+    "n": 220,
+    "strict": 199,
+    "lenient": 199,
+    "strict55": 49.8,
+    "lenient55": 49.8
+   },
+   "total": {
+    "strict": 82.2,
+    "lenient": 85.8,
+    "delta": 3.5
+   },
+   "sources": {
+    "sig": "generations_g9s46_sig.jsonl",
+    "nl": "generations_g9s46_nl.jsonl"
+   }
+  },
+  "G9-g5to1-s44-bestval": {
+   "tag": "g9s44",
+   "sig": {
+    "n": 220,
+    "strict": 131,
+    "lenient": 151,
+    "strict55": 32.8,
+    "lenient55": 37.8
+   },
+   "nl": {
+    "n": 220,
+    "strict": 193,
+    "lenient": 193,
+    "strict55": 48.2,
+    "lenient55": 48.2
+   },
+   "total": {
+    "strict": 81.0,
+    "lenient": 86.0,
+    "delta": 5.0
+   },
+   "sources": {
+    "sig": "generations_g9s44_sig.jsonl",
+    "nl": "generations_g9s44_nl.jsonl"
+   }
+  },
+  "G9-g5to1-s43-bestval": {
+   "tag": "g9s43",
+   "sig": {
+    "n": 220,
+    "strict": 110,
+    "lenient": 127,
+    "strict55": 27.5,
+    "lenient55": 31.8
+   },
+   "nl": {
+    "n": 220,
+    "strict": 178,
+    "lenient": 178,
+    "strict55": 44.5,
+    "lenient55": 44.5
+   },
+   "total": {
+    "strict": 72.0,
+    "lenient": 76.2,
+    "delta": 4.2
+   },
+   "sources": {
+    "sig": "generations_g9s43_sig.jsonl",
+    "nl": "generations_g9s43_nl.jsonl"
+   }
+  },
+  "G9-g5to1-bestval(s42)": {
+   "tag": "g9bv",
+   "sig": {
+    "n": 220,
+    "strict": 120,
+    "lenient": 136,
+    "strict55": 30.0,
+    "lenient55": 34.0
+   },
+   "nl": {
+    "n": 220,
+    "strict": 201,
+    "lenient": 201,
+    "strict55": 50.2,
+    "lenient55": 50.2
+   },
+   "total": {
+    "strict": 80.2,
+    "lenient": 84.2,
+    "delta": 4.0
+   },
+   "sources": {
+    "sig": "generations_g9bv_sig.jsonl",
+    "nl": "generations_g9bv_nl.jsonl"
+   }
+  },
+  "SOUP-G9x3-bestval": {
+   "tag": "g9x3bv",
+   "sig": {
+    "n": 220,
+    "strict": 121,
+    "lenient": 141,
+    "strict55": 30.3,
+    "lenient55": 35.2
+   },
+   "nl": {
+    "n": 220,
+    "strict": 195,
+    "lenient": 195,
+    "strict55": 48.8,
+    "lenient55": 48.8
+   },
+   "total": {
+    "strict": 79.0,
+    "lenient": 84.0,
+    "delta": 5.0
+   },
+   "sources": {
+    "sig": "generations_g9x3bv_sig.jsonl",
+    "nl": "generations_g9x3bv_nl.jsonl"
+   }
+  },
+  "SOUP-G9top2-bestval": {
+   "tag": "g9top2",
+   "sig": {
+    "n": 220,
+    "strict": 130,
+    "lenient": 150,
+    "strict55": 32.5,
+    "lenient55": 37.5
+   },
+   "nl": {
+    "n": 220,
+    "strict": 191,
+    "lenient": 191,
+    "strict55": 47.8,
+    "lenient55": 47.8
+   },
+   "total": {
+    "strict": 80.2,
+    "lenient": 85.2,
+    "delta": 5.0
+   },
+   "sources": {
+    "sig": "generations_g9top2_sig.jsonl",
+    "nl": "generations_g9top2_nl.jsonl"
+   }
+  },
+  "SOUP-G8x3-bestval": {
+   "tag": "soup3",
+   "sig": {
+    "n": 220,
+    "strict": 123,
+    "lenient": 141,
+    "strict55": 30.8,
+    "lenient55": 35.2
+   },
+   "nl": {
+    "n": 220,
+    "strict": 196,
+    "lenient": 196,
+    "strict55": 49.0,
+    "lenient55": 49.0
+   },
+   "total": {
+    "strict": 79.8,
+    "lenient": 84.2,
+    "delta": 4.5
+   },
+   "sources": {
+    "sig": "generations_soup3_sig.jsonl",
+    "nl": "generations_soup3_nl.jsonl"
+   }
+  },
+  "G8-g3to1-bestval(3:1 s42)": {
+   "tag": "g8bv",
+   "sig": {
+    "n": 220,
+    "strict": 129,
+    "lenient": 148,
+    "strict55": 32.2,
+    "lenient55": 37.0
+   },
+   "nl": {
+    "n": 220,
+    "strict": 175,
+    "lenient": 175,
+    "strict55": 43.8,
+    "lenient55": 43.8
+   },
+   "total": {
+    "strict": 76.0,
+    "lenient": 80.8,
+    "delta": 4.8
+   },
+   "sources": {
+    "sig": "generations_g8bv_sig.jsonl",
+    "nl": "generations_g8bv_nl.jsonl"
+   }
+  },
+  "SOUP-G5x3-final": {
+   "tag": "g5x3fi",
+   "sig": {
+    "n": 220,
+    "strict": 139,
+    "lenient": 153,
+    "strict55": 34.8,
+    "lenient55": 38.2
+   },
+   "nl": {
+    "n": 220,
+    "strict": 163,
+    "lenient": 163,
+    "strict55": 40.8,
+    "lenient55": 40.8
+   },
+   "total": {
+    "strict": 75.5,
+    "lenient": 79.0,
+    "delta": 3.5
+   },
+   "sources": {
+    "sig": "generations_g5x3fi_sig.jsonl",
+    "nl": "generations_g5x3fi_nl.jsonl"
+   }
+  },
+  "SOUP-G9G5-030": {
+   "tag": "g9g5_030",
+   "sig": {
+    "n": 220,
+    "strict": 129,
+    "lenient": 144,
+    "strict55": 32.2,
+    "lenient55": 36.0
+   },
+   "nl": {
+    "n": 220,
+    "strict": 188,
+    "lenient": 188,
+    "strict55": 47.0,
+    "lenient55": 47.0
+   },
+   "total": {
+    "strict": 79.2,
+    "lenient": 83.0,
+    "delta": 3.8
+   },
+   "sources": {
+    "sig": "generations_g9g5_030_sig.jsonl",
+    "nl": "generations_g9g5_030_nl.jsonl"
+   }
+  }
+ }
+}

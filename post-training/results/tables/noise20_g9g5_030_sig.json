@@ -1,0 +1,22 @@
+[
+  {
+    "model": "SOUP-G9G5-030",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "13/20",
+      "quicksort": "0/20",
+      "binary_search": "11/20",
+      "two_sum": "0/20",
+      "mergesort": "5/20",
+      "is_palindrome": "6/20",
+      "is_prime": "20/20",
+      "reverse_string": "14/20",
+      "count_vowels": "20/20",
+      "sum_list": "20/20",
+      "factorial": "20/20"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 202.0
+  }
+]

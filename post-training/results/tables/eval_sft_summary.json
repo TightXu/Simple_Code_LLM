@@ -1,0 +1,1302 @@
+[
+  {
+    "model": "BASE-merged",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "1/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "0/5",
+      "reverse_string": "0/5",
+      "count_vowels": "0/5",
+      "sum_list": "0/5",
+      "factorial": "0/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 93.6
+  },
+  {
+    "model": "SFT-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "1/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "2/5",
+      "is_prime": "0/5",
+      "reverse_string": "3/5",
+      "count_vowels": "3/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 58.1
+  },
+  {
+    "model": "SFT-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "1/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "2/5",
+      "mergesort": "0/5",
+      "is_palindrome": "2/5",
+      "is_prime": "0/5",
+      "reverse_string": "3/5",
+      "count_vowels": "3/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 55.7
+  },
+  {
+    "model": "A3-big-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "1/5",
+      "binary_search": "1/5",
+      "two_sum": "1/5",
+      "mergesort": "1/5",
+      "is_palindrome": "2/5",
+      "is_prime": "0/5",
+      "reverse_string": "3/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 54.9
+  },
+  {
+    "model": "A2-lr5e5-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "2/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "0/5",
+      "reverse_string": "3/5",
+      "count_vowels": "3/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 49.6
+  },
+  {
+    "model": "A4-instr-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "1/5",
+      "quicksort": "0/5",
+      "binary_search": "0/5",
+      "two_sum": "2/5",
+      "mergesort": "0/5",
+      "is_palindrome": "4/5",
+      "is_prime": "0/5",
+      "reverse_string": "4/5",
+      "count_vowels": "2/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 44.8
+  },
+  {
+    "model": "A4-instr-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "5/5",
+      "mergesort": "1/5",
+      "is_palindrome": "4/5",
+      "is_prime": "0/5",
+      "reverse_string": "5/5",
+      "count_vowels": "4/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 48.4
+  },
+  {
+    "model": "A5-bigmix-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "5/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "1/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 50.4
+  },
+  {
+    "model": "A5-bigmix-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "3/5",
+      "quicksort": "0/5",
+      "binary_search": "0/5",
+      "two_sum": "4/5",
+      "mergesort": "1/5",
+      "is_palindrome": "0/5",
+      "is_prime": "0/5",
+      "reverse_string": "4/5",
+      "count_vowels": "2/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 42.0
+  },
+  {
+    "model": "A6-2ep-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "1/5",
+      "is_palindrome": "1/5",
+      "is_prime": "3/5",
+      "reverse_string": "2/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 42.3
+  },
+  {
+    "model": "A6-2ep-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "1/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "2/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "0/5",
+      "reverse_string": "2/5",
+      "count_vowels": "3/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 44.0
+  },
+  {
+    "model": "A7-bigseed-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "5/5",
+      "mergesort": "2/5",
+      "is_palindrome": "1/5",
+      "is_prime": "4/5",
+      "reverse_string": "4/5",
+      "count_vowels": "3/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 47.6
+  },
+  {
+    "model": "A7-bigseed-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "4/5",
+      "is_prime": "0/5",
+      "reverse_string": "3/5",
+      "count_vowels": "2/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 41.9
+  },
+  {
+    "model": "A8-2to1-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "3/5",
+      "mergesort": "0/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "2/5",
+      "count_vowels": "2/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 47.2
+  },
+  {
+    "model": "A8-2to1-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "3/5",
+      "quicksort": "0/5",
+      "binary_search": "1/5",
+      "two_sum": "0/5",
+      "mergesort": "1/5",
+      "is_palindrome": "1/5",
+      "is_prime": "0/5",
+      "reverse_string": "3/5",
+      "count_vowels": "3/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 41.3
+  },
+  {
+    "model": "A9-1to1-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "1/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "1/5",
+      "count_vowels": "0/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 47.0
+  },
+  {
+    "model": "A9-1to1-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "2/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "3/5",
+      "count_vowels": "4/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 47.2
+  },
+  {
+    "model": "G1-gold-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "0/5",
+      "quicksort": "0/5",
+      "binary_search": "0/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "5/5",
+      "is_prime": "0/5",
+      "reverse_string": "0/5",
+      "count_vowels": "4/5",
+      "sum_list": "0/5",
+      "factorial": "2/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 89.7
+  },
+  {
+    "model": "G1-gold-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "0/5",
+      "quicksort": "0/5",
+      "binary_search": "0/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "5/5",
+      "is_prime": "2/5",
+      "reverse_string": "0/5",
+      "count_vowels": "3/5",
+      "sum_list": "0/5",
+      "factorial": "3/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 99.7
+  },
+  {
+    "model": "G2-goldsig-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "4/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "0/5",
+      "reverse_string": "2/5",
+      "count_vowels": "2/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 59.2
+  },
+  {
+    "model": "G2-goldsig-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "4/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "0/5",
+      "reverse_string": "0/5",
+      "count_vowels": "0/5",
+      "sum_list": "0/5",
+      "factorial": "0/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 50.4
+  },
+  {
+    "model": "G4-2stage-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "3/5",
+      "quicksort": "0/5",
+      "binary_search": "1/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "0/5",
+      "reverse_string": "3/5",
+      "count_vowels": "1/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 46.9
+  },
+  {
+    "model": "G4-2stage-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "1/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "0/5",
+      "reverse_string": "2/5",
+      "count_vowels": "1/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 45.3
+  },
+  {
+    "model": "G3-g11-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "3/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "2/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 56.9
+  },
+  {
+    "model": "G3-g11-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "4/5",
+      "is_palindrome": "4/5",
+      "is_prime": "5/5",
+      "reverse_string": "2/5",
+      "count_vowels": "1/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 53.1
+  },
+  {
+    "model": "G5-g15-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "3/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "5/5",
+      "count_vowels": "4/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 68.0
+  },
+  {
+    "model": "G5-g15-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "5/5",
+      "count_vowels": "3/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 48.2
+  },
+  {
+    "model": "G7-g2to1-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "3/5",
+      "is_palindrome": "3/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 52.9
+  },
+  {
+    "model": "G7-g2to1-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "1/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 54.6
+  },
+  {
+    "model": "G8-g3to1-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "3/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 55.6
+  },
+  {
+    "model": "G8-g3to1-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 53.8
+  },
+  {
+    "model": "G9-g5to1-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "3/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "3/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 66.3
+  },
+  {
+    "model": "G9-g5to1-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "1/5",
+      "two_sum": "0/5",
+      "mergesort": "1/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 59.4
+  },
+  {
+    "model": "G10-g8to1-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "3/5",
+      "quicksort": "4/5",
+      "binary_search": "1/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "3/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 68.2
+  },
+  {
+    "model": "G10-g8to1-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "0/5",
+      "quicksort": "0/5",
+      "binary_search": "0/5",
+      "two_sum": "0/5",
+      "mergesort": "1/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 61.8
+  },
+  {
+    "model": "SOUP-A7G8-020",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "3/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "4/5",
+      "mergesort": "2/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "5/5",
+      "count_vowels": "4/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 57.0
+  },
+  {
+    "model": "SOUP-G9G5-030",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "3/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "2/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 68.2
+  },
+  {
+    "model": "SOUP-G9G5-050",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "0/5",
+      "two_sum": "0/5",
+      "mergesort": "2/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 71.7
+  },
+  {
+    "model": "SOUP-G9G5-070",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "2/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "5/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 68.0
+  },
+  {
+    "model": "SOUP-G9G8-050",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "1/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "3/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 68.4
+  },
+  {
+    "model": "SOUP-G10G5-050",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "1/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "5/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 69.9
+  },
+  {
+    "model": "SOUP-A7G8-035",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "4/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 67.6
+  },
+  {
+    "model": "SOUP-A7G8-050",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "5/5",
+      "count_vowels": "2/5",
+      "sum_list": "5/5",
+      "factorial": "4/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 67.9
+  },
+  {
+    "model": "SOUP-A7G8-065",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "1/5",
+      "is_prime": "5/5",
+      "reverse_string": "5/5",
+      "count_vowels": "4/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 69.1
+  },
+  {
+    "model": "SOUP-A7G8-080",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "3/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 66.5
+  },
+  {
+    "model": "SOUP-G5G8-050",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "2/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "5/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 68.0
+  },
+  {
+    "model": "SOUP-G8self-050",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 63.6
+  },
+  {
+    "model": "G8-g3to1-s43-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "1/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "3/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 68.6
+  },
+  {
+    "model": "G8-g3to1-s43-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "0/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 70.9
+  },
+  {
+    "model": "G8-g3to1-s44-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "3/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 56.1
+  },
+  {
+    "model": "G8-g3to1-s44-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "0/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "3/5",
+      "is_palindrome": "3/5",
+      "is_prime": "5/5",
+      "reverse_string": "0/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 53.4
+  },
+  {
+    "model": "SOUP-G8x3-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "1/5",
+      "is_palindrome": "3/5",
+      "is_prime": "5/5",
+      "reverse_string": "2/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 53.0
+  },
+  {
+    "model": "SOUP-G8x3-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "3/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 55.0
+  },
+  {
+    "model": "G9-g5to1-s43-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "3/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 65.6
+  },
+  {
+    "model": "G9-g5to1-s43-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "1/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "0/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 60.7
+  },
+  {
+    "model": "G9-g5to1-s44-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "3/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "3/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 70.1
+  },
+  {
+    "model": "G9-g5to1-s44-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "2/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 54.6
+  },
+  {
+    "model": "G5-g15-s43-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "3/5",
+      "is_palindrome": "2/5",
+      "is_prime": "5/5",
+      "reverse_string": "5/5",
+      "count_vowels": "4/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 56.7
+  },
+  {
+    "model": "G5-g15-s43-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "2/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "3/5",
+      "is_prime": "5/5",
+      "reverse_string": "0/5",
+      "count_vowels": "4/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 49.5
+  },
+  {
+    "model": "G5-g15-s44-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "0/5",
+      "mergesort": "3/5",
+      "is_palindrome": "3/5",
+      "is_prime": "5/5",
+      "reverse_string": "5/5",
+      "count_vowels": "4/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 58.7
+  },
+  {
+    "model": "G5-g15-s44-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "1/5",
+      "quicksort": "0/5",
+      "binary_search": "2/5",
+      "two_sum": "1/5",
+      "mergesort": "0/5",
+      "is_palindrome": "3/5",
+      "is_prime": "5/5",
+      "reverse_string": "0/5",
+      "count_vowels": "4/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 53.7
+  },
+  {
+    "model": "G9-g5to1-s45-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "3/5",
+      "quicksort": "0/5",
+      "binary_search": "3/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "3/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 64.8
+  },
+  {
+    "model": "G9-g5to1-s45-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "5/5",
+      "quicksort": "0/5",
+      "binary_search": "5/5",
+      "two_sum": "0/5",
+      "mergesort": "4/5",
+      "is_palindrome": "5/5",
+      "is_prime": "5/5",
+      "reverse_string": "2/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 53.2
+  },
+  {
+    "model": "G9-g5to1-s46-final",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "3/5",
+      "quicksort": "0/5",
+      "binary_search": "4/5",
+      "two_sum": "0/5",
+      "mergesort": "0/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "3/5",
+      "count_vowels": "5/5",
+      "sum_list": "3/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 66.2
+  },
+  {
+    "model": "G9-g5to1-s46-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "4/5",
+      "quicksort": "0/5",
+      "binary_search": "4/5",
+      "two_sum": "0/5",
+      "mergesort": "3/5",
+      "is_palindrome": "0/5",
+      "is_prime": "5/5",
+      "reverse_string": "4/5",
+      "count_vowels": "5/5",
+      "sum_list": "5/5",
+      "factorial": "5/5"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 56.3
+  }
+]

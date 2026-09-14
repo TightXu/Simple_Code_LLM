@@ -1,0 +1,22 @@
+[
+  {
+    "model": "G8-g3to1-s44-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "0/20",
+      "quicksort": "0/20",
+      "binary_search": "6/20",
+      "two_sum": "0/20",
+      "mergesort": "9/20",
+      "is_palindrome": "17/20",
+      "is_prime": "20/20",
+      "reverse_string": "0/20",
+      "count_vowels": "17/20",
+      "sum_list": "20/20",
+      "factorial": "20/20"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 206.6
+  }
+]

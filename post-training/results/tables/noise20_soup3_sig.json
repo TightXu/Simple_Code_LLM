@@ -1,0 +1,22 @@
+[
+  {
+    "model": "SOUP-G8x3-bestval",
+    "params_m": 434.7,
+    "layers": 22,
+    "tasks": {
+      "fibonacci": "9/20",
+      "quicksort": "0/20",
+      "binary_search": "9/20",
+      "two_sum": "0/20",
+      "mergesort": "2/20",
+      "is_palindrome": "11/20",
+      "is_prime": "20/20",
+      "reverse_string": "12/20",
+      "count_vowels": "20/20",
+      "sum_list": "20/20",
+      "factorial": "20/20"
+    },
+    "humaneval": "N/A",
+    "elapsed_s": 199.3
+  }
+]
