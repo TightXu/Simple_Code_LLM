@@ -1,0 +1,38 @@
+# Large files — never in git, models/data are regenerated or hosted separately
+/checkpoints*/
+/experiments/
+/data/*.bin
+/data/*.jsonl
+/data/all/
+/data/dev/
+/data/embeddings/
+/data/occupations.txt
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Eval artifacts (ablation 输出: summary/results/generations 等; HumanEval.jsonl 是输入, 保留)
+eval_output/
+ablation/*_summary.json
+ablation/*_results.json
+ablation/*_generations.jsonl
+ablation/eval_*.json
+ablation/data_*/
+ablation/*_logs*/
+ablation/*.log
+ablation/data_nofilter*/
+
+# Temp
+*.tmp
+*.bak
