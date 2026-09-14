@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 """
 ══════════════════════════════════════════════════════════════════════
-CodeLM — 统一预训练脚本
+CodeLM — unified pretraining script
 ══════════════════════════════════════════════════════════════════════
 
-两种模型架构(参数化, 用 --num-layers/--d_ff 指定):
-  435M: --num-layers 22 --d_ff 4096   (默认)
-  353M: --num-layers 18 --d_ff 3840   (第一代, 见 archive/)
+Two model architectures (parameterized via --num-layers/--d_ff):
+  435M: --num-layers 22 --d_ff 4096   (default)
+  353M: --num-layers 18 --d_ff 3840   (first generation, see archive/)
 
-三种 LR 调度(--lr-schedule):
-  wsm    warmup+stable+显式cooldown(默认; 435M-v2 实际用: --wsd-decay-fraction 0.0
-         --final-lr-steps 30000 --final-lr 1e-4, 尾部靠 merge_checkpoints*.py 融合)
-  wsd    warmup+stable+自动衰减(--wsd-decay-fraction 0.2)
-  cosine 余弦退火 (353M 第一代用)
+Three LR schedules (--lr-schedule):
+  wsm    warmup+stable+explicit cooldown (default; as used for 435M-v2: --wsd-decay-fraction 0.0
+         --final-lr-steps 30000 --final-lr 1e-4, tail merged by merge_checkpoints*.py)
+  wsd    warmup+stable+automatic decay (--wsd-decay-fraction 0.2)
+  cosine cosine annealing (used by the first-generation 353M)
 
-用法:
+Usage:
   python src/train.py --mode offline --bin-data data/all/train.bin --val-bin data/all/val.bin
   python src/train.py --mode offline --auto-resume
   python src/train.py --mode online --data-dir code_data
@@ -30,7 +30,7 @@ from typing import Optional, Tuple
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 
 
-# ═══════════════════ 依赖检查 (Windows 兼容) ═══════════════════
+# ═══════════════════ Dependency check (Windows compatible) ═══════════════════
 
 def _check_deps():
     import importlib, subprocess
@@ -50,7 +50,7 @@ def _check_deps():
                 cmd.insert(4, "--break-system-packages")
             subprocess.run(cmd, check=True)
             ok.append(mod)
-    print(f"[DEPS] 已加载: {', '.join(ok)}")
+    print(f"[DEPS] Loaded: {', '.join(ok)}")
 
 _check_deps()
 
@@ -60,15 +60,15 @@ import torch.nn as nn
 import torch.nn.functional as F
 from tqdm import tqdm
 
-# ═══════════════════ 路径解析 ═══════════════════
+# ═══════════════════ Path resolution ═══════════════════
 
 CLEAN_PRETRAIN_DIR = Path(__file__).resolve().parent
 
-print(f"[PATH] 脚本位置:   {Path(__file__).resolve()}")
-print(f"[PATH] 本项目目录: {CLEAN_PRETRAIN_DIR}")
+print(f"[PATH] Script location:   {Path(__file__).resolve()}")
+print(f"[PATH] Project dir:       {CLEAN_PRETRAIN_DIR}")
 
 
-# ═══════════════════ 模型架构 (自包含) ═══════════════════
+# ═══════════════════ Model architecture (self-contained) ═══════════════════
 
 @dataclass
 class ModelConfig:
@@ -196,38 +196,38 @@ class CodeLLM(nn.Module):
 # ═══════════════════ Tokenizer ═══════════════════
 
 def load_tokenizer():
-    """加载 tokenizer: 仓库 tokenizer/ 目录 (tokenizer_<arch>.json 或默认 tokenizer.json)"""
+    """Load tokenizer: repo tokenizer/ dir (tokenizer_<arch>.json or default tokenizer.json)"""
     from tokenizers import Tokenizer
-    # 本仓库布局: 顶层 tokenizer/ 存有 tokenizer_353m.json / tokenizer_435m.json
-    repo_tok_dir = Path(__file__).resolve().parent.parent / "tokenizer"  # repo根/tokenizer/
+    # Repo layout: the top-level tokenizer/ holds tokenizer_353m.json / tokenizer_435m.json
+    repo_tok_dir = Path(__file__).resolve().parent.parent / "tokenizer"  # repo root/tokenizer/
     candidates = [
-        str(repo_tok_dir / "tokenizer_435m.json"),   # 435M (本仓库主力)
-        str(CLEAN_PRETRAIN_DIR / "tokenizer" / "tokenizer.json"),  # 旧布局回退
+        str(repo_tok_dir / "tokenizer_435m.json"),   # 435M (the main model in this repo)
+        str(CLEAN_PRETRAIN_DIR / "tokenizer" / "tokenizer.json"),  # legacy layout fallback
         str(repo_tok_dir / "tokenizer_353m.json"),
     ]
     for i, tok_path in enumerate(candidates):
         tok = Path(tok_path)
         exists = tok.exists()
-        print(f"[TOK] 候选{i+1}: {tok} (存在={exists}, 大小={tok.stat().st_size if exists else 'N/A'})")
+        print(f"[TOK] Candidate {i+1}: {tok} (exists={exists}, size={tok.stat().st_size if exists else 'N/A'})")
         if exists and tok.is_file():
             tokenizer = Tokenizer.from_file(tok_path)
             vocab = tokenizer.get_vocab_size()
             specials = {t: tokenizer.token_to_id(t) for t in ["<s>", "</s>", "<unk>", "<pad>", "<eos>"]}
-            print(f"[TOK] [OK] 加载: vocab={vocab}, specials={specials}")
+            print(f"[TOK] [OK] Loaded: vocab={vocab}, specials={specials}")
             if tokenizer.token_to_id("<pad>") is None:
                 tokenizer.add_special_tokens(["<pad>"])
-                print(f"[TOK] [WARN]  已补加 <pad> token")
+                print(f"[TOK] [WARN]  added <pad> token")
             return tokenizer
     raise FileNotFoundError(f"Tokenizer not found. Searched: {candidates}")
 
-# ═══════════════════ 常量 ═══════════════════
+# ═══════════════════ Constants ═══════════════════
 
 DEFAULT_CKPT_DIR = CLEAN_PRETRAIN_DIR / "checkpoints_wsm"
 IS_WINDOWS = sys.platform == "win32"
-print(f"[ENV] 平台: {'Windows' if IS_WINDOWS else 'Linux/Mac'}, Python: {sys.version.split()[0]}")
+print(f"[ENV] Platform: {'Windows' if IS_WINDOWS else 'Linux/Mac'}, Python: {sys.version.split()[0]}")
 
 
-# ═══════════════════ Windows 兼容: LATEST.txt 替代 symlink ═══════════════════
+# ═══════════════════ Windows compatibility: LATEST.txt instead of symlink ═══════════════════
 
 def _set_latest_link(ckpt_base: Path, target_name: str):
     latest_file = ckpt_base / "LATEST.txt"
@@ -256,7 +256,7 @@ def _read_latest_link(ckpt_base: Path) -> Optional[str]:
     return None
 
 
-# ═══════════════════ 训练状态 (含数据位置) ═══════════════════
+# ═══════════════════ Training state (with data position) ═══════════════════
 
 @dataclass
 class DataPosition:
@@ -313,7 +313,7 @@ def save_checkpoint(model, optimizer, scheduler, config, state: TrainingState, p
     tmp.mkdir(parents=True, exist_ok=True)
 
     sd = model.state_dict()
-    # torch.compile 保存时 state_dict 的 key 带 _orig_mod. 前缀，剥离以保证 checkpoint 干净可加载
+    # torch.compile prefixes state_dict keys with _orig_mod. on save; strip it so checkpoints stay clean and loadable
     sd = {k[len("_orig_mod."):] if k.startswith("_orig_mod.") else k: v for k, v in sd.items()}
     ckpt = {
         "model": sd,
@@ -351,18 +351,18 @@ def load_checkpoint(path, device="cpu") -> Tuple[nn.Module, ModelConfig, dict, d
         for k, v in ckpt["config"].items():
             if hasattr(config, k):
                 setattr(config, k, v)
-    print(f"[LOAD] 架构: d_model={config.d_model}, layers={config.num_layers}, "
+    print(f"[LOAD] Arch: d_model={config.d_model}, layers={config.num_layers}, "
           f"heads={config.num_heads}, d_ff={config.d_ff}")
 
     model = CodeLLM(config)
     sd = ckpt["model"]
-    # 兼容旧的带 _orig_mod. 前缀的 checkpoint（torch.compile 保存时产生）
+    # Handle legacy checkpoints with an _orig_mod. prefix (produced by torch.compile saves)
     if any(k.startswith("_orig_mod.") for k in sd):
         sd = {k[len("_orig_mod."):] if k.startswith("_orig_mod.") else k: v for k, v in sd.items()}
     model.load_state_dict(sd)
 
     state = TrainingState.from_dict(ckpt.get("training_state", {}))
-    print(f"[LOAD] 训练状态: step={state.step}, tokens={state.total_tokens/1e9:.2f}B, "
+    print(f"[LOAD] Training state: step={state.step}, tokens={state.total_tokens/1e9:.2f}B, "
           f"best_val={state.best_val_loss:.4f}")
     return model, config, ckpt.get("optimizer"), ckpt.get("scheduler"), state
 
@@ -371,20 +371,20 @@ def find_latest_ckpt(base_dir=None):
     if base_dir is None:
         base_dir = DEFAULT_CKPT_DIR
     base_dir = Path(base_dir)
-    print(f"[FIND] 搜索 checkpoint: {base_dir} (存在={base_dir.exists()})")
+    print(f"[FIND] Searching checkpoint: {base_dir} (exists={base_dir.exists()})")
     if not base_dir.exists():
-        print("[FIND] 目录不存在, 无 checkpoint")
+        print("[FIND] Directory does not exist, no checkpoint")
         return None
 
     target_name = _read_latest_link(base_dir)
     if target_name:
         target = base_dir / target_name
-        print(f"[FIND] 指针指向: {target_name} (存在={target.exists()})")
+        print(f"[FIND] Pointer -> {target_name} (exists={target.exists()})")
         if target.exists() and (target / "checkpoint.pt").exists():
-            print(f"[FIND] [OK] 找到: {target}")
+            print(f"[FIND] [OK] Found: {target}")
             return target
 
-    # 收集所有有 checkpoint.pt 的目录（含 run_*/step_* 嵌套）
+    # Collect every dir containing checkpoint.pt (including nested run_*/step_*)
     candidates = []
 
     def _scan_dir(d: Path, depth=0):
@@ -406,13 +406,13 @@ def find_latest_ckpt(base_dir=None):
     if candidates:
         candidates.sort(key=lambda x: x[0], reverse=True)
         best_step, best_dir = candidates[0]
-        print(f"[FIND] [OK] 扫描发现 {len(candidates)} 个, 最新: step_{best_step} ({best_dir})")
+        print(f"[FIND] [OK] scan found {len(candidates)}, latest: step_{best_step} ({best_dir})")
         return best_dir
-    print("[FIND] [FAIL] 未找到 checkpoint")
+    print("[FIND] [FAIL] No checkpoint found")
     return None
 
 
-# ═══════════════════ 数据加载器 ═══════════════════
+# ═══════════════════ Data loaders ═══════════════════
 
 def create_online_dataloader(data_dir, tokenizer, state: DataPosition, seq_len=1024):
     import pyarrow.parquet as pq
@@ -425,14 +425,14 @@ def create_online_dataloader(data_dir, tokenizer, state: DataPosition, seq_len=1
     parquet_files = sorted(glob.glob(os.path.join(data_dir, "*.parquet")))
     total_files = len(parquet_files)
     if state.file_index > 0:
-        print(f"[DATA] ⏭  跳过前 {state.file_index}/{total_files} 个 parquet 文件")
+        print(f"[DATA] ⏭  skipping the first {state.file_index}/{total_files} parquet files")
         parquet_files = parquet_files[state.file_index:]
     state.files_total = total_files
 
     if not parquet_files:
-        raise FileNotFoundError(f"无 parquet 文件: {data_dir}")
-    print(f"[DATA] 在线模式: {len(parquet_files)} 个文件 (总共 {total_files}, 从 #{state.file_index} 开始)")
-    print(f"[DATA] 过滤: L1-L6 (与 pretrain_data.py 一致)")
+        raise FileNotFoundError(f"No parquet files: {data_dir}")
+    print(f"[DATA] Online mode: {len(parquet_files)} files (of {total_files}, starting at #{state.file_index})")
+    print(f"[DATA] Filtering: L1-L6 (same as pretrain_data.py)")
 
     q = queue.Queue(maxsize=3)
     stop = threading.Event()
@@ -475,7 +475,7 @@ def create_online_dataloader(data_dir, tokenizer, state: DataPosition, seq_len=1
             q.put(batch)
         q.put(None)
         s = filter_stats
-        print(f"[DATA] 过滤统计: total={s['total']}, passed={s['passed']} "
+        print(f"[DATA] Filter stats: total={s['total']}, passed={s['passed']} "
               f"({s['passed']/max(s['total'],1)*100:.1f}%), rejected={s['rejected']}")
 
     t = threading.Thread(target=reader, daemon=True)
@@ -501,17 +501,17 @@ def create_online_dataloader(data_dir, tokenizer, state: DataPosition, seq_len=1
                     pbar.update(seq_len)
                     yield x, y
         pbar.close()
-        print(f"[DATA] 在线数据流结束: {total:,} tokens")
+        print(f"[DATA] Online stream finished: {total:,} tokens")
 
     return gen(), state.files_total
 
 
 def create_lang_only_online_dataloader(data_dirs, tokenizer, state, seq_len=1024,
                                         min_chars=50, shuffle=True):
-    """仅语言过滤(保留 .py) + 多数据目录 + shuffle + 流式在线 tokenize。
-    不做 L1-L6 —— 用于「公平的 nofilter 对比基线」：只剔除其它语言，
-    其余质量过滤一律不加。列名自适应 path / max_stars_repo_path。
-    data_dirs: 目录列表(或逗号分隔字符串)。"""
+    """Language-only filtering (keeping .py) + multiple data dirs + shuffle + streaming online tokenize.
+    No L1-L6 — used as a fair nofilter baseline: only other languages are filtered out,
+    no other quality filtering is applied. Column names adapt to path / max_stars_repo_path.
+    data_dirs: list of dirs (or a comma-separated string)."""
     import pyarrow.parquet as pq
     import threading, queue, random
     if isinstance(data_dirs, str):
@@ -524,15 +524,15 @@ def create_lang_only_online_dataloader(data_dirs, tokenizer, state, seq_len=1024
         parquet_files = parquet_files[state.file_index:]
     state.files_total = total_files
     if not parquet_files:
-        raise FileNotFoundError(f"无 parquet 文件: {data_dirs}")
-    print(f"[DATA] lang-only 在线模式: {len(parquet_files)}/{total_files} 文件, "
-          f"仅语言过滤(.py) + ≥{min_chars}字符, shuffle={shuffle}")
+        raise FileNotFoundError(f"No parquet files: {data_dirs}")
+    print(f"[DATA] lang-only online mode: {len(parquet_files)}/{total_files} files, "
+          f"language-only filtering (.py) + ≥{min_chars} chars, shuffle={shuffle}")
 
     q = queue.Queue(maxsize=3)
     stop = threading.Event()
 
     def strip_meta(code):
-        """剥离 star_coder 的 <reponame> / <gh_stars> / <filename> 元数据前缀"""
+        """Strip star_coder's <reponame> / <gh_stars> / <filename> metadata prefixes"""
         out = []
         for ln in code.split("\n"):
             ls = ln.strip()
@@ -565,11 +565,11 @@ def create_lang_only_online_dataloader(data_dirs, tokenizer, state, seq_len=1024
                     if stop.is_set():
                         break
                     try:
-                        # 语言过滤：只用 path 列判断是否 Python
+                        # Language filtering: use only the path column to decide whether a file is Python
                         if pcol is not None and not str(table.column(pcol)[i].as_py()).endswith(".py"):
                             continue
                         code = str(ccol[i].as_py())
-                        # 剥离 star_coder 的 <reponame>/<gh_stars>/<filename> 元数据前缀
+                        # Strip star_coder's <reponame>/<gh_stars>/<filename> metadata prefixes
                         code = strip_meta(code)
                         if len(code) < min_chars:
                             continue
@@ -609,7 +609,7 @@ def create_lang_only_online_dataloader(data_dirs, tokenizer, state, seq_len=1024
                     pbar.update(seq_len)
                     yield x, y
         pbar.close()
-        print(f"[DATA] lang-only 在线数据流结束: {total:,} tokens")
+        print(f"[DATA] lang-only online stream finished: {total:,} tokens")
 
     return gen(), state.files_total
 
@@ -617,7 +617,7 @@ def create_lang_only_online_dataloader(data_dirs, tokenizer, state, seq_len=1024
 def create_offline_dataloader(bin_path, seq_len=1024, start_offset=0, max_tokens=None):
     bin_path = Path(bin_path)
     if not bin_path.exists():
-        raise FileNotFoundError(f".bin 不存在: {bin_path}")
+        raise FileNotFoundError(f".bin does not exist: {bin_path}")
 
     file_gb = bin_path.stat().st_size / 1e9
     meta_path = bin_path.parent / f"{bin_path.stem}_meta.json"
@@ -627,9 +627,9 @@ def create_offline_dataloader(bin_path, seq_len=1024, start_offset=0, max_tokens
             meta = json.load(f)
         total_str = f"{meta['total_tokens']/1e9:.2f}B"
     usable_chunks = (int(bin_path.stat().st_size / 2) - start_offset) // (seq_len + 1)
-    print(f"[DATA] 离线模式: {bin_path} ({file_gb:.2f}GB, {total_str} tokens)")
+    print(f"[DATA] Offline mode: {bin_path} ({file_gb:.2f}GB, {total_str} tokens)")
     print(f"[DATA] start_offset={start_offset:,}, max_tokens={max_tokens}, "
-          f"可用chunks≈{usable_chunks:,}")
+          f"usable chunks≈{usable_chunks:,}")
 
     data = np.memmap(str(bin_path), dtype=np.uint16, mode='r')
     chunk_size = seq_len + 1
@@ -649,12 +649,12 @@ def create_offline_dataloader(bin_path, seq_len=1024, start_offset=0, max_tokens
             pbar.update(seq_len)
             yield x, y
         pbar.close()
-        print(f"[DATA] 离线数据流结束: {yielded:,} tokens")
+        print(f"[DATA] Offline stream finished: {yielded:,} tokens")
 
     return gen()
 
 
-# ═══════════════════ 评估 ═══════════════════
+# ═══════════════════ Evaluation ═══════════════════
 
 @torch.no_grad()
 def evaluate_on_val(model, val_bin_path, config, device, seq_len=1024, max_batches=250, pad_id=0):
@@ -668,9 +668,9 @@ def evaluate_on_val(model, val_bin_path, config, device, seq_len=1024, max_batch
     total_chunks = len(data) // chunk_size
     n_eval = min(total_chunks, max_batches)
 
-    # 每次随机采样 250 批, 覆盖全 val bin (不固定, 避免固定样本的系统性偏差)
+    # Randomly sample 250 batches each time, covering the whole val bin (not fixed, to avoid bias from a fixed sample)
     chunk_indices = np.random.choice(total_chunks, size=n_eval, replace=False)
-    chunk_indices.sort()  # 顺序读, 对 memmap 缓存友好
+    chunk_indices.sort()  # Read in order, which is friendlier to the memmap cache
 
     total_loss = 0.0
     total_tokens = 0
@@ -689,7 +689,7 @@ def evaluate_on_val(model, val_bin_path, config, device, seq_len=1024, max_batch
     return total_loss / max(total_tokens, 1)
 
 
-# ═══════════════════ 训练日志 ═══════════════════
+# ═══════════════════ Training log ═══════════════════
 
 def save_training_log(log_path, step, total_tokens, loss, lr, grad_norm,
                       elapsed, tok_per_sec, val_loss=None, data_pos=""):
@@ -712,7 +712,7 @@ def set_seed(seed=42):
         torch.cuda.manual_seed_all(seed)
 
 
-# ═══════════════════ 主训练循环 ═══════════════════
+# ═══════════════════ Main training loop ═══════════════════
 
 def run_training(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -727,17 +727,17 @@ def run_training(args):
 
     set_seed(args.seed)
 
-    # ── Checkpoint & Log 目录 ──
+    # ── Checkpoint & log directories ──
     ckpt_base = Path(args.ckpt_dir) if args.ckpt_dir else DEFAULT_CKPT_DIR
     ckpt_base.mkdir(parents=True, exist_ok=True)
     log_dir = Path(args.log_dir) if hasattr(args, 'log_dir') and args.log_dir else Path.cwd()
     log_dir.mkdir(parents=True, exist_ok=True)
     log_path = log_dir / "training_log.csv"
-    print(f"[INIT] Checkpoint 根目录: {ckpt_base}")
-    print(f"[INIT] 日志目录:         {log_dir}")
-    print(f"[INIT] 训练日志:         {log_path}")
+    print(f"[INIT] Checkpoint root:  {ckpt_base}")
+    print(f"[INIT] Log directory:    {log_dir}")
+    print(f"[INIT] Training log:     {log_path}")
 
-    # ── 模型 ──
+    # ── Model ──
     config = ModelConfig(d_model=args.d_model, num_layers=args.num_layers,
                          num_heads=args.num_heads, d_ff=args.d_ff)
     config.max_seq_len = args.seq_len
@@ -745,29 +745,29 @@ def run_training(args):
 
     model = CodeLLM(config).to(device)
 
-    # ═══════════════════ 性能优化 (带兼容性检测) ═══════════════════
+    # ═══════════════════ Performance optimizations (with compatibility checks) ═══════════════════
 
     cc_major = torch.cuda.get_device_capability(0)[0]
 
-    # 1. TF32: sm_80 (Ampere) 及以上支持
-    #    sm_120 (RTX 5090) [OK] — Blackwell 消费级完全支持
+    # 1. TF32: supported on sm_80 (Ampere) and newer
+    #    sm_120 (RTX 5090) [OK] — fully supported by consumer Blackwell
     if cc_major >= 8:
         torch.set_float32_matmul_precision('high')
         torch.backends.cudnn.allow_tf32 = True
-        print(f"[PERF] [FIX] TF32 已启用 (sm_{cc_major}0, ~+10-15%)")
+        print(f"[PERF] [FIX] TF32 enabled (sm_{cc_major}0, ~+10-15%)")
     else:
-        print(f"[PERF] [WARN]  TF32 不可用 (需要 sm_80+)")
+        print(f"[PERF] [WARN]  TF32 unavailable (requires sm_80+)")
 
-    # 2. torch.compile: 优先 Inductor (需 Triton), 回退 CUDA Graphs (无需 Triton)
+    # 2. torch.compile: prefer Inductor (needs Triton), fall back to CUDA Graphs (no Triton needed)
     compile_ok = False
     compile_msg = ""
     if args.compile_mode == "none":
-        compile_msg = "已禁用 (--compile-mode none, eager 模式)"
+        compile_msg = "disabled (--compile-mode none, eager mode)"
     elif hasattr(torch, 'compile'):
         try:
             import triton
             # sm_120 (RTX 5090) workaround: BF16 autocast fusion bug (#191433)
-            # max_fusion_size=1 太保守 (无融合=无加速), 2-3 绕过 bug 三合一
+            # max_fusion_size=1 is too conservative (no fusion = no speedup); 2-3 works around the three-way fusion bug
             if cc_major >= 12:
                 torch._inductor.config.max_fusion_size = 2
                 print(f"[PERF] [WARN]  sm_120 workaround: max_fusion_size=2 (BF16 fusion bug, ~10-20%)")
@@ -775,27 +775,27 @@ def run_training(args):
             compile_ok = True
             compile_msg = f"Inductor ({args.compile_mode}, ~+15-25%)"
         except ImportError:
-            # 无 Triton: 回退到 CUDA Graphs 后端
+            # No Triton: fall back to the CUDA Graphs backend
             try:
                 model = torch.compile(model, backend="cudagraphs")
                 compile_ok = True
-                compile_msg = "CUDA Graphs (无Triton, ~+5-10%)"
+                compile_msg = "CUDA Graphs (no Triton, ~+5-10%)"
             except Exception as e2:
-                compile_msg = f"跳过: Triton不可用, cudagraphs也失败 ({e2})"
+                compile_msg = f"skipped: Triton unavailable, cudagraphs also failed ({e2})"
         except Exception as e:
-            compile_msg = f"跳过: {e}"
+            compile_msg = f"skipped: {e}"
     else:
         compile_msg = "PyTorch < 2.0"
 
     if compile_ok:
-        print(f"[PERF] [FIX] torch.compile 已启用: {compile_msg} (sm_{cc_major}0)")
+        print(f"[PERF] [FIX] torch.compile enabled: {compile_msg} (sm_{cc_major}0)")
     else:
         print(f"[PERF] [WARN]  torch.compile {compile_msg}")
     compile_enabled = compile_ok  # for warmup check later
 
     n_params = sum(p.numel() for p in model.parameters())
     est_params = config.num_params
-    print(f"\n[CFG] 架构: {n_params:,} params ({n_params/1e6:.1f}M), 估算={est_params/1e6:.1f}M")
+    print(f"\n[CFG] Arch: {n_params:,} params ({n_params/1e6:.1f}M), estimated={est_params/1e6:.1f}M")
     print(f"   d_model={config.d_model}  layers={config.num_layers}  "
           f"heads={config.num_heads}  d_ff={config.d_ff}")
     print(f"   seq_len={config.max_seq_len}  vocab={config.vocab_size}  "
@@ -804,17 +804,17 @@ def run_training(args):
     eff_batch = args.batch_size * args.grad_accum
     per_step_tok = args.batch_size * args.seq_len
     per_optim_tok = per_step_tok * args.grad_accum
-    print(f"\n⚙  训练参数:")
-    print(f"   BS={args.batch_size} × GA={args.grad_accum} → 有效批量={eff_batch}")
-    print(f"   每forward: {per_step_tok:,} tok  每optimizer step: {per_optim_tok:,} tok")
-    print(f"   LR={args.lr:.1e}  warmup={args.warmup_steps}步  T_max={args.t_max}")
+    print(f"\n⚙  Training params:")
+    print(f"   BS={args.batch_size} × GA={args.grad_accum} → effective batch={eff_batch}")
+    print(f"   per forward: {per_step_tok:,} tok  per optimizer step: {per_optim_tok:,} tok")
+    print(f"   LR={args.lr:.1e}  warmup={args.warmup_steps} steps  T_max={args.t_max}")
     print(f"   weight_decay={args.weight_decay}  grad_clip={args.grad_clip}")
     if args.max_tokens:
         est_steps = args.max_tokens // per_optim_tok
-        print(f"   目标 {args.max_tokens/1e9:.1f}B → 约 {est_steps:,} 步")
+        print(f"   target {args.max_tokens/1e9:.1f}B → ~{est_steps:,} steps")
         # Rough ETA based on RTX 5090 ~43K tok/s
         est_hrs = (args.max_tokens / 43000) / 3600
-        print(f"   预计 {est_hrs:.0f} 小时 (~{est_hrs/24:.1f} 天)")
+        print(f"   estimated {est_hrs:.0f} h (~{est_hrs/24:.1f} days)")
 
     # ── Resume ──
     state = TrainingState()
@@ -829,21 +829,21 @@ def run_training(args):
         if latest:
             resume_path = str(latest)
         else:
-            print("[INIT] 无已有 checkpoint，从头训练")
+            print("[INIT] No existing checkpoint, training from scratch")
     elif args.resume:
         resume_path = args.resume
 
     if resume_path:
         model, loaded_config, opt_state, sched_state, state = load_checkpoint(resume_path, device)
-        model = model.to(device)  # 确保模型在正确的设备上
+        model = model.to(device)  # Make sure the model is on the right device
 
-        # 架构参数: checkpoint 为准
+        # Architecture params: the checkpoint wins
         structural = ["d_model", "num_layers", "num_heads", "d_ff"]
         for k in structural:
             ckpt_val = getattr(loaded_config, k, None)
             cli_val = getattr(args, k, None)
             if cli_val is not None and ckpt_val is not None and cli_val != ckpt_val:
-                print(f"[RESUME] [WARN]  --{k}={cli_val} != ckpt({ckpt_val}), 使用 checkpoint 值")
+                print(f"[RESUME] [WARN]  --{k}={cli_val} != ckpt({ckpt_val}), using the checkpoint value")
                 setattr(config, k, ckpt_val)
         config.max_seq_len = args.seq_len
         config.dropout_rate = args.dropout
@@ -855,42 +855,42 @@ def run_training(args):
             args.max_tokens = state.max_tokens
         print(f"[RESUME] step={start_step}, tokens={start_tokens/1e9:.2f}B")
         dp = state.data_position
-        print(f"[RESUME] 数据位置: type={dp.source_type}, "
+        print(f"[RESUME] Data position: type={dp.source_type}, "
               f"file_idx={dp.file_index}/{dp.files_total}, "
               f"bin_path={dp.bin_path}, token_offset={dp.token_offset:,}")
 
     else:
-        print("[INIT] 从头训练 (无 resume)")
+        print("[INIT] Training from scratch (no resume)")
         sched_state = None
         opt_state = None
 
-    # ═══════════════ torch.compile 重新应用（resume 会替换 model 为未编译新对象）═══════════════
+    # ═══════════════ torch.compile re-applied (resume replaces the model with a fresh, uncompiled object)═══════════════
     if compile_enabled and resume_path:
         try:
             import triton
             model = torch.compile(model, mode=args.compile_mode)
-            print(f"[PERF] [FIX] torch.compile ({args.compile_mode}) 已重新应用到 resume 后的模型")
+            print(f"[PERF] [FIX] torch.compile ({args.compile_mode}) re-applied to the resumed model")
         except ImportError:
             try:
                 model = torch.compile(model, backend="cudagraphs")
-                print("[PERF] [FIX] torch.compile (cudagraphs) 已重新应用到 resume 后的模型")
+                print("[PERF] [FIX] torch.compile (cudagraphs) re-applied to the resumed model")
             except Exception as e:
-                print(f"[PERF] [WARN] resume 后重新编译失败: {e}")
+                print(f"[PERF] [WARN] recompile after resume failed: {e}")
         except Exception as e:
-            print(f"[PERF] [WARN] resume 后重新编译失败: {e}")
+            print(f"[PERF] [WARN] recompile after resume failed: {e}")
 
-    # ── Optimizer (必须在 resume/compile 之后创建，引用最终 model 的参数) ──
+    # ── Optimizer (must be created after resume/compile, referencing the final model's params) ──
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr,
                                    betas=(args.beta1, args.beta2),
                                    weight_decay=args.weight_decay)
     if resume_path and opt_state is not None and not args.reset_optimizer:
         try:
             optimizer.load_state_dict(opt_state)
-            print("[RESUME] [CKPT] Optimizer 状态已恢复")
+            print("[RESUME] [CKPT] Optimizer state restored")
         except Exception as e:
-            print(f"[RESUME] [WARN]  Optimizer 不兼容: {e}")
+            print(f"[RESUME] [WARN]  Optimizer incompatible: {e}")
     elif resume_path and args.reset_optimizer:
-        print("[RESUME] [RUN] 重建 optimizer (不加载旧状态)")
+        print("[RESUME] [RUN] rebuilding optimizer (old state not loaded)")
 
     # ── Scheduler ──
     # Apply lr_override BEFORE scheduler creation so base_lrs are correct
@@ -899,19 +899,19 @@ def run_training(args):
             pg["lr"] = args.lr_override
         print(f"[RESUME] [FIX] LR override: {args.lr_override:.2e}")
 
-    # 用 initial_lr（稳定峰值，checkpoint 持久保存、cooldown 不会改）而非当前 lr：
-    # resume 时当前 lr 可能已是 cooldown/decay 后的值，会污染 cooldown 倍率（final_lr/active_lr）
+    # Use initial_lr (the stable peak, persisted in the checkpoint and left alone by cooldown) rather than the current lr:
+    # On resume the current lr may already be post-cooldown/decay, which would skew the cooldown ratio (final_lr/active_lr)
     active_lr = optimizer.param_groups[0].get("initial_lr", optimizer.param_groups[0]["lr"])
     eta_min = active_lr * args.eta_min_factor
 
     if args.lr_schedule in ("wsd", "wsm"):
         # WSD/WSM: Warmup-Stable-Decay
-        # wsd: --wsd-decay-fraction 0.2 默认自动衰减 20%
-        # wsm: --wsd-decay-fraction 0.0 (无衰减, 尾部靠 merge_checkpoints.py 融合)
-        #      + --final-lr-steps 30000 显式 cooldown 到 --final-lr (435M-v2 实际配置)
+        # wsd: --wsd-decay-fraction 0.2 auto-decays by 20% by default
+        # wsm: --wsd-decay-fraction 0.0 (no decay, tail merged by merge_checkpoints.py)
+        #      + --final-lr-steps 30000 explicit cooldown to --final-lr (the actual 435M-v2 config)
         per_optim_tok = args.batch_size * args.seq_len * args.grad_accum
         if args.total_tokens:
-            # 全局总 tokens（三数据集总和）→ LR 调度区间跨轮一致（连贯性）
+            # Global total tokens (sum of the three datasets) → the LR schedule span stays consistent across rounds (continuity)
             total_steps = args.total_tokens // per_optim_tok
         elif args.max_tokens:
             total_steps = args.max_tokens // per_optim_tok
@@ -928,7 +928,7 @@ def run_training(args):
             if step < warmup:
                 return (step + 1) / max(warmup, 1)
             elif args.final_lr_steps > 0 and step >= total_steps - args.final_lr_steps:
-                # 最后 final_lr_steps 步：LR 降到 final_lr（cooldown）
+                # Last final_lr_steps steps: LR drops to final_lr (cooldown)
                 return args.final_lr / max(active_lr, 1e-12)
             elif step < warmup + stable_steps:
                 return 1.0
@@ -960,15 +960,15 @@ def run_training(args):
         print(f"[INIT]   LR: {active_lr:.1e} → {eta_min:.1e} "
               f"(stable={active_lr:.1e} for {stable_steps} steps)")
         if args.final_lr_steps > 0:
-            print(f"[INIT]   Cooldown: 最后 {args.final_lr_steps} 步 LR={args.final_lr:.1e} "
-                  f"(从 step {max(0, total_steps - args.final_lr_steps)} 起)")
+            print(f"[INIT]   Cooldown: last {args.final_lr_steps} steps LR={args.final_lr:.1e} "
+                  f"(from step {max(0, total_steps - args.final_lr_steps)} on)")
 
         if resume_path and not args.reset_optimizer and sched_state is not None:
             try:
                 scheduler.load_state_dict(sched_state)
-                print("[RESUME] [UP] WSD scheduler 已恢复")
+                print("[RESUME] [UP] WSD scheduler restored")
             except Exception as e:
-                print(f"[RESUME] [WARN]  WSD scheduler 不兼容: {e}")
+                print(f"[RESUME] [WARN]  WSD scheduler incompatible: {e}")
     else:
         # Cosine annealing
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
@@ -979,9 +979,9 @@ def run_training(args):
         if resume_path and not args.reset_optimizer and sched_state is not None:
             try:
                 scheduler.load_state_dict(sched_state)
-                print("[RESUME] [UP] Scheduler 已恢复 (LR 曲线继续)")
+                print("[RESUME] [UP] Scheduler restored (LR curve continues)")
             except Exception as e:
-                print(f"[RESUME] [WARN]  Scheduler 不兼容: {e}")
+                print(f"[RESUME] [WARN]  Scheduler incompatible: {e}")
 
     # ── Dtype ──
     dtype = torch.bfloat16 if torch.cuda.is_available() and torch.cuda.is_bf16_supported() else torch.float32
@@ -993,27 +993,27 @@ def run_training(args):
     pad_id = tokenizer.token_to_id("<pad>") or 0
     print(f"[INIT] pad_id={pad_id}, vocab={tokenizer.get_vocab_size()}")
 
-    # ── 验证集 ──
+    # ── Validation set ──
     if args.val_bin:
         val_exists = Path(args.val_bin).exists()
-        print(f"[INIT] 验证集: {args.val_bin} (存在={val_exists})")
+        print(f"[INIT] Val set: {args.val_bin} (exists={val_exists})")
         if val_exists:
-            print(f"[INIT]   eval 间隔: 每 {args.eval_every} step")
+            print(f"[INIT]   eval interval: every {args.eval_every} steps")
 
-    # ── 训练数据 ──
-    print(f"\n[INIT] 模式: {args.mode}")
+    # ── Training data ──
+    print(f"\n[INIT] Mode: {args.mode}")
     if args.mode == "online":
         if getattr(args, "nofilter_lang_only", False):
             if not args.data_dir:
-                print("[FAIL] online lang-only 模式需要 --data-dir(可逗号分隔多目录)")
+                print("[FAIL] online lang-only mode requires --data-dir (comma-separated dirs allowed)")
                 return 1
             data_gen, n_files = create_lang_only_online_dataloader(
                 data_dirs=args.data_dir, tokenizer=tokenizer,
                 state=state.data_position, seq_len=args.seq_len)
-            print("[DATA] 仅语言过滤(保留 Python)，不启用 L1-L6 质量过滤")
+            print("[DATA] language-only filtering (keeping Python), no L1-L6 quality filtering")
         else:
             if not args.data_dir:
-                print("[FAIL] online 模式需要 --data-dir")
+                print("[FAIL] online mode requires --data-dir")
                 return 1
             data_gen, n_files = create_online_dataloader(
                 data_dir=args.data_dir, tokenizer=tokenizer,
@@ -1023,17 +1023,17 @@ def run_training(args):
     elif args.mode == "offline":
         if not args.bin_data and resume_path and state.data_position.bin_path:
             args.bin_data = state.data_position.bin_path
-            print(f"[INIT] [CKPT] 从 checkpoint 恢复 bin 路径: {args.bin_data}")
+            print(f"[INIT] [CKPT] Restored bin path from checkpoint: {args.bin_data}")
         if not args.bin_data:
-            print("[FAIL] offline 模式需要 --bin-data")
+            print("[FAIL] offline mode requires --bin-data")
             return
-        # 检测数据切换: 如果 --bin-data 变了, 从新文件开头读
+        # Detect a data switch: if --bin-data changed, read from the start of the new file
         prev_bin = state.data_position.bin_path if state.data_position.source_type == "bin" else ""
         is_new_bin = prev_bin and Path(args.bin_data).resolve() != Path(prev_bin).resolve()
         if is_new_bin:
-            print(f"[INIT] [RUN] 数据切换: {prev_bin} → {args.bin_data}, token_offset 清零")
+            print(f"[INIT] [RUN] Data switch: {prev_bin} → {args.bin_data}, token_offset reset")
             state.data_position.token_offset = 0
-            state.round_start_tokens = start_tokens  # 新数据集的累计基线
+            state.round_start_tokens = start_tokens  # cumulative baseline for the new dataset
         start_off = state.data_position.token_offset if state.data_position.source_type == "bin" else 0
         data_gen = create_offline_dataloader(
             bin_path=args.bin_data, seq_len=args.seq_len,
@@ -1041,12 +1041,12 @@ def run_training(args):
         state.data_position.source_type = "bin"
         state.data_position.bin_path = args.bin_data
 
-    # ═══════════════════ 训练循环 ═══════════════════
+    # ═══════════════════ Training loop ═══════════════════
 
-    # torch.compile 预热: 触发完整 forward+backward 编译
-    # 用实际 batch shape 避免运行时 recompile
+    # torch.compile warmup: trigger a full forward+backward compile
+    # use the real batch shape to avoid a runtime recompile
     if compile_enabled:
-        print(f"\n[PERF] [HOT] torch.compile 预热中 (~30s)...")
+        print(f"\n[PERF] [HOT] torch.compile warming up (~30s)...")
         _t0 = time.time()
         dummy_x = torch.randint(0, config.vocab_size,
                                 (args.batch_size, args.seq_len), device=device)
@@ -1070,13 +1070,13 @@ def run_training(args):
                 loss = loss / args.grad_accum
         loss.backward()
         optimizer.zero_grad()
-        print(f"[PERF] [OK] 预热完成 ({time.time()-_t0:.1f}s)")
+        print(f"[PERF] [OK] warmup done ({time.time()-_t0:.1f}s)")
 
     print(f"\n{'='*60}")
-    print(f"[START] 开始训练")
+    print(f"[START] Training started")
     if args.max_tokens:
-        print(f"   目标: {args.max_tokens/1e9:.1f}B tokens")
-    print(f"   保存间隔: {args.save_every} step  日志间隔: {args.log_every} step")
+        print(f"   target: {args.max_tokens/1e9:.1f}B tokens")
+    print(f"   save interval: {args.save_every} steps  log interval: {args.log_every} steps")
     print(f"{'='*60}\n")
 
     model.train()
@@ -1093,7 +1093,7 @@ def run_training(args):
     recent_loss = 0.0
     optimizer.zero_grad()
 
-    # 首步标记
+    # first-step flag
     first_step_done = False
 
     try:
@@ -1155,7 +1155,7 @@ def run_training(args):
                 if state.data_position.source_type == "bin":
                     state.data_position.token_offset = total_tokens - state.round_start_tokens
 
-                # 第一步后打印确认
+                # print a confirmation after the first step
                 if not first_step_done:
                     first_step_done = True
                     elapsed = time.time() - t_start
@@ -1212,15 +1212,15 @@ def run_training(args):
                     save_checkpoint(model, optimizer, scheduler, config, state, save_dir)
                     _set_latest_link(ckpt_base, save_dir.relative_to(ckpt_base).as_posix())
 
-                    # 清理 TEMP checkpoint：只删 2 个 milestone 之前的临时检查点，
-                    # 保留最后两个 5000-step 区间内的 TEMP（供 merge_checkpoints.py 融合）
+                    # Clean up TEMP checkpoints: delete only temp checkpoints older than 2 milestones,
+                    # keeping the TEMPs from the last two 5000-step windows (for merge_checkpoints.py)
                     import shutil
                     keep_from = step - 2 * MILESTONE_EVERY
                     for d in sorted(ckpt_base.iterdir()):
                         if d.is_dir() and d.name.startswith("step_"):
                             try:
                                 s = int(d.name.split("_")[1])
-                                # 只删 2 个 milestone 之前的 TEMP（milestone 永久保留）
+                                # delete only TEMPs older than 2 milestones (milestones are kept forever)
                                 if s < keep_from and s % MILESTONE_EVERY != 0:
                                     shutil.rmtree(d, ignore_errors=True)
                             except ValueError:
@@ -1242,16 +1242,16 @@ def run_training(args):
                     save_checkpoint(model, optimizer, scheduler, config, state, save_dir)
                     # No latest_link update for TEMP saves
 
-                # 终止 (使用本轮相对 tokens)
+                # Termination (using this round's relative tokens)
                 if args.max_tokens and (total_tokens - state.round_start_tokens) >= args.max_tokens:
-                    print(f"\n[OK] 达到目标: {total_tokens/1e9:.2f}B tokens")
+                    print(f"\n[OK] target reached: {total_tokens/1e9:.2f}B tokens")
                     break
                 if args.max_steps and step >= args.max_steps:
-                    print(f"\n[OK] 达到步数上限: {step}")
+                    print(f"\n[OK] step limit reached: {step}")
                     break
 
     except KeyboardInterrupt:
-        print("\n⏸  手动中断")
+        print("\n⏸  Manually interrupted")
 
     # ── Final save ──
     state.step = step
@@ -1269,7 +1269,7 @@ def run_training(args):
                      0.0, elapsed, tok_per_sec, data_pos="final")
 
     print(f"\n{'='*60}")
-    print(f"[OK] 训练完成!")
+    print(f"[OK] Training complete!")
     print(f"   Steps: {step}  Tokens: {total_tokens/1e9:.2f}B  "
           f"Time: {elapsed/3600:.1f}h  Speed: {tok_per_sec:,.0f} tok/s")
     if best_val_loss < float("inf"):
@@ -1281,17 +1281,17 @@ def run_training(args):
 # ═══════════════════ CLI ═══════════════════
 
 def main():
-    parser = argparse.ArgumentParser(description="CodeLM-435M 干净预训练")
+    parser = argparse.ArgumentParser(description="CodeLM-435M clean pretraining")
 
-    g_mode = parser.add_argument_group("模式")
+    g_mode = parser.add_argument_group("Mode")
     g_mode.add_argument("--mode", choices=["online", "offline"], default="offline")
     g_mode.add_argument("--data-dir", type=str, default=None)
     g_mode.add_argument("--nofilter-lang-only", action="store_true",
-                        help="仅语言过滤(保留 .py) + 流式在线训练, 不含 L1-L6; --data-dir 可逗号分隔多目录 (nofilter 公平基线)")
+                        help="language-only filtering (keeping .py) + streaming online training, no L1-L6; --data-dir may hold comma-separated dirs (fair nofilter baseline)")
     g_mode.add_argument("--bin-data", type=str, default=None)
     g_mode.add_argument("--val-bin", type=str, default=None)
 
-    g_resume = parser.add_argument_group("恢复 & Optimizer")
+    g_resume = parser.add_argument_group("Resume & optimizer")
     g_resume.add_argument("--resume", type=str, default=None)
     g_resume.add_argument("--auto-resume", action="store_true")
     g_resume.add_argument("--reset-optimizer", action="store_true")
@@ -1299,14 +1299,14 @@ def main():
     g_resume.add_argument("--ckpt-dir", type=str, default=None)
     g_resume.add_argument("--log-dir", type=str, default=None)
 
-    g_train = parser.add_argument_group("训练超参数")
+    g_train = parser.add_argument_group("Training hyperparameters")
     g_train.add_argument("--lr", type=float, default=2.5e-4)
     g_train.add_argument("--batch-size", type=int, default=11)
     g_train.add_argument("--grad-accum", type=int, default=4)
     g_train.add_argument("--max-tokens", type=int, default=None,
-                         help="本轮（当前数据集）token 上限，用于终止条件")
+                         help="token cap for this round (the current dataset), used as the termination condition")
     g_train.add_argument("--total-tokens", type=int, default=None,
-                         help="全局总 tokens（三数据集总和），用于 LR 调度（衰减/cooldown）区间计算，跨轮必须一致")
+                         help="global total tokens (sum of the three datasets), used to compute the LR schedule span (decay/cooldown); must match across rounds")
     g_train.add_argument("--max-steps", type=int, default=None)
     g_train.add_argument("--warmup-steps", type=int, default=500)
     g_train.add_argument("--t-max", type=int, default=50000,
@@ -1315,28 +1315,28 @@ def main():
     g_train.add_argument("--lr-schedule", choices=["wsm", "wsd", "cosine"], default="wsm",
                          help="LR schedule: wsm=warmup+stable+explicit cooldown (435M-v2), wsd=warmup+stable+auto-decay, cosine=annealing (353M)")
     g_train.add_argument("--wsd-decay-fraction", type=float, default=0.0,
-                         help="WSM: 0.0 = 无衰减 (warmup+stable), 融合靠 merge_checkpoints.py")
+                         help="WSM: 0.0 = no decay (warmup+stable), merging is done by merge_checkpoints.py")
     g_train.add_argument("--final-lr-steps", type=int, default=0,
-                         help="最后 N 步用 --final-lr 的 cooldown (0=关闭)。仅最后一个数据集轮次传入")
+                         help="cooldown to --final-lr over the last N steps (0=off). Only pass it on the last dataset round")
     g_train.add_argument("--final-lr", type=float, default=1e-4,
-                         help="cooldown 阶段学习率 (配合 --final-lr-steps)")
+                         help="learning rate during the cooldown phase (used with --final-lr-steps)")
     g_train.add_argument("--compile-mode", choices=["reduce-overhead", "default", "none"],
                          default="reduce-overhead",
-                         help="torch.compile 模式: reduce-overhead(CUDA graphs,最快) / default(无CUDA graphs,稳) / none(不编译,eager)")
+                         help="torch.compile mode: reduce-overhead (CUDA graphs, fastest) / default (no CUDA graphs, stable) / none (no compile, eager)")
     g_train.add_argument("--weight-decay", type=float, default=0.1)
     g_train.add_argument("--grad-clip", type=float, default=1.0)
     g_train.add_argument("--beta1", type=float, default=0.9)
     g_train.add_argument("--beta2", type=float, default=0.95)
     g_train.add_argument("--dropout", type=float, default=0.0)
 
-    g_arch = parser.add_argument_group("模型架构")
+    g_arch = parser.add_argument_group("Model architecture")
     g_arch.add_argument("--d_model", type=int, default=1024)
     g_arch.add_argument("--num-layers", type=int, default=22)
     g_arch.add_argument("--num-heads", type=int, default=16)
     g_arch.add_argument("--d_ff", type=int, default=4096)
     g_arch.add_argument("--seq-len", type=int, default=1024)
 
-    g_log = parser.add_argument_group("日志 & 保存")
+    g_log = parser.add_argument_group("Logging & saving")
     g_log.add_argument("--log-every", type=int, default=10)
     g_log.add_argument("--save-every", type=int, default=5000)
     g_log.add_argument("--temp-every", type=int, default=500)
@@ -1346,22 +1346,22 @@ def main():
 
     args = parser.parse_args()
 
-    # 验证
+    # Validate
     if args.mode == "online" and not args.data_dir:
-        print("[FAIL] online 模式需要 --data-dir")
+        print("[FAIL] online mode requires --data-dir")
         return 1
     if args.mode == "offline" and not args.bin_data and not args.auto_resume and not args.resume:
-        print("[FAIL] offline 模式需要 --bin-data (首次训练)")
+        print("[FAIL] offline mode requires --bin-data (first run)")
         return 1
 
     if args.lr_override and args.reset_optimizer:
-        print("[WARN]  --lr-override + --reset-optimizer: optimizer 已重建, lr-override 仍应用")
+        print("[WARN]  --lr-override + --reset-optimizer: optimizer was rebuilt, lr-override still applied")
 
-    # 打印非默认参数
+    # print non-default args
     defaults = {a.dest: a.default for a in parser._actions if a.dest != 'help'}
     overrides = {k: getattr(args, k) for k in defaults if getattr(args, k) != defaults.get(k)}
     if overrides:
-        print(f"[ARGS] 非默认参数: {overrides}")
+        print(f"[ARGS] non-default args: {overrides}")
 
     run_training(args)
     return 0

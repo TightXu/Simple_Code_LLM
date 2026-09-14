@@ -1,6 +1,10 @@
-# Code LLM 435M — Technical Report
+# Design Notes — Code LLM 435M
 
-**A Clean 31B-Token Baseline and a Controlled Ablation Framework for Small Code Models**
+**A clean 31B-token baseline and a controlled ablation framework for small code models.**
+
+> What this document is: the design record. What was built, which decisions were made at each step, and the evidence behind each one. Rationale columns are the point of the tables.
+>
+> Elsewhere in this repo: the narrative overview is in [`README.md`](README.md), the bug stories are in [`CHALLENGES.md`](CHALLENGES.md), and the supervised fine-tuning experiments on top of this baseline are in [`post-training/POST_TRAINING.md`](post-training/POST_TRAINING.md).
 
 ---
 
@@ -164,6 +168,12 @@ Consistent with the 353M finding (breakthrough between 2.6B and 7.7B on a weaker
 
 ---
 
+### 7.4 Post-training (supervised fine-tuning)
+
+About 30 SFT runs on the merged baseline, evaluated on 11 tasks × 20 attempts per prompt style with hand-audited raw outputs. Short version: the only lever that reliably helped was training on **verified** instruction data (the "gold standard" corpus — instruction examples whose reference solution passes its unit tests). It lifted the natural-language column from 42% (small public-instruction mix, 5-attempt protocol) to 78% with gold data alone, and to 91% at 20-attempt precision; the signature column fell as the gold share rose, and the combined score stayed in the 65–75% band across every gold:signature ratio from 1:1 to 8:1. (These are pass rates out of attempts — a different measure from the 0/1/2-graded benchmark in §7.2, and not comparable to it.) Random-seed variance (±6 points) was larger than any recipe difference, weight averaging never beat its best parent model, and the leader on the tuning set finished **last** on 12 unseen tasks — the shipped model is the one that validated on the held-out set. Full experiment log, corrections included: [`post-training/POST_TRAINING.md`](post-training/POST_TRAINING.md).
+
+---
+
 ## 8. Ablation Framework
 
 All experiments train the **same 435M architecture from scratch** — same tokenizer, batch, LR schedule, val set. One variable at a time.
@@ -220,7 +230,7 @@ Every design decision in this report maps to a specific v1 failure, and the v1 p
 1. **Finish the 18B no-filter run** and close the data-quality question at scale (does the 0.2 val-loss gap hold, shrink, or invert as no-filter gets 6× more unique tokens?)
 2. **Tokenizer and context-length ablations** (framework ready)
 3. **Schedule ablation** (WSM+merge vs full cosine)
-4. **Fine-tuning on the clean baseline** — the 353M FT experiments (+21pp with clean same-domain data) deserve a redo on a model whose base distribution isn't contaminated
+4. **Fine-tuning on the clean baseline** — done (about 30 runs; see [`post-training/POST_TRAINING.md`](post-training/POST_TRAINING.md)). The open question is the one that report ends on: whether execution-feedback preference learning beats further data/recipe tuning
 5. **Public release**: checkpoints to HuggingFace Hub, this repo with complete ablation tables
 
 ---

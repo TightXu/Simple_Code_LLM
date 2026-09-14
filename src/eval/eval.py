@@ -79,10 +79,10 @@ DEFAULT_SEEDS = [42, 123, 456, 789, 2026]
 
 
 def load_algorithms_file(path: str) -> list:
-    """加载自定义任务集文件, 返回 Algorithms 格式的任务列表。
-    兼容两种输入格式:
-      ① Algorithms: {name, prompt, entry, tests, required, banned}
-      ② HumanEval: {task_id, prompt, entry_point, test, ...} → 转换为①
+    """Load a custom task-set file and return a task list in Algorithms format.
+    Two input formats are supported:
+      (1) Algorithms: {name, prompt, entry, tests, required, banned}
+      (2) HumanEval: {task_id, prompt, entry_point, test, ...} -> converted to (1)
     """
     import os
     p = Path(path)
@@ -98,26 +98,26 @@ def load_algorithms_file(path: str) -> list:
     out = []
     for t in tasks:
         t = dict(t)
-        # HumanEval 格式的 test 字段: 一个 Python 代码字符串(含 assert)。提取出 assert 行为 tests。
+        # HumanEval-style test field: a Python code string (with asserts). Extract the assert lines as tests.
         if "entry_point" in t and ("test" in t or "assertions" in t):
             entry = t["entry_point"]
             prompt = t["prompt"]
             raw_test = t.get("test", "") or "\n".join(t.get("assertions", []))
-            # 提取所有含 assert 的行作为 tests; 若 test 是完整 check() 函数, 抽出 candidate 调用
+            # collect every line containing an assert as a test; if test is a full check() function, pull out the candidate calls
             tests = []
             for ln in raw_test.splitlines():
                 s = ln.strip()
                 if s.startswith("assert "):
-                    # 把 "assert candidate(args) == val" → 以 entry 替换 candidate
+                    # rewrite "assert candidate(args) == val" by replacing candidate with entry
                     tests.append(s.replace("candidate", entry).replace("assert ", "", 1))
             if not tests and raw_test.strip():
-                # 兜底: 若无法拆, 用整个 test 作为一条 (交给 judge 执行)
+                # fallback: if it cannot be split, use the whole test as a single case (handed to judge for execution)
                 tests = [raw_test]
             out.append({"name": t.get("task_id", entry), "prompt": prompt,
                         "entry": entry, "tests": tests,
                         "required": [], "banned": []})
         else:
-            # Algorithms 格式
+            # Algorithms format
             out.append({"name": t["name"], "prompt": t["prompt"], "entry": t["entry"],
                         "tests": t.get("tests", []), "required": t.get("required", []),
                         "banned": t.get("banned", [])})
@@ -164,14 +164,17 @@ def check_implementation(code: str, alg: dict):
     return True, ""
 
 def extract_function_body(full_code: str) -> str:
-    """从 prompt+gen 中提取干净的『函数体』(含 docstring, 不含尾随垃圾)。
+    """Extract a clean function body from prompt+gen (keeps the docstring, drops trailing junk).
 
-    规则: 从第一个 `def ` 行开始, 收集所有缩进 >= 函数体缩进的行;
-    遇到顶格(无缩进)的非空/非注释行即视为『函数结束』, 截断其后的
-    print/import/if __name__/注释 等续写垃圾。
+    Rule: start at the first `def ` line and collect every line indented at or
+    beyond the body indentation; an unindented, non-empty, non-comment line marks
+    the end of the function, truncating any continuation junk after it
+    (print/import/if __name__/comments).
 
-    返回函数体源码(含 def 行)。若没有 def 行, 返回空串。
-    注意: 只接受函数体内部缩进一致、可 AST 解析的代码; 提取后仍需 ast.parse 校验。
+    Returns the function body source (including the def line); empty string if
+    there is no def line.
+    Note: only code with consistent body indentation that parses as an AST is
+    accepted; the extracted result still has to pass ast.parse.
     """
     lines = full_code.split("\n")
     out = []
@@ -185,22 +188,22 @@ def extract_function_body(full_code: str) -> str:
                 def_line = i
                 out.append(ln)
             elif stripped and not stripped.startswith("#"):
-                # 遇到非 def 的非注释行: 这是 prompt 前缀里的垃圾, 丢弃后继续找 def
+                # non-def, non-comment line: junk from the prompt prefix; drop it and keep looking for def
                 continue
-            # 注释/空行: 跳过
+            # comment/blank line: skip
             continue
-        # 已在函数体内
+        # already inside the function body
         if stripped and not stripped.startswith("#"):
             if not ln.startswith((" ", "\t")):
-                break  # 顶格行 = 函数体结束
+                break  # unindented line = end of the function body
             out.append(ln)
         else:
-            # 空行/注释: 通常属于函数体内部的空行/注释, 保留但若后续遇到顶格行会截断
+            # blank/comment line: usually a blank line or comment inside the body; keep it, but it is truncated if an unindented line follows
             if ln.startswith((" ", "\t")):
                 out.append(ln)
     if not out:
         return ""
-    # 去除函数体尾部多余空行
+    # drop the extra blank lines at the end of the body
     while out and not out[-1].strip():
         out.pop()
     return "\n".join(out)
@@ -209,15 +212,16 @@ def extract_function_body(full_code: str) -> str:
 def judge_reference(code: str, alg: dict):
     """Reference pass-rate: implementation check + execution. Returns (pass, reason).
 
-    改进: 先对完整代码 (prompt+gen) 做函数体提取, 剔除尾随 docstring 后的
-    垃圾 (print/import/注释/if __name__), 再执行 tests。这样 v2 这类
-    "先写 docstring 再写逻辑" 的模型不再被误判。
+    Improvement: extract the function body from the full code (prompt+gen) first,
+    dropping the junk after a trailing docstring (print/import/comments/if __name__),
+    then run the tests. This stops models like v2 - which write the docstring
+    before the logic - from being wrongly judged as failures.
     """
-    # 先提取干净的函数体 (含 def 行)
+    # extract a clean function body first (including the def line)
     core = extract_function_body(code)
     if not core:
         return False, "no function body"
-    # 实现检查基于核心函数体 (不含 prompt 前缀垃圾)
+    # the implementation check runs on the core body (no prompt-prefix junk)
     ok_impl, reason = check_implementation(core, alg)
     if not ok_impl:
         return False, f"impl: {reason}"
@@ -265,10 +269,10 @@ def load_model_and_tokenizer(model_path: str, device: str = "cuda"):
     from train import load_checkpoint
     from tokenizers import Tokenizer
     model, config, _opt, _sched, state = load_checkpoint(model_path, device)
-    model.to(device)          # load_checkpoint 只把 ckpt 放到 device, 模型参数默认为 CPU → 必须显式迁移
-    # 注意: 不转 bf16 —— train.py 的 forward 里有 `x * math.sqrt(d_model)`,
-    # 标量乘法会把输出提升为 float32; 若权重为 bf16 会报 dtype 不匹配 (float != BFloat16)。
-    # 保持 float32 评估最稳 (推理速度略慢, 但只影响评测吞吐, 不影响正确性)。
+    model.to(device)          # load_checkpoint only moves the ckpt to device; the params default to CPU -> move them explicitly
+    # Note: no bf16 conversion - train.py's forward contains `x * math.sqrt(d_model)`,
+    # and the scalar multiply promotes the output to float32; bf16 weights would raise a dtype mismatch (float != BFloat16).
+    # Keeping float32 is the most reliable setup for evaluation (inference is a little slower, but it only affects evaluation throughput, not correctness).
     # tokenizer search order: model dir -> repo tokenizer/<name>.json -> repo tokenizer.json
     cands = [
         Path(model_path) / "tokenizer.json",
@@ -300,11 +304,11 @@ def main():
     ap.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument("--output-dir", type=str, default="eval_output")
     ap.add_argument("--algorithms-file", type=str, default=None,
-                    help="自定义任务集文件 (.json 单对象数组 或 .jsonl 每行一个). "
-                         "每个任务兼容两种格式: "
-                         "① Algorithms 格式: {name,prompt,entry,tests,required,banned}; "
-                         "② HumanEval 格式: {task_id,prompt,entry_point,test/assertions} — 自动转换. "
-                         "提供后会与内置 ALGORITHMS 合并 (同名覆盖)。")
+                    help="custom task-set file (.json single-object array, or .jsonl one object per line). "
+                         "each task accepts two formats: "
+                         "(1) Algorithms format: {name,prompt,entry,tests,required,banned}; "
+                         "(2) HumanEval format: {task_id,prompt,entry_point,test/assertions} - converted automatically. "
+                         "when given, custom tasks are merged with the built-in ALGORITHMS (same name overrides).")
     ap.add_argument("--prompt-style", choices=["docstring-free", "docstring"], default="docstring-free",
                     help="docstring-free=completion (default); docstring=HumanEval-style (from-scratch models are blind to it)")
     args = ap.parse_args()
@@ -326,11 +330,11 @@ def main():
     alg_pool = list(ALGORITHMS)
     if args.algorithms_file:
         custom = load_algorithms_file(args.algorithms_file)
-        # 合并: 内置 + 自定义 (同名覆盖)
+        # merge: built-in + custom (same name overrides)
         custom_names = {a["name"] for a in custom}
         alg_pool = [a for a in ALGORITHMS if a["name"] not in custom_names] + custom
-        print(f"[CUSTOM] 已合并 {len(custom)} 个任务来自 {args.algorithms_file} "
-              f"(任务集共 {len(alg_pool)} 个)")
+        print(f"[CUSTOM] merged {len(custom)} task(s) from {args.algorithms_file} "
+              f"(task set now has {len(alg_pool)})")
     alg_map = {a["name"]: a for a in alg_pool}
     selected = [alg_map[n] for n in algs if n in alg_map]
     if not selected:

@@ -1,0 +1,16 @@
+# Simple_Code_LLM — pretraining + post-training dependencies
+#
+# Verified against the environment the runs actually used:
+#   Python 3.12 · PyTorch 2.12 (CUDA 12.8 build) · one RTX 5090 (32 GB, sm_120) · Windows
+# Install a CUDA build of PyTorch for your GPU first, then:
+
+torch>=2.6          # 2.12 + cu128 tested; sm_120 needs a recent CUDA build
+tokenizers>=0.15    # BPE training / inference (0.23 tested)
+numpy>=1.26         # 2.4 tested
+tqdm>=4.66          # progress reporting in the data + training loops
+pyarrow>=15.0       # parquet streaming over the raw corpus (25.0 tested)
+datasets>=2.18      # only used by the HuggingFace download helpers
+
+# Notes
+# triton            # Inductor backend for torch.compile; Linux-only. The training script
+#                   # probes for it and falls back (eager / CUDA graphs) when absent.

@@ -1,250 +1,250 @@
-# Code LLM Project — 踩坑记录 & 经验教训
+# Code LLM Project — Pitfalls & Lessons Learned
 
-> 整理自聊天记录、训练日志、checkpoint 历史和记忆片段。
-> 用于补充 TECHNICAL.md 和 presentation 的"challenges"部分。
-
----
-
-## 阶段 1: 环境选择 — JAX → WSL2 → PyTorch Windows
-
-### 1.1 JAX on Windows 不支持 GPU
-
-- **时间**: Day 1-2
-- **问题**: 最初计划用 JAX 做训练（熟悉 Flax/Haiku 生态），但 JAX 在 Windows 上**不支持 GPU 加速**——JAX 的 CUDA 后端只支持 Linux。Windows 上只能用 CPU，训练速度不可接受。
-- **教训**: 框架选择必须先确认平台支持。JAX 官方明确 "Windows support is experimental, CPU-only"。
-
-### 1.2 WSL2: 网络 + GPU 碎片化双重打击
-
-- **时间**: Day 2
-- **问题**:
-  - WSL2 内部网络不通，无法直接访问 HuggingFace 下载数据
-  - GPU 通过 WSL2 直通后，JAX 出现 CUDA BFC (Best-Fit with Coalescing) 内存碎片化 bug → OOM 即使显存明明够用
-  - WSL2 文件系统性能差（跨 OS 文件访问慢）
-- **决策**: 放弃 JAX/WSL2 路线，回到 Windows 原生 PyTorch
-- **教训**: WSL2 做 ML 训练不适合生产级任务。GPU 直通虽然能用，但内存管理、网络配置都是额外的坑。
-
-### 1.3 PyTorch 版本地狱: sm_120 + Python 3.14
-
-- **时间**: Day 3 凌晨
-- **问题**:
-  - RTX 5090 是 Blackwell 架构 (sm_120)，**PyTorch 2.6 stable 不认识这个架构**，无法编译 CUDA kernel
-  - 需要 PyTorch nightly cu128 版本才有 sm_120 支持
-  - Python 3.14 不兼容 PyTorch nightly → 必须降级到 3.12
-- **最终环境**: Python 3.12 + PyTorch 2.12 nightly + CUDA 12.8
-- **教训**: 最新硬件（尤其是新架构 GPU）+ 最新软件 = 兼容性地狱。给未来项目的建议：GPU 发布后等 2-3 个月等 PyTorch stable 跟上。
+> Compiled from chat logs, training logs, checkpoint history, and memory fragments.
+> Supplements the "challenges" section of TECHNICAL.md and the presentation.
 
 ---
 
-## 阶段 2: 实验阶段 — 模型规模 & 超参数搜索
+## Phase 1: Environment Choice — JAX → WSL2 → PyTorch on Windows
 
-### 2.1 模型规模: 9B 参考 → 353M 自训练
+### 1.1 JAX Doesn't Support GPU on Windows
 
-- **背景**: 最初参考了 Qwen 3.5 9B 级别的开源代码模型（32层, d_model=4096, 32头, d_ff=12288, 词表248K），参数量是我们的 **25×**
-- **现实**: 9B 模型单卡 RTX 5090 (32GB) 根本跑不动（BF16 训练需 70GB+，必须多卡）。即使量化后推理也勉强。
-- **决策链**:
-  - 9B → 不可行（单卡放不下，训练需多卡）
-  - 400M → 考察发现 VRAM 有富裕（200M 只用了 24GB）
-  - 200M (v1) → 验证可行性，76K tok/s
-  - 353M (v2) → 最大化单卡利用率，46K tok/s，VRAM 29GB/32GB
-- **核心对比**:
+- **Timeline**: Day 1-2
+- **Problem**: The plan was to train with JAX (I knew the Flax/Haiku ecosystem), but JAX **does not support GPU acceleration on Windows** — its CUDA backend is Linux-only. On Windows you're stuck on CPU, and the training speed was unacceptable.
+- **Lesson**: Framework choice has to start with confirming platform support. JAX's own docs say plainly, "Windows support is experimental, CPU-only".
 
-| 参数 | 353M (Ours) | Qwen 3.5 9B | 倍数 |
+### 1.2 WSL2: Networking + GPU Fragmentation, a Double Hit
+
+- **Timeline**: Day 2
+- **Problems**:
+  - Networking inside WSL2 was dead, so HuggingFace data downloads didn't work
+  - After passing the GPU through to WSL2, JAX hit a CUDA BFC (Best-Fit with Coalescing) memory fragmentation bug → OOM even though VRAM was clearly sufficient
+  - WSL2 filesystem performance is poor (cross-OS file access is slow)
+- **Decision**: Drop the JAX/WSL2 route and go back to native PyTorch on Windows
+- **Lesson**: WSL2 is not suitable for production-grade ML training. GPU passthrough works, but memory management and networking are extra pitfalls.
+
+### 1.3 PyTorch Version Hell: sm_120 + Python 3.14
+
+- **Timeline**: Day 3, early morning
+- **Problems**:
+  - The RTX 5090 is Blackwell (sm_120), and **PyTorch 2.6 stable doesn't recognize the architecture**, so it can't compile CUDA kernels
+  - sm_120 support only exists in the PyTorch nightly cu128 build
+  - Python 3.14 is incompatible with PyTorch nightly → had to downgrade to 3.12
+- **Final environment**: Python 3.12 + PyTorch 2.12 nightly + CUDA 12.8
+- **Lesson**: Newest hardware (especially a new GPU architecture) + newest software = compatibility hell. Advice for future projects: wait 2-3 months after a GPU launch for PyTorch stable to catch up.
+
+---
+
+## Phase 2: Experimentation — Model Scale & Hyperparameter Search
+
+### 2.1 Model Scale: 9B Reference → 353M Trained From Scratch
+
+- **Background**: The starting reference was a Qwen 3.5 9B-class open code model (32 layers, d_model=4096, 32 heads, d_ff=12288, 248K vocab) — with **25×** our parameter count
+- **Reality**: A 9B model simply doesn't fit on one RTX 5090 (32GB) — BF16 training needs 70GB+, so multiple GPUs are mandatory. Even quantized inference was only barely feasible.
+- **Decision chain**:
+  - 9B → not viable (doesn't fit on one card, training needs several)
+  - 400M → investigation showed there was VRAM headroom (200M used only 24GB)
+  - 200M (v1) → prove feasibility, 76K tok/s
+  - 353M (v2) → maximize single-card utilization, 46K tok/s, VRAM 29GB/32GB
+- **Key comparison**:
+
+| Parameter | 353M (Ours) | Qwen 3.5 9B | Ratio |
 |------|------------|-------------|------|
-| 总参数 | 353M | 9B | 25× |
-| 层数 | 18 | 32 | 1.8× |
+| Total params | 353M | 9B | 25× |
+| Layers | 18 | 32 | 1.8× |
 | d_model | 1,024 | 4,096 | 4× |
-| 注意力头 | 16 | 32 | 2× |
+| Attention heads | 16 | 32 | 2× |
 | d_ff (SwiGLU) | 3,840 | 12,288 | 3.2× |
-| 词表 | 32K | ~248K | 7.8× |
-| 训练VRAM | 29 GB | ~70+ GB (多卡) | — |
+| Vocab | 32K | ~248K | 7.8× |
+| Training VRAM | 29 GB | ~70+ GB (multi-GPU) | — |
 
-- **关键指标**: 参数量 1.76×（v1→v2），速度只降到 0.60×，**优于线性缩放**
-- **核心主张**: 25× 参数差距，但我们的 353M 模型已经在 7.78B tokens 后涌现了递归推理能力——小模型在消费级硬件上也能捕捉非平凡的代码语义
-- **教训**: 不要直接对标大模型规模。先用最小可用模型验证 pipeline，再逐步 push 硬件极限。
+- **Key metrics**: 1.76× the parameters (v1→v2) for only 0.60× the speed — **better than linear scaling**
+- **Core claim**: A 25× parameter gap, yet our 353M model had already emerged recursive reasoning after 7.78B tokens — small models on consumer hardware can still capture non-trivial code semantics
+- **Lesson**: Don't benchmark directly against large-model scale. First validate the pipeline with the smallest usable model, then push the hardware to its limit step by step.
 
-### 2.2 batch_size / grad_accum 组合搜索
+### 2.2 batch_size / grad_accum Combination Search
 
-- **问题**: batch_size 太小→训练不稳定（梯度噪声大），太大→OOM
-- **搜索过程**:
-  - 先固定 grad_accum=1，测 batch_size 上限：14 是 BF16 下不 OOM 的最大值
-  - grad_accum=4 把有效 batch 扩大到 56，跟 Chinchilla 建议的 ~50-100 范围一致
-  - 最终: `--batch_size 14 --grad_accum 4`（有效 batch=56，每步 57,344 tokens）
-- **教训**: 先找到 memory limit，再通过 grad_accum 达到目标有效 batch。不要反过来（先定 batch 再调 grad_accum 容易反复 OOM）。
+- **Problem**: batch_size too small → unstable training (noisy gradients); too large → OOM
+- **Search process**:
+  - Fixed grad_accum=1 first and probed the batch_size ceiling: 14 was the largest that didn't OOM under BF16
+  - grad_accum=4 widened the effective batch to 56, which lines up with Chinchilla's suggested ~50-100 range
+  - Final: `--batch_size 14 --grad_accum 4` (effective batch=56, 57,344 tokens per step)
+- **Lesson**: Find the memory limit first, then hit your target effective batch via grad_accum. Not the other way round (setting the batch first and then tuning grad_accum leads to repeated OOMs).
 
-### 2.3 seq_len 权衡: 256 vs 512 vs 1024
+### 2.3 seq_len Trade-off: 256 vs 512 vs 1024
 
-- **考察**: 更长的 seq_len → 更多上下文，但 VRAM 增长是 O(seq_len²)（attention 部分）
-- **选择 1024 的理由**:
-  - 1024 tokens ≈ 200-300 行 Python，覆盖绝大多数函数定义和文件片段
-  - 512 经常截断函数体，256 只能看函数签名
-  - VRAM 开销在可接受范围（约 29GB total）
-  - 46K tok/s 吞吐刚好匹配 tokenize 速度，无 CPU 瓶颈
-- **教训**: seq_len 的选择 = 任务需求（覆盖率）∩ 硬件约束（VRAM）∩ 速度约束（tokenize 匹配）
-
----
-
-## 阶段 3: 训练阶段 — 数据 & 学习率踩坑
-
-### 3.1 训练数据被反复使用（最隐蔽的坑）
-
-- **来源**: 聊天记录 2026-07-17 02:54 (`session_20260717_025422_1a34af`)
-- **发现过程**: 用户主动提问："checkpoint恢复后，会用新的没用过的数据训练吗？是怎么记录的？"
-- **根因**: `train_pt.py` 慢路径不做数据级别的 resume。每次 resume 都从 `parquet_files[0]` 重新开始读取。
-- **实际影响**（助手诊断）:
-  - "文件 1-300 可能被训了 3 次，文件 301-400 训了 1-2 次，文件 401-800 0 次"
-  - 最长一次 session 跑了 1.6B tokens → 约占总量 16%。1126 个文件中，前 180 个被反复训过，后 946 个从未碰过。
-- **用户解决方案**: 根据训练日志算出最长 session 22239 秒 × 49K tok/s ≈ 1.09B tokens → 约 87 个文件被消耗，加安全 margin → `--start-file-index 90`
-- **关键对话**:
-  > 用户: "所以一直是重复数据训练？那800个文件有什么意义？"
-  > 助手: "每次 resume 都在重新咀嚼前 43%"
-  > 用户: "不要擅自主张，按我说的改。我一共只下载了800个文件"
-- **教训**:
-  - 数据管理比模型架构更重要。训练前一次性准备好完整数据集
-  - 分批次下载数据时，必须追踪"哪些文件已经被模型见过"
-  - Resume 逻辑必须记录数据消费位置，不能只记录模型状态
-
-### 3.2 强行修改学习率，忽略优化器动量（最严重的质量波动原因）
-
-- **来源**: 聊天记录 2026-07-17 (`session_20260717_025422_1a34af`)
-- **用户报告退化** (line 4102):
-  > "这次Fibonacci更不靠谱了。也可能是因为现在不是换成新数据了吗，而且我把学习率上调到2.8e-04了"
-- **根因分析**:
-  1. CosineAnnealingLR 在 resume 时，`base_lrs` 是从 **optimizer 的 state_dict** 读取的（`[group['lr'] for group in optimizer.param_groups]`），**不是**从 `args.lr` 读取
-  2. 代码验证: `CosineAnnealingLR.__init__` 中 `self.base_lrs = [group['lr'] for group in optimizer.param_groups]`
-  3. Resume 时 optimizer 从 checkpoint 恢复 → `param_groups[0]['lr'] = 1.62e-04`（已衰减值）；新建 scheduler → `base_lrs = [1.62e-04]`——**不是** 2.4e-04
-  4. 用户强行改 LR 到 2.8e-04（+73%）但不 reset optimizer：
-     - 实际更新 = 新 LR × 旧动量方向
-     - 历史梯度的影响被放大 73%
-     - 参数更新方向偏离正确梯度方向
-  5. 直接后果：loss 从 1.16 跳到 1.58（step 80K→100K），生成质量退化（Fibonacci 输出"更不靠谱"）
-- **修复**: 实现 `--lr-override` 参数（用户要求 2.2e-04），配合 `--reset-optimizer` 使用
-- **关键 insight**: 改 LR 不 reset optimizer = 往正在行驶的车上突然换挡。动量、二阶矩估计都是上下文相关的。
-- **教训**: 优化器状态 ≠ 可独立修改的参数。Fine-tuning 阶段天然需要新 LR → 强制 reset optimizer
-
-### 3.3 生成质量波动与 loss 不完全相关
-
-- **观察**:
-  - 训练 loss 持续下降（1.5 → 1.3 → 1.2），但生成质量不是单调提升
-  - 某个 checkpoint 的 loss 更低，但生成的代码反而更差（更多重复、更少多样性）
-  - 这可能跟 checkpoint 保存时恰好处于"过拟合某个 batch pattern"的状态有关
-- **应对**:
-  - 加了 repetition_penalty=1.1, min_p=0.0, temperature=0.2 来抑制重复
-  - 但这些是**推理时的修正**，不解决训练问题
-  - 根本原因是模型容量 (353M) 相对于代码语义的复杂度还不够
-- **教训**: Loss 是训练指标，不是质量指标。对生成任务，**必须定期人工抽样评估**，不能只看 loss 曲线。
+- **Investigation**: Longer seq_len → more context, but VRAM grows as O(seq_len²) (the attention part)
+- **Why 1024**:
+  - 1024 tokens ≈ 200-300 lines of Python, covering the vast majority of function definitions and file fragments
+  - 512 often truncated function bodies; 256 could only see the signature
+  - VRAM cost stayed in an acceptable range (~29GB total)
+  - 46K tok/s throughput matches tokenize speed exactly, so there's no CPU bottleneck
+- **Lesson**: Choosing seq_len = task requirements (coverage) ∩ hardware constraints (VRAM) ∩ speed constraints (matching tokenize)
 
 ---
 
-## 阶段 4: Fine-tuning Phase 1 — 数据污染灾难（实际发生）
+## Phase 3: Training — Data & Learning-Rate Pitfalls
 
-### 4.1 目标与计划
+### 3.1 Training Data Reused Over and Over (the Sneakiest Pitfall)
 
-- 从 800 个 parquet 中提取短 Python 函数（50-1000 chars，需有 def，3+ 有效行）
-- 过滤噪音: copyright、test、setup、shebang
-- 结果: 90,000 训练 + 10,000 验证条，预分词后 22.8M tokens
-- 训练: LR=8e-5, t_max=500, 训练到 val_loss=1.3244（step 300）→ 看起来不错
+- **Source**: chat log 2026-07-17 02:54 (`session_20260717_025422_1a34af`)
+- **How it surfaced**: The user asked directly: "After resuming from a checkpoint, will it train on new data that hasn't been used? How is that recorded?"
+- **Root cause**: The slow path in `train_pt.py` does no data-level resume. Every resume starts reading from `parquet_files[0]` again.
+- **Actual impact** (assistant's diagnosis):
+  - "Files 1-300 may have been trained 3 times, files 301-400 once or twice, files 401-800 zero times"
+  - The longest session ran 1.6B tokens → roughly 16% of the total. Of 1126 files, the first 180 were trained repeatedly and the last 946 were never touched.
+- **User's fix**: Worked out from the training log that the longest session was 22239 seconds × 49K tok/s ≈ 1.09B tokens → about 87 files consumed, plus a safety margin → `--start-file-index 90`
+- **Key exchange**:
+  > User: "So it's always been training on repeated data? What's the point of the 800 files then?"
+  > Assistant: "Every resume is re-chewing the first 43%"
+  > User: "Don't take liberties, make the change the way I said. I only downloaded 800 files total"
+- **Lesson**:
+  - Data management matters more than model architecture. Prepare the complete dataset in one go before training
+  - When downloading data in batches, you must track "which files the model has already seen"
+  - Resume logic has to record the data consumption position, not just model state
 
-### 4.2 灾难性结果
+### 3.2 Forcing a Learning-Rate Change and Ignoring Optimizer Momentum (the Biggest Cause of Quality Swings)
 
-- **20 次生成（4 种算法 × 5 seeds），0 次正确**
-- 所有输出都是一个固定模式:
+- **Source**: chat log 2026-07-17 (`session_20260717_025422_1a34af`)
+- **User-reported regression** (line 4102):
+  > "Fibonacci is even less reliable this time. It might also be because we switched to new data now, and I raised the learning rate to 2.8e-04"
+- **Root-cause analysis**:
+  1. On resume, CosineAnnealingLR reads `base_lrs` from the **optimizer's state_dict** (`[group['lr'] for group in optimizer.param_groups]`), **not** from `args.lr`
+  2. Code verification: in `CosineAnnealingLR.__init__`, `self.base_lrs = [group['lr'] for group in optimizer.param_groups]`
+  3. On resume the optimizer is restored from the checkpoint → `param_groups[0]['lr'] = 1.62e-04` (an already-decayed value); a new scheduler is built → `base_lrs = [1.62e-04]` — **not** 2.4e-04
+  4. The user forced LR to 2.8e-04 (+73%) without resetting the optimizer:
+     - Actual update = new LR × old momentum direction
+     - The influence of the historical gradients was amplified by 73%
+     - Parameter updates diverged from the correct gradient direction
+  5. Direct consequence: loss jumped from 1.16 to 1.58 (step 80K→100K), and generation quality regressed (the Fibonacci output became "even less reliable")
+- **Fix**: Implemented an `--lr-override` argument (user asked for 2.2e-04), to be used with `--reset-optimizer`
+- **Key insight**: Changing the LR without resetting the optimizer = shifting gears in a moving car. Momentum and second-moment estimates are all context-dependent.
+- **Lesson**: Optimizer state ≠ a parameter you can edit independently. Fine-tuning naturally needs a new LR → force an optimizer reset
+
+### 3.3 Generation Quality Fluctuates Without Tracking Loss
+
+- **Observations**:
+  - Training loss kept falling (1.5 → 1.3 → 1.2), but generation quality was not monotonically improving
+  - One checkpoint had lower loss yet generated worse code (more repetition, less diversity)
+  - This may be related to the checkpoint being saved at a moment when it happened to be overfitting some batch pattern
+- **Response**:
+  - Added repetition_penalty=1.1, min_p=0.0, temperature=0.2 to suppress repetition
+  - But these are **inference-time corrections**; they don't fix the training problem
+  - The root cause was that the model capacity (353M) was still not enough for the complexity of code semantics
+- **Lesson**: Loss is a training metric, not a quality metric. For generation tasks you **must sample and evaluate by hand regularly** — you can't go by the loss curve alone.
+
+---
+
+## Phase 4: Fine-tuning Phase 1 — Data Contamination Disaster (It Actually Happened)
+
+### 4.1 Goal and Plan
+
+- Extract short Python functions from the 800 parquet files (50-1000 chars, must have a def, 3+ effective lines)
+- Filter noise: copyright, test, setup, shebang
+- Result: 90,000 training + 10,000 validation entries, 22.8M tokens after pre-tokenization
+- Training: LR=8e-5, t_max=500, ran to val_loss=1.3244 (step 300) → looked good
+
+### 4.2 Catastrophic Result
+
+- **20 generations (4 algorithms × 5 seeds), 0 correct**
+- Every output followed one fixed pattern:
   ```
   def some_func(x):          ← prompt
-  # -*- coding: utf-8 -*-    ← 模型立即跳到 Django
+  # -*- coding: utf-8 -*-    ← model immediately jumps to Django
   from django.db import migrations
   def forwards(apps, schema_editor):
       ...
   class Migration(migrations.Migration):
       ...
-  import _plotly_utils.basevalidators   ← 再接 Plotly
+  import _plotly_utils.basevalidators   ← then switches to Plotly
   class TicktextsrcValidator(...):
   ```
 
 - binary_search → Django ×5
 - two_sum → Django + Plotly ×5
 - is_palindrome → Django + Plotly ×5
-- inorder_traversal → 全部错误（base 模型 seed 456 反而写对了！）
+- inorder_traversal → all wrong (the base model with seed 456 actually got it right!)
 
-### 4.3 根因: 提取过滤器严重不足
+### 4.3 Root Cause: Extraction Filter Was Badly Insufficient
 
-- 旧过滤器只拦截了: copyright、test、setup、shebang
-- **遗漏的大类**:
-  - Django migrations（`migrations.RunPython`, `apps.get_model`, `class Migration`）
-  - Django models（`models.CharField`, `OneToOneField`, `class Meta`, `verbose_name`）
-  - Plotly validators（`_plotly_utils.basevalidators`, `plotly_name=`, `edit_type=`）
-  - Python 2 遗留（`# -*- coding:`, `from __future__ import`）
-  - 纯 import 文件（>60% 行是 import）
-  - 纯类定义文件（>70% class/decorator）
-  - 连续重复行（模板/配置文件特征）
+- The old filter only blocked: copyright, test, setup, shebang
+- **Categories it missed**:
+  - Django migrations (`migrations.RunPython`, `apps.get_model`, `class Migration`)
+  - Django models (`models.CharField`, `OneToOneField`, `class Meta`, `verbose_name`)
+  - Plotly validators (`_plotly_utils.basevalidators`, `plotly_name=`, `edit_type=`)
+  - Python 2 leftovers (`# -*- coding:`, `from __future__ import`)
+  - Files that are pure imports (>60% of lines are imports)
+  - Files that are pure class definitions (>70% class/decorator)
+  - Consecutive duplicate lines (a signature of templates/config files)
 
-- 这些代码短（<1000 chars）、有 def、没有 test/setup 标记 → 全部通过旧过滤器
-- 22.8M tokens 中可能一半以上是这类"看起来像函数"的垃圾模板
-- 模型学会了最强模式: "看到 def 签名 → 输出 Django 迁移"
+- This code is short (<1000 chars), has a def, and carries no test/setup markers → it all passed the old filter
+- More than half of those 22.8M tokens may have been this kind of garbage template that "looks like a function"
+- The model learned the strongest pattern: "see a def signature → emit a Django migration"
 
-### 4.4 修复: 增强过滤器
+### 4.4 Fix: Stronger Filters
 
-新增 30+ 条精确污染模式 + 5 项质量指标:
-- **精确匹配**: Django migrations, Django ORM, Django admin, Plotly validators, Python 2 遗留, config/boilerplate
-- **文件名过滤**: migrations/, tests/, setup.py, conftest.py, __init__.py
-- **质量指标**: import 比例 >60% 丢弃, class/decorator 比例 >70% 丢弃, 连续重复行检测, def 行占比, 逻辑行存在性检查
-- **NAS 全长重提取**: 从 800 个 parquet 重新提取干净数据
+Added 30+ precise contamination patterns + 5 quality checks:
+- **Exact matches**: Django migrations, Django ORM, Django admin, Plotly validators, Python 2 leftovers, config/boilerplate
+- **Filename filtering**: migrations/, tests/, setup.py, conftest.py, __init__.py
+- **Quality checks**: discard if import ratio >60%, discard if class/decorator ratio >70%, consecutive duplicate line detection, def line ratio, check that logic lines exist
+- **Full re-extraction from NAS**: re-extract clean data from all 800 parquet files
 
-### 4.5 教训
+### 4.5 Lessons
 
-1. **数据质量 >> 数据量**: 22.8M 干净数据 > 100M 污染数据
-2. **Loss 是危险的误导指标**: val_loss=1.32 看起来很好，但模型实际在学"输出 Django 模板"
-3. **清洗规则必须基于实际数据抽样**: 不能拍脑袋列几条规则就完事
-4. **微调前必须验证 base 模型**: 对比 base vs FT 的生成质量，才能发现退化
+1. **Data quality >> data volume**: 22.8M clean entries > 100M contaminated ones
+2. **Loss is a dangerously misleading metric**: val_loss=1.32 looked great, but the model was actually learning to "emit a Django template"
+3. **Cleaning rules must be based on sampling the actual data**: you can't just guess a few rules and call it done
+4. **Validate the base model before fine-tuning**: compare base vs FT generation quality, otherwise you won't catch the regression
 
 ---
 
-## 按 presentation 用途的速查表
+## Quick-Reference Table by Presentation Use
 
-| 挑战类别 | 具体问题 | 一句话概括 | 对应 Slide |
+| Challenge category | Specific problem | One-line summary | Slide |
 |---------|---------|-----------|-----------|
-| 环境适配 | JAX/WSL2/PyTorch | 最新硬件+最新软件=兼容性地狱 | Slide 7 |
-| 规模决策 | 9B→353M | 不追大模型，最大化单卡利用率 | Slide 2/4 |
-| 超参数 | batch/grad_accum/seq_len | 三个参数互相制约，需联合搜索 | Slide 4 |
-| 数据管理 | Resume 不追踪文件位置→重复训练前300个文件 | 数据管道比模型架构更影响结果 | Slide 3/7 |
-| 优化器 | 改LR 1.62→2.8e-4 不reset→loss 1.16→1.58 | 优化器状态不是独立变量 | Slide 7 |
-|| 评估 | loss下降≠质量提升（6.3B tokens 仍语法对语义错） | 生成任务必须人工抽样 | Slide 6 |
-|| 数据污染 | Django/Plotly 模板污染训练数据 → FT 后模型退化 | 数据清洗不足 = 变相毒化 | Slide 8 |
-|| Fine-tuning | 小数据微调，质量不如 base 模型 | 22.8M 垃圾数据 < 0 微调 | Slide 8 |
+| Environment adaptation | JAX/WSL2/PyTorch | Newest hardware + newest software = compatibility hell | Slide 7 |
+| Scale decision | 9B→353M | Don't chase large models; maximize single-card utilization | Slide 2/4 |
+| Hyperparameters | batch/grad_accum/seq_len | The three parameters constrain each other; search them jointly | Slide 4 |
+| Data management | Resume doesn't track file position → first 300 files trained repeatedly | The data pipeline affects results more than the model architecture | Slide 3/7 |
+| Optimizer | change LR 1.62→2.8e-4 without reset → loss 1.16→1.58 | Optimizer state is not an independent variable | Slide 7 |
+|| Evaluation | loss down ≠ quality up (at 6.3B tokens still syntactically right, semantically wrong) | Generation tasks require manual sampling | Slide 6 |
+|| Data contamination | Django/Plotly template contamination of the training data → model regressed after FT | Insufficient data cleaning = poisoning by another name | Slide 8 |
+|| Fine-tuning | Fine-tuned on small data, quality worse than the base model | 22.8M garbage tokens < 0 fine-tuning | Slide 8 |
 
 ---
 
-## 给报告的建议叙事线
+## Suggested Narrative Arc for the Report
 
-按照因果链组织：
+Organized along the causal chain:
 
 ```
-我想训练一个代码 LLM
-  → 选什么框架？JAX（不支持Windows）→ WSL2（网络+GPU bug）→ PyTorch native ✓
-  → 多大规模？9B（单卡放不下）→ 200M（验证可行）→ 353M（推满硬件）✓
-  → 什么超参数？batch=14, grad_accum=4, seq_len=1024（VRAM极限+速度平衡）✓
-  → 数据怎么管？分批次下载→文件被反复使用（过拟合）→ start-file-index 显式跳过 ✓
-  → 学习率怎么调？强行改LR→没reset optimizer→动量错乱→loss波动→生成退化 ✓
-  → 怎么评估？loss≠质量，2.6B tokens 输出 (2*n*n)，7.7B tokens 输出 F(n-1)+F(n-2) ✓
-  → Fine-tuning：清洗不足→Django/Plotly污染→模型退化→Base模型反超FT ✓
-  → 结论：数据质量>>数据量，loss≠能力，清洗规则需基于数据抽样
+I want to train a code LLM
+  → Which framework? JAX (no Windows support) → WSL2 (networking + GPU bugs) → PyTorch native ✓
+  → What scale? 9B (doesn't fit on one card) → 200M (proved feasibility) → 353M (pushes the hardware to the limit) ✓
+  → Which hyperparameters? batch=14, grad_accum=4, seq_len=1024 (VRAM limit + speed balance) ✓
+  → How to manage data? Batched downloads → files reused repeatedly (overfitting) → start-file-index to skip explicitly ✓
+  → How to adjust the learning rate? Forced LR change → optimizer not reset → momentum scrambled → loss swings → generation regresses ✓
+  → How to evaluate? loss ≠ quality, at 2.6B tokens output (2*n*n), at 7.7B tokens output F(n-1)+F(n-2) ✓
+  → Fine-tuning: insufficient cleaning → Django/Plotly contamination → model regresses → base model beats FT ✓
+  → Conclusion: data quality >> data volume, loss ≠ capability, cleaning rules must come from sampling the data
 ```
 
-## 关键转折点: Fibonacci 突破
+## Key Turning Point: the Fibonacci Breakthrough
 
-- **2.59B tokens**: `return (2*n*n)` — 纯统计噪声
-- **7.74B tokens**: `return fibonacci(n-1) + fibonacci(n-2)` — 正确递归结构
-- **Multi-seed 验证 (14 seeds)**: 46K→50%, 70K→14% (数据切换毁掉), 135K→79%, 141.6K→86%可用
-- Loss 只从 ~1.3 降到 ~1.2，但能力发生了质的飞跃
-- **loss ≠ 能力**: best loss 0.91 ≠ best generation
-- 验证 Chinchilla 假说在小模型上依然成立
+- **2.59B tokens**: `return (2*n*n)` — pure statistical noise
+- **7.74B tokens**: `return fibonacci(n-1) + fibonacci(n-2)` — correct recursive structure
+- **Multi-seed validation (14 seeds)**: 46K→50%, 70K→14% (destroyed by the data switch), 135K→79%, 141.6K→86% usable
+- Loss only went from ~1.3 to ~1.2, but capability made a qualitative jump
+- **loss ≠ capability**: best loss 0.91 ≠ best generation
+- Confirms the Chinchilla hypothesis still holds for small models
 
-## 新增发现
+## Additional Findings
 
-- **Seed 不稳定性**: 同一 checkpoint 不同 seed 可差 30%+ 正确率 — 单次评估不可靠
-- **FT eval bug**: `evaluate_loss` 未处理 dict 格式数据，已修复
-- **Benchmark 扩展**: 新增 MBPP sanitized + CodeContests，正在下载
-- **Epoch 支持**: `train_ft.py` 新增 `--epochs` 参数，支持小数据集多轮训练
+- **Seed instability**: The same checkpoint can differ by 30%+ in accuracy across seeds — a single evaluation is unreliable
+- **FT eval bug**: `evaluate_loss` didn't handle dict-format data; fixed
+- **Benchmark expansion**: added MBPP sanitized + CodeContests, currently downloading
+- **Epoch support**: `train_ft.py` gained an `--epochs` argument for multi-epoch training on small datasets
 
 ---
 
-*最后更新: 2026-07-17*
+*Last updated: 2026-07-17*

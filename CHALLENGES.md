@@ -2,7 +2,7 @@
 
 > A candid record of the failed first attempt at this model, the bugs that killed it, and the clean rebuild that followed. Format: **symptom → root cause → fix → lesson**.
 >
-> Context: this project's first attempt at the 435M ("v1") never learned — val loss stuck at 1.97 and generation collapsed. The root causes below are why the current clean rebuild ("v2", documented in `TECHNICAL.md`) exists. If you haven't read the README, start there.
+> Context: this project's first attempt at the 435M ("v1") never learned — val loss stuck at 1.97 and generation collapsed. The root causes below are why the current clean rebuild ("v2", documented in `DESIGN.md`) exists. If you haven't read the README, start there.
 
 ---
 
@@ -89,7 +89,7 @@ v1's tokenizer was a **multilingual** BPE 32K — its vocabulary is full of `pub
 
 **Lesson**: a released eval script must be runnable; bugs that only appear when actually invoked (device/dtype/object-type) need smoke-testing before publishing.
 
-### 3.7 eval.py reference-pass false negatives: docstring 占位 / 尾随垃圾 / 缺 def
+### 3.7 eval.py reference-pass false negatives: docstring placeholders, trailing junk, missing `def`
 
 **Symptom**: 435M v2 (clean data) generated *logically correct* implementations, yet `reference_pass` = 0/50 — why?
 

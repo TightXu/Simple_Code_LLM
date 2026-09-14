@@ -6,11 +6,12 @@ nofilter data prep: codeparrot (raw) then star_coder (raw), minimal cleaning
 - minimal cleaning only: .py suffix (codeparrot has a path column) + >=50 chars
 - star_coder has no path column: strip <reponame> metadata prefix, keep all
 - same order as v2: codeparrot -> star_coder (the_stack skipped)
-- stream from the NAS parquet on Z:, only .bin lands locally
+- stream from the raw parquet in place; only the .bin lands in the repo
 
 Usage:
   py -3.12 ablation/prepare_nofilter_data.py --max-tokens 1100000000
 """
+import os
 import sys
 import json
 import glob
@@ -23,8 +24,11 @@ import numpy as np
 ABLATION_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = ABLATION_DIR.parent
 
-CODEPARROT_DIR = "Z:/Workspace/code-llm-project-353M/code_data"
-STARCODER_DIR = "Z:/Workspace/clean_pretrain-435M/raw_data/starcoderdata"
+# Raw parquet locations: override with --codeparrot-dir / --starcoder-dir or the
+# CODEPARROT_DIR / STARCODER_DIR environment variables. Defaults are a relative layout,
+# so a fresh clone never depends on the machine this was written on.
+CODEPARROT_DIR = os.environ.get("CODEPARROT_DIR", str(PROJECT_ROOT / "data" / "raw" / "codeparrot"))
+STARCODER_DIR = os.environ.get("STARCODER_DIR", str(PROJECT_ROOT / "data" / "raw" / "starcoderdata"))
 TOKENIZER_PATH = PROJECT_ROOT / "tokenizer" / "tokenizer_435m.json"
 OUT_DIR = ABLATION_DIR / "data_nofilter"
 
@@ -65,6 +69,10 @@ def main():
     ap.add_argument("--max-tokens", type=int, default=30_000_000_000,
                     help="total target tokens (30B floor; in practice limited by full dataset)"),
     ap.add_argument("--seq-len", type=int, default=1024)
+    ap.add_argument("--codeparrot-dir", type=str, default=CODEPARROT_DIR,
+                    help="raw codeparrot parquet directory (default: $CODEPARROT_DIR or data/raw/codeparrot)")
+    ap.add_argument("--starcoder-dir", type=str, default=STARCODER_DIR,
+                    help="raw star_coder parquet directory (default: $STARCODER_DIR or data/raw/starcoderdata)")
     ap.add_argument("--start-file-index", type=int, default=0,
                     help="codeparrot start file index (resume from last checkpoint)")
     ap.add_argument("--append", action="store_true",
@@ -74,6 +82,7 @@ def main():
     import pyarrow.parquet as pq
     from tqdm import tqdm
 
+    codeparrot_dir, starcoder_dir = args.codeparrot_dir, args.starcoder_dir
     tokenizer = load_tokenizer()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out_bin = OUT_DIR / "train.bin"
@@ -81,7 +90,7 @@ def main():
     target = args.max_tokens
     print(f"[PREP] nofilter data: target {target/1e9:.2f}B tokens (full two datasets, order codeparrot -> star_coder)")
     print(f"[PREP] tokenizer: {TOKENIZER_PATH.name}")
-    print(f"[PREP] order: codeparrot({CODEPARROT_DIR}) -> star_coder({STARCODER_DIR})")
+    print(f"[PREP] order: codeparrot({codeparrot_dir}) -> star_coder({starcoder_dir})")
 
     all_ids = []
     total_tokens = 0
@@ -107,7 +116,7 @@ def main():
             all_ids = []
 
     # Stage 1: codeparrot raw parquet full stream (has path column -> .py check)
-    cp_files = sorted(glob.glob(CODEPARROT_DIR + "/*.parquet"))
+    cp_files = sorted(glob.glob(codeparrot_dir + "/*.parquet"))
     start_idx = args.start_file_index
     print(f"[CP] {len(cp_files)} parquet files, full stream (from #{start_idx})")
     for idx in tqdm(range(start_idx, len(cp_files)), desc="codeparrot", unit="file"):
@@ -147,7 +156,7 @@ def main():
     print(f"[CP] stage done: {total_tokens/1e9:.2f}B tokens")
 
     # Stage 2: star_coder raw parquet full stream (no path column -> strip metadata, keep all)
-    sc_files = sorted(glob.glob(STARCODER_DIR + "/*.parquet"))
+    sc_files = sorted(glob.glob(starcoder_dir + "/*.parquet"))
     print(f"[SC] {len(sc_files)} parquet files, full stream")
     for pf in tqdm(sc_files, desc="starcoder", unit="file"):
         if total_tokens >= target:

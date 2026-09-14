@@ -88,7 +88,7 @@ Verdict: the first non-zero HumanEval pass from a from-scratch base model on the
 
 The LR-schedule row is unchanged (no run performed or scheduled).
 
-## Evaluation methodology (a result in itself — see TECHNICAL.md §8.3)
+## Evaluation methodology (a result in itself — see DESIGN.md §8.3)
 
 1. **Script pass-rates cheat** — `return arr.sort()` passes a quicksort output test. Fixed with implementation checks + human grading.
 2. **Script pass-rates false-negative** — tab/space mixing (TabError) kills logically-correct code. Human review is primary.
