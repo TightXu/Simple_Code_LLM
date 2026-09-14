@@ -363,7 +363,7 @@ def save_checkpoint(model, optimizer, scheduler, config, state: TrainingState, p
     file_size = (path / "checkpoint.pt").stat().st_size / 1e9
     dp = state.data_position
     pos_info = f"file#{dp.file_index}" if dp.source_type == "parquet" else f"tok={dp.token_offset:,}"
-    print(f"💾 Ckpt: {path.name} | step={state.step} | "
+    print(f"Ckpt: {path.name} | step={state.step} | "
           f"tokens={_fmt_tokens(state.total_tokens)} | pos={pos_info} | "
           f"{file_size:.2f}GB | save={save_time:.1f}s")
 
@@ -454,7 +454,7 @@ def create_online_dataloader(data_dir, tokenizer, state: DataPosition, seq_len=1
     parquet_files = sorted(glob.glob(os.path.join(data_dir, "*.parquet")))
     total_files = len(parquet_files)
     if state.file_index > 0:
-        print(f"[DATA] ⏭️  skipping the first {state.file_index}/{total_files} parquet files")
+        print(f"[DATA] skipping the first {state.file_index}/{total_files} parquet files")
         parquet_files = parquet_files[state.file_index:]
     state.files_total = total_files
 
@@ -796,7 +796,7 @@ def create_sft_dataloader(bin_path, mask_kind="file", mask_path=None, seq_len=10
     if replay_bin and replay_ratio and replay_ratio > 0:
         replay_arr = np.memmap(str(replay_bin), dtype=np.uint16, mode='r')
         r_chunks = len(replay_arr) // chunk_size
-        print(f"[DATA] 🛡️  replay mix: {replay_bin} ({r_chunks:,} chunks), "
+        print(f"[DATA] replay mix: {replay_bin} ({r_chunks:,} chunks), "
               f"mixed in with per-chunk probability {replay_ratio:.3f} (pure LM loss)")
         if r_chunks == 0:
             replay_arr = None
@@ -932,7 +932,7 @@ def inspect_loss_mask(bin_path, mask_kind, mask_path, seq_len=1024, n_probe=64):
         zeros += int((mk == 0).sum())
     tot = ones + zeros
     ratio = ones / max(tot, 1)
-    print(f"[MASK] 🔍 self-check on {n} chunks ({tot:,} target tokens total): "
+    print(f"[MASK] self-check on {n} chunks ({tot:,} target tokens total): "
           f"counted in loss {ones:,} ({ratio*100:.1f}%), ignored (prompt) {zeros:,} ({(1-ratio)*100:.1f}%)")
     if ones == 0:
         raise SystemExit("[MASK] [FAIL] no sampled token counts toward loss: mask and data are misaligned (training would learn nothing)")
@@ -1008,7 +1008,7 @@ def set_seed(seed=42):
 def run_training(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("=" * 60)
-    print(f"🖥️  Device: {device}")
+    print(f"Device: {device}")
     if torch.cuda.is_available():
         print(f"   GPU: {torch.cuda.get_device_name(0)}")
         print(f"   VRAM: {torch.cuda.get_device_properties(0).total_memory/1e9:.1f} GB")
@@ -1046,7 +1046,7 @@ def run_training(args):
     if cc_major >= 8:
         torch.set_float32_matmul_precision('high')
         torch.backends.cudnn.allow_tf32 = True
-        print(f"[PERF] 🔧 TF32 enabled (sm_{cc_major}0, ~+10-15%)")
+        print(f"[PERF] TF32 enabled (sm_{cc_major}0, ~+10-15%)")
     else:
         print(f"[PERF] [WARN]  TF32 unavailable (needs sm_80+)")
 
@@ -1080,14 +1080,14 @@ def run_training(args):
         compile_msg = "PyTorch < 2.0"
 
     if compile_ok:
-        print(f"[PERF] 🔧 torch.compile enabled: {compile_msg} (sm_{cc_major}0)")
+        print(f"[PERF] torch.compile enabled: {compile_msg} (sm_{cc_major}0)")
     else:
         print(f"[PERF] [WARN]  torch.compile {compile_msg}")
     compile_enabled = compile_ok  # for warmup check later
 
     n_params = sum(p.numel() for p in model.parameters())
     est_params = config.num_params
-    print(f"\n📐 Architecture: {n_params:,} params ({n_params/1e6:.1f}M), estimated={est_params/1e6:.1f}M")
+    print(f"\nArchitecture: {n_params:,} params ({n_params/1e6:.1f}M), estimated={est_params/1e6:.1f}M")
     print(f"   d_model={config.d_model}  layers={config.num_layers}  "
           f"heads={config.num_heads}  d_ff={config.d_ff}")
     print(f"   seq_len={config.max_seq_len}  vocab={config.vocab_size}  "
@@ -1096,7 +1096,7 @@ def run_training(args):
     eff_batch = args.batch_size * args.grad_accum
     per_step_tok = args.batch_size * args.seq_len
     per_optim_tok = per_step_tok * args.grad_accum
-    print(f"\n⚙️  Training params:")
+    print(f"\nTraining params:")
     print(f"   BS={args.batch_size} × GA={args.grad_accum} → effective batch={eff_batch}")
     print(f"   per forward: {per_step_tok:,} tok  per optimizer step: {per_optim_tok:,} tok")
     print(f"   LR={args.lr:.1e}  warmup={args.warmup_steps} steps  T_max={args.t_max}")
@@ -1168,7 +1168,7 @@ def run_training(args):
 
     # ── SFT: take pretrained weights only; reset step/tokens/data position (a fresh FT round, warmup from the start) ──
     if resume_path and getattr(args, "reset_optimizer", False) and not getattr(args, "continue_step", False):
-        print(f"[SFT] 🔄 weights only: step {start_step}→0, tokens {_fmt_tokens(start_tokens)}→0, "
+        print(f"[SFT] weights only: step {start_step}→0, tokens {_fmt_tokens(start_tokens)}→0, "
               f"epoch/data_position reset (disable with --continue-step)")
         start_step, start_tokens = 0, 0
         state.step, state.total_tokens = 0, 0
@@ -1183,11 +1183,11 @@ def run_training(args):
         try:
             import triton
             model = torch.compile(model, mode=args.compile_mode)
-            print(f"[PERF] 🔧 torch.compile ({args.compile_mode}) re-applied to the resumed model")
+            print(f"[PERF] torch.compile ({args.compile_mode}) re-applied to the resumed model")
         except ImportError:
             try:
                 model = torch.compile(model, backend="cudagraphs")
-                print("[PERF] 🔧 torch.compile (cudagraphs) re-applied to the resumed model")
+                print("[PERF] torch.compile (cudagraphs) re-applied to the resumed model")
             except Exception as e:
                 print(f"[PERF] [WARN] recompile after resume failed: {e}")
         except Exception as e:
@@ -1200,18 +1200,18 @@ def run_training(args):
     if resume_path and opt_state is not None and not args.reset_optimizer:
         try:
             optimizer.load_state_dict(opt_state)
-            print("[RESUME] 📂 optimizer state restored")
+            print("[RESUME] optimizer state restored")
         except Exception as e:
             print(f"[RESUME] [WARN]  optimizer incompatible: {e}")
     elif resume_path and args.reset_optimizer:
-        print("[RESUME] 🔄 rebuilding the optimizer (not loading old state)")
+        print("[RESUME] rebuilding the optimizer (not loading old state)")
 
     # ── Scheduler ──
     # Apply lr_override BEFORE scheduler creation so base_lrs are correct
     if args.lr_override is not None:
         for pg in optimizer.param_groups:
             pg["lr"] = args.lr_override
-        print(f"[RESUME] 🔧 LR override: {args.lr_override:.2e}")
+        print(f"[RESUME] LR override: {args.lr_override:.2e}")
 
     # Use initial_lr (the stable peak, persisted in the checkpoint and untouched by cooldown) instead of the current lr:
     # on resume the current lr may already be post-cooldown/decay, which pollutes the cooldown ratio (final_lr/active_lr)
@@ -1223,7 +1223,7 @@ def run_training(args):
         chunks_total = n_chunks_epoch * max(1, args.epochs) / (1.0 - p_rep)
         per_optim = max(1, args.batch_size * args.seq_len * args.grad_accum)
         planned_steps = max(1, int(chunks_total * args.seq_len) // per_optim)
-        print(f"[INIT] 📅 plan: {n_chunks_epoch:,} chunks/epoch × {args.epochs} epoch "
+        print(f"[INIT] plan: {n_chunks_epoch:,} chunks/epoch × {args.epochs} epoch "
               f"(replay {p_rep*100:.1f}%) → {planned_steps:,} optimizer steps "
               f"({planned_steps * per_optim / 1e6:.1f}M tokens)")
 
@@ -1287,18 +1287,18 @@ def run_training(args):
 
         scheduler = torch.optim.lr_scheduler.LambdaLR(
             optimizer, wsd_lambda, last_epoch=init_epoch)
-        print(f"[INIT] 📉 WSD schedule: warmup={warmup}, stable={stable_steps}, "
+        print(f"[INIT] WSD schedule: warmup={warmup}, stable={stable_steps}, "
               f"decay={decay_steps}, total={total_steps}")
         print(f"[INIT]   LR: {active_lr:.1e} → {eta_min:.1e} "
               f"(stable={active_lr:.1e} for {stable_steps} steps)")
         if args.final_lr_steps > 0:
-            print(f"[INIT]   🔻 Cooldown: last {args.final_lr_steps} steps LR={args.final_lr:.1e} "
+            print(f"[INIT]   Cooldown: last {args.final_lr_steps} steps LR={args.final_lr:.1e} "
                   f"(from step {max(0, total_steps - args.final_lr_steps)})")
 
         if resume_path and not args.reset_optimizer and sched_state is not None:
             try:
                 scheduler.load_state_dict(sched_state)
-                print("[RESUME] 📈 WSD scheduler restored")
+                print("[RESUME] WSD scheduler restored")
             except Exception as e:
                 print(f"[RESUME] [WARN]  WSD scheduler incompatible: {e}")
     else:
@@ -1306,14 +1306,14 @@ def run_training(args):
         t_max = args.t_max if (args.t_max and args.t_max > 0) else (planned_steps or 500)
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
             optimizer, T_max=t_max, eta_min=eta_min)
-        print(f"[INIT] 📉 Cosine schedule: T_max={t_max}"
+        print(f"[INIT] Cosine schedule: T_max={t_max}"
               f"{' (auto=planned steps)' if not args.t_max else ''}, "
               f"LR: {active_lr:.1e} → {eta_min:.1e}")
 
         if resume_path and not args.reset_optimizer and sched_state is not None:
             try:
                 scheduler.load_state_dict(sched_state)
-                print("[RESUME] 📈 scheduler restored (LR curve continues)")
+                print("[RESUME] scheduler restored (LR curve continues)")
             except Exception as e:
                 print(f"[RESUME] [WARN]  scheduler incompatible: {e}")
 
@@ -1367,7 +1367,7 @@ def run_training(args):
     elif args.mode == "offline":
         if not args.bin_data and resume_path and state.data_position.bin_path:
             args.bin_data = state.data_position.bin_path
-            print(f"[INIT] 📂 restored bin path from checkpoint: {args.bin_data}")
+            print(f"[INIT] restored bin path from checkpoint: {args.bin_data}")
         if not args.bin_data:
             print("[FAIL] offline mode requires --bin-data")
             return
@@ -1375,7 +1375,7 @@ def run_training(args):
         prev_bin = state.data_position.bin_path if state.data_position.source_type == "bin" else ""
         is_new_bin = prev_bin and Path(args.bin_data).resolve() != Path(prev_bin).resolve()
         if is_new_bin:
-            print(f"[INIT] 🔄 data switch: {prev_bin} → {args.bin_data}, token_offset/epoch reset")
+            print(f"[INIT] data switch: {prev_bin} → {args.bin_data}, token_offset/epoch reset")
             state.data_position.token_offset = 0
             state.epoch = 0
             state.round_start_tokens = start_tokens  # cumulative baseline for the new dataset
@@ -1399,7 +1399,7 @@ def run_training(args):
     # torch.compile warmup: trigger a full forward+backward compile
     # use the real batch shape to avoid a runtime recompile
     if compile_enabled:
-        print(f"\n[PERF] 🔥 torch.compile warming up (~30s)...")
+        print(f"\n[PERF] torch.compile warming up (~30s)...")
         _t0 = time.time()
         dummy_x = torch.randint(0, config.vocab_size,
                                 (args.batch_size, args.seq_len), device=device)
@@ -1423,7 +1423,7 @@ def run_training(args):
         print(f"[PERF] [OK] warmup done ({time.time()-_t0:.1f}s)")
 
     print(f"\n{'='*60}")
-    print(f"🚀 training started")
+    print(f"training started")
     if args.max_tokens:
         print(f"   target: {args.max_tokens/1e9:.1f}B tokens")
     print(f"   save interval: {args.save_every} step  log interval: {args.log_every} step")
@@ -1459,7 +1459,7 @@ def run_training(args):
                 m_seq, ep_idx = torch.ones_like(y_seq, dtype=torch.float32), 0
             if ep_idx != cur_epoch:
                 cur_epoch = ep_idx
-                print(f"\n[{'='*58}]\n[SFT] ▶️  Epoch {ep_idx + 1}/{args.epochs} "
+                print(f"\n[{'='*58}]\n[SFT] Epoch {ep_idx + 1}/{args.epochs} "
                       f"(step {step}, {total_tokens/1e6:.1f}M tok)\n[{'='*58}]")
             batch_xs.append(x_seq)
             batch_ys.append(y_seq)
@@ -1570,24 +1570,24 @@ def run_training(args):
                         if pretrain_val_loss is not None:
                             if best_pretrain_val is None:
                                 best_pretrain_val = pretrain_val_loss
-                                print(f"  🛡️  [anti-forget] pretraining val loss: {pretrain_val_loss:.4f} (baseline)")
+                                print(f"  [anti-forget] pretraining val loss: {pretrain_val_loss:.4f} (baseline)")
                             else:
                                 _d = pretrain_val_loss - best_pretrain_val
                                 _f = "[OK]" if _d <= 0.05 else "[WARN] rose >0.05 (anti-forgetting red line)"
-                                print(f"  🛡️  [anti-forget] pretraining val loss: {pretrain_val_loss:.4f} "
+                                print(f"  [anti-forget] pretraining val loss: {pretrain_val_loss:.4f} "
                                       f"(Δ{_d:+.4f} vs best {best_pretrain_val:.4f}) {_f}")
                                 best_pretrain_val = min(best_pretrain_val, pretrain_val_loss)
                     if val_loss is not None:
                         _tag = "[SFT masked] " if (getattr(args, "sft_val_bin", None)
                                                    and args._sft_val_mask_kind != "none") else ""
-                        print(f"  📊 {_tag}Val loss: {val_loss:.4f}")
+                        print(f"  {_tag}Val loss: {val_loss:.4f}")
                         if val_loss < best_val_loss:
                             best_val_loss = val_loss
                             state.best_val_loss = best_val_loss
                             best_path = ckpt_base / "best_val"
                             save_checkpoint(model, optimizer, scheduler, config, state, best_path)
                             _set_latest_link(ckpt_base, best_path.relative_to(ckpt_base).as_posix())
-                            print(f"  ⭐ Best val: {val_loss:.4f}")
+                            print(f"  * Best val: {val_loss:.4f}")
 
                 # Save checkpoint — two-tier strategy
                 #  MILESTONE: every --save-every steps (e.g. 5000), kept forever
@@ -1643,7 +1643,7 @@ def run_training(args):
                     break
 
     except KeyboardInterrupt:
-        print("\n⏸️  interrupted manually")
+        print("\ninterrupted manually")
 
     # ── Final save ──
     state.step = step

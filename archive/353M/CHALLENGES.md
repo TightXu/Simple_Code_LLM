@@ -219,13 +219,13 @@ Organized along the causal chain:
 
 ```
 I want to train a code LLM
-  → Which framework? JAX (no Windows support) → WSL2 (networking + GPU bugs) → PyTorch native ✓
-  → What scale? 9B (doesn't fit on one card) → 200M (proved feasibility) → 353M (pushes the hardware to the limit) ✓
-  → Which hyperparameters? batch=14, grad_accum=4, seq_len=1024 (VRAM limit + speed balance) ✓
-  → How to manage data? Batched downloads → files reused repeatedly (overfitting) → start-file-index to skip explicitly ✓
-  → How to adjust the learning rate? Forced LR change → optimizer not reset → momentum scrambled → loss swings → generation regresses ✓
-  → How to evaluate? loss ≠ quality, at 2.6B tokens output (2*n*n), at 7.7B tokens output F(n-1)+F(n-2) ✓
-  → Fine-tuning: insufficient cleaning → Django/Plotly contamination → model regresses → base model beats FT ✓
+  → Which framework? JAX (no Windows support) → WSL2 (networking + GPU bugs) → PyTorch native (chosen)
+  → What scale? 9B (doesn't fit on one card) → 200M (proved feasibility) → 353M (pushes the hardware to the limit) (chosen)
+  → Which hyperparameters? batch=14, grad_accum=4, seq_len=1024 (VRAM limit + speed balance) (chosen)
+  → How to manage data? Batched downloads → files reused repeatedly (overfitting) → start-file-index to skip explicitly (chosen)
+  → How to adjust the learning rate? Forced LR change → optimizer not reset → momentum scrambled → loss swings → generation regresses (chosen)
+  → How to evaluate? loss ≠ quality, at 2.6B tokens output (2*n*n), at 7.7B tokens output F(n-1)+F(n-2) (chosen)
+  → Fine-tuning: insufficient cleaning → Django/Plotly contamination → model regresses → base model beats FT (chosen)
   → Conclusion: data quality >> data volume, loss ≠ capability, cleaning rules must come from sampling the data
 ```
 

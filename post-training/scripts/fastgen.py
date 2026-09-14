@@ -654,11 +654,11 @@ def _one_case(model, tok, prompt, seed, gen_kw, cfg_name, dt_name, tag, rows, ve
                      top1_agree_steps=n_agree,
                      prompt_len=len(prompt.split()), note=detail, **m_fields))
     if verbose and not ok_b:
-        print(f"  ✗ {cfg_name}/{dt_name}/{tag}/T={temperature}/seed={seed}: "
+        print(f"  [FAIL] {cfg_name}/{dt_name}/{tag}/T={temperature}/seed={seed}: "
               f"ref={len(ref_ids or [])} tok, kv_on={len(on_ids or [])} tok, "
               f"first divergence={_first_diff(ref_ids or [], on_ids or [])}, max|Δlogits|={dmax:.3e}")
     if not ok_a:
-        print(f"  ✗ sampling side not equivalent (bug, should not happen) {cfg_name}/{dt_name}/{tag}/T={temperature}"
+        print(f"  [FAIL] sampling side not equivalent (bug, should not happen) {cfg_name}/{dt_name}/{tag}/T={temperature}"
               f"/seed={seed}: {detail}")
     return ok_a, ok_b
 
@@ -746,7 +746,7 @@ def verify_equivalence_ckpt(args):
                     print(f"  T={temperature:<7} seed={seed} prompt#{pi}({plen}tok) "
                           f"decode_read={tag:5s} ref={len(ref_ids)}tok fast="
                           f"{len(got) if got is not None else 'ERR'}tok "
-                          f"{'match ✓' if ok else f'diverged idx={_first_diff(ref_ids, got or [])} ✗'} "
+                          f"{'match [OK]' if ok else f'diverged idx={_first_diff(ref_ids, got or [])} [FAIL]'} "
                           f"top1={ag}/{ns} max|Δlogits|={d:.3e}")
     print("-" * 76)
     print(f"token-level matches on the real ckpt: {n_ok}/{n_tot}")
@@ -793,7 +793,7 @@ def verify_equivalence(args):
             prefill_deltas.append((cfg_name, dt_name, d_pre))
             d_gemm = _gemm_shape_sensitivity(model)
             print(f"  [{cfg_name}/{dt_name}] prefill vs model(ids) bitwise delta max|Δ|={d_pre:.3e}"
-                  f"  → {'bitwise identical ✓' if d_pre == 0.0 else 'differs (see report)'}")
+                  f"  → {'bitwise identical [OK]' if d_pre == 0.0 else 'differs (see report)'}")
             print(f"  [{cfg_name}/{dt_name}] same weights and input row, M=1 vs M={48} GEMM delta "
                   f"max|Δ|={d_gemm:.3e} → {'bitwise identical' if d_gemm == 0.0 else '**the M dimension changes the result**'}"
                   f" (this is the only source of numerical difference between the KV cache and full recomputation)")
@@ -832,12 +832,12 @@ def verify_equivalence(args):
     nB = sum(1 for r in rows if r["kv_on_ok"])
     print("-" * 76)
     print(f"Phase A (kv off: bitwise identical logits → even random sampling must match token by token): "
-          f"{nA}/{len(rows)} ✓")
-    print(f"Phase B (kv on, decode reads the cache with **slice**, valid prefix only): {nB}/{len(rows)} ✓")
+          f"{nA}/{len(rows)} [OK]")
+    print(f"Phase B (kv on, decode reads the cache with **slice**, valid prefix only): {nB}/{len(rows)} [OK]")
     mrows = [r for r in rows if r.get("kv_on_mask_ok") is not None]
     if mrows:
         print(f"Phase B' (kv on, decode reads the cache with **mask**, whole cache + mask = required by CUDA graphs): "
-              f"{sum(1 for r in mrows if r['kv_on_mask_ok'])}/{len(mrows)} ✓"
+              f"{sum(1 for r in mrows if r['kv_on_mask_ok'])}/{len(mrows)} [OK]"
               f" (default parameter set only)")
     print(f"Phase C is included in Phase B (the prefix-truncation path when prompt+max_new > context limit)")
     print(f"Phase 0 (bitwise prefill): "
@@ -868,7 +868,7 @@ def verify_equivalence(args):
         print(f"equivalent-greedy setting (T=1e-06, softmax saturates to one-hot → argmax): "
               f"{sum(1 for r in greedy if r['kv_on_ok'])}/{len(greedy)} token-by-token matches")
         for r in [r for r in greedy if not r["kv_on_ok"]][:6]:
-            print(f"    ✗ {r['dtype']}/{r['tag']}/seed={r['seed']}: first divergence idx={r['first_diff_on']}"
+            print(f"    [FAIL] {r['dtype']}/{r['tag']}/seed={r['seed']}: first divergence idx={r['first_diff_on']}"
                   f", max|Δlogits|={r['max_dlogits']:.3e}")
     stoch = [r for r in rows if float(r["temperature"]) not in (0.0, 1e-06)]
     if stoch:
@@ -915,7 +915,7 @@ def verify_equivalence(args):
                 ids_c = fg.generate_ids(tok, prompt, 0, **kw)
                 dt = time.time() - t0
                 n_new = nframes["n"] - before if nframes["n"] >= 0 else -1
-                status = "match ✓" if ids_c == ids_e else "mismatch ✗"
+                status = "match [OK]" if ids_c == ids_e else "mismatch [FAIL]"
                 extra = ""
                 if fg.compile_failed:
                     extra = f"  [WARN] compile failed, fell back to eager: {fg.compile_failed[:80]}"
@@ -923,7 +923,7 @@ def verify_equivalence(args):
                       f"new compiled frames={n_new} (=1 means 16 decode steps captured one graph, no recompiles as pos changes)"
                       f"  time {dt:.1f}s{extra}")
             except Exception as e:
-                print(f"  mode={mode:16s} ✗ {type(e).__name__}: {str(e)[:160]}")
+                print(f"  mode={mode:16s} [FAIL] {type(e).__name__}: {str(e)[:160]}")
 
     print("=" * 76)
     return rows, n_pass, n_fail
@@ -1025,7 +1025,7 @@ def bench(args, device):
                     print(f"  [WARN] {name}: {type(e).__name__}: {str(e)[:200]} → retrying without compile")
                     kw = dict(kw, compile_mode="none")
                     continue
-                print(f"  ✗ {name} failed: {type(e).__name__}: {str(e)[:300]}")
+                print(f"  [FAIL] {name} failed: {type(e).__name__}: {str(e)[:300]}")
                 break
     print("=" * 76)
     print("Note: tok/s is computed from max_new (early stopping makes the real tok/s higher); both paths use the same seed"
@@ -1086,7 +1086,7 @@ def bench_cpu(args):
                   f"{rate / base:5.2f}x   (decode_read={fg.decode_read}; {note})")
             del fg
         except Exception as e:
-            print(f"  ✗ {name} failed: {type(e).__name__}: {str(e)[:200]}")
+            print(f"  [FAIL] {name} failed: {type(e).__name__}: {str(e)[:200]}")
     print("=" * 76)
     print("[WARN] CPU conclusions ≠ GPU conclusions: on CPU the benefit of removing per-token sync is amplified by the Python"
           "interpreter, while the CUDA graphs benefit does not exist on CPU (nothing can be compiled to a graph). GPU conclusions require --bench.")
@@ -1314,7 +1314,7 @@ def main(argv=None):
         print(f"[fastgen] details → {out} ({len(rows)} rows)")
         ok, n_contract, n_bad, n_stoch_bad = _contract_verdict(rows)
         print(f"[fastgen] contract settings (Phase A + T=0 + equivalent greedy), {n_contract} cases: "
-              f"{'all passed ✓' if ok else f'failed {n_bad} ✗'}"
+              f"{'all passed [OK]' if ok else f'failed {n_bad} [FAIL]'}"
               f"; bf16 random-sampling divergences: {n_stoch_bad} (known, does not affect the verdict, see report)")
         return 0 if ok else 1
     if a.bench:

@@ -425,7 +425,7 @@ def create_online_dataloader(data_dir, tokenizer, state: DataPosition, seq_len=1
     parquet_files = sorted(glob.glob(os.path.join(data_dir, "*.parquet")))
     total_files = len(parquet_files)
     if state.file_index > 0:
-        print(f"[DATA] ⏭  skipping the first {state.file_index}/{total_files} parquet files")
+        print(f"[DATA] skipping the first {state.file_index}/{total_files} parquet files")
         parquet_files = parquet_files[state.file_index:]
     state.files_total = total_files
 
@@ -804,7 +804,7 @@ def run_training(args):
     eff_batch = args.batch_size * args.grad_accum
     per_step_tok = args.batch_size * args.seq_len
     per_optim_tok = per_step_tok * args.grad_accum
-    print(f"\n⚙  Training params:")
+    print(f"\nTraining params:")
     print(f"   BS={args.batch_size} × GA={args.grad_accum} → effective batch={eff_batch}")
     print(f"   per forward: {per_step_tok:,} tok  per optimizer step: {per_optim_tok:,} tok")
     print(f"   LR={args.lr:.1e}  warmup={args.warmup_steps} steps  T_max={args.t_max}")
