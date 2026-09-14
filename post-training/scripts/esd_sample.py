@@ -76,7 +76,7 @@ except Exception:
 import eval_sft as E                                    # noqa: E402  model definition + generation loop
 import build_instr_data as BI                           # noqa: E402  single source of truth for templates
 
-DEFAULT_TOKENIZER = HERE.parent / "tokenizer" / "tokenizer.json"
+DEFAULT_TOKENIZER = HERE.parent / "tokenizer" / "tokenizer_435m.json"
 RECORD_KEYS = ("id", "k_index", "completion", "seed_used")
 
 

@@ -77,7 +77,7 @@ except Exception:
 
 HERE = Path(__file__).resolve().parent            # .../435M-v2/fine-tuning
 PROJECT = HERE.parent                             # .../435M-v2
-DEFAULT_TOKENIZER = PROJECT / "tokenizer" / "tokenizer.json"
+DEFAULT_TOKENIZER = PROJECT / "tokenizer" / "tokenizer_435m.json"
 DEFAULT_RAW_DIR = HERE / "data_instr_raw"
 HUMANEVAL_JSONL = PROJECT / "ablation" / "HumanEval.jsonl"   # same source as build_sft_data.py
 

@@ -199,8 +199,8 @@ def load_tokenizer():
     """Load the tokenizer: prefer this project, fall back to the previous version."""
     from tokenizers import Tokenizer
     candidates = [
-        str(CLEAN_PRETRAIN_DIR / "tokenizer" / "tokenizer.json"),           # if a tokenizer was copied into this dir
-        str(CLEAN_PRETRAIN_DIR.parent / "tokenizer" / "tokenizer.json"),    # read-only reference to ../tokenizer/ (the pretraining copy)
+        str(CLEAN_PRETRAIN_DIR / "tokenizer" / "tokenizer_435m.json"),           # if a tokenizer was copied into this dir
+        str(CLEAN_PRETRAIN_DIR.parent / "tokenizer" / "tokenizer_435m.json"),    # read-only reference to ../tokenizer/ (the pretraining copy)
     ]
     for i, tok_path in enumerate(candidates):
         tok = Path(tok_path)
@@ -210,10 +210,10 @@ def load_tokenizer():
             tokenizer = Tokenizer.from_file(tok_path)
             vocab = tokenizer.get_vocab_size()
             specials = {t: tokenizer.token_to_id(t) for t in ["<s>", "</s>", "<unk>", "<pad>", "<eos>"]}
-            print(f"[TOK] ✅ loaded: vocab={vocab}, specials={specials}")
+            print(f"[TOK] [OK] loaded: vocab={vocab}, specials={specials}")
             if tokenizer.token_to_id("<pad>") is None:
                 tokenizer.add_special_tokens(["<pad>"])
-                print(f"[TOK] ⚠️  added the missing <pad> token")
+                print(f"[TOK] [WARN]  added the missing <pad> token")
             return tokenizer
     raise FileNotFoundError(f"Tokenizer not found. Searched: {candidates}")
 
@@ -233,10 +233,10 @@ def _guard_ckpt_dir(ckpt_dir: Path, allow_foreign: bool = False):
         return
     bad = [pat for pat in FORBIDDEN_CKPT_PATTERNS if pat in p.parts]
     detail = f"hits pretraining/ablation asset dirs {bad}" if bad else "not inside the fine-tuning/ dir"
-    msg = (f"[GUARD] ❌ --ckpt-dir={p} rejected ({detail}).\n"
+    msg = (f"[GUARD] [FAIL] --ckpt-dir={p} rejected ({detail}).\n"
            f"        SFT checkpoints always go under {DEFAULT_CKPT_DIR}; pass --allow-foreign-ckpt-dir explicitly if you really need this.")
     if allow_foreign:
-        print("[GUARD] ⚠️  " + msg.replace("\n", "\n        "))
+        print("[GUARD] [WARN]  " + msg.replace("\n", "\n        "))
     else:
         raise SystemExit(msg)
 
@@ -410,7 +410,7 @@ def find_latest_ckpt(base_dir=None):
         target = base_dir / target_name
         print(f"[FIND] pointer target: {target_name} (exists={target.exists()})")
         if target.exists() and (target / "checkpoint.pt").exists():
-            print(f"[FIND] ✅ found: {target}")
+            print(f"[FIND] [OK] found: {target}")
             return target
 
     # Collect every dir holding a checkpoint.pt (including nested run_*/step_*)
@@ -435,9 +435,9 @@ def find_latest_ckpt(base_dir=None):
     if candidates:
         candidates.sort(key=lambda x: x[0], reverse=True)
         best_step, best_dir = candidates[0]
-        print(f"[FIND] ✅ scan found {len(candidates)} dirs, latest: step_{best_step} ({best_dir})")
+        print(f"[FIND] [OK] scan found {len(candidates)} dirs, latest: step_{best_step} ({best_dir})")
         return best_dir
-    print("[FIND] ❌ no checkpoint found")
+    print("[FIND] [FAIL] no checkpoint found")
     return None
 
 
@@ -499,7 +499,7 @@ def create_online_dataloader(data_dir, tokenizer, state: DataPosition, seq_len=1
                     except Exception:
                         continue
             except Exception as e:
-                print(f"  ⚠️  {Path(pf).name}: {e}")
+                print(f"  [WARN]  {Path(pf).name}: {e}")
         if batch and not stop.is_set():
             q.put(batch)
         q.put(None)
@@ -609,7 +609,7 @@ def create_lang_only_online_dataloader(data_dirs, tokenizer, state, seq_len=1024
                     except Exception:
                         continue
             except Exception as e:
-                print(f"  ⚠️  {Path(pf).name}: {e}")
+                print(f"  [WARN]  {Path(pf).name}: {e}")
         if batch and not stop.is_set():
             q.put(batch)
         q.put(None)
@@ -701,11 +701,11 @@ def _assert_bin_readable(bin_path, seq_len=1024, what="data"):
     """Raise a clear error for empty or half-written data files (build_sft_data.py may still be writing)."""
     p = Path(bin_path)
     if not p.exists():
-        raise SystemExit(f"[DATA] ❌ {what} not found: {p}")
+        raise SystemExit(f"[DATA] [FAIL] {what} not found: {p}")
     n_bytes = p.stat().st_size
     if n_bytes < 2 * (seq_len + 1):
         raise SystemExit(
-            f"[DATA] ❌ {what} too small/empty: {p} ({n_bytes} bytes < {2*(seq_len+1)} bytes for one chunk).\n"
+            f"[DATA] [FAIL] {what} too small/empty: {p} ({n_bytes} bytes < {2*(seq_len+1)} bytes for one chunk).\n"
             f"        If build_sft_data.py is still writing this file, wait for it to finish and retry.")
 
 
@@ -715,13 +715,13 @@ def resolve_loss_mask(mask_bin, bin_path, vocab_size, loss_in_high_bit=False,
     tag = "val " if for_val else ""
     _assert_bin_readable(bin_path, what=f"{tag}data bin")
     if no_loss_mask:
-        print(f"[MASK] ⚠️  explicit --no-loss-mask: {tag}loss covers every token "
+        print(f"[MASK] [WARN]  explicit --no-loss-mask: {tag}loss covers every token "
               f"(degrades to plain next-token LM loss, not real SFT)")
         return "none", None
     if mask_bin:
         mp = Path(mask_bin)
         if not mp.exists():
-            raise SystemExit(f"[MASK] ❌ mask file not found: {mp}")
+            raise SystemExit(f"[MASK] [FAIL] mask file not found: {mp}")
         print(f"[MASK] {tag}using explicit mask file: {mp}")
         return "file", mp
     cand = Path(bin_path).parent / f"{Path(bin_path).stem}_mask.bin"
@@ -735,11 +735,11 @@ def resolve_loss_mask(mask_bin, bin_path, vocab_size, loss_in_high_bit=False,
     probe = d[:min(len(d), 4_000_000)]
     mx = int(probe.max()) if len(probe) else 0
     if mx >= vocab_size:
-        print(f"[MASK] ⚠️  {tag}no mask carrier specified; probed max(uint16)={mx} >= vocab({vocab_size}) "
+        print(f"[MASK] [WARN]  {tag}no mask carrier specified; probed max(uint16)={mx} >= vocab({vocab_size}) "
               f"→ treating it as a bit15 embedded mask")
         return "highbit", None
     raise SystemExit(
-        f"[MASK] ❌ no {tag}loss mask found (data max={mx} < vocab={vocab_size}).\n"
+        f"[MASK] [FAIL] no {tag}loss mask found (data max={mx} < vocab={vocab_size}).\n"
         f"        Pass --mask-bin <uint8 file>, drop a companion file {cand.name}, or add --loss-in-high-bit.\n"
         f"        Refusing to train silently with an all-ones mask: that counts loss on prompt spans too, i.e. 353M-style next-token FT.")
 
@@ -800,7 +800,7 @@ def create_sft_dataloader(bin_path, mask_kind="file", mask_path=None, seq_len=10
               f"mixed in with per-chunk probability {replay_ratio:.3f} (pure LM loss)")
         if r_chunks == 0:
             replay_arr = None
-            print("[DATA] ⚠️  replay bin too small, ignored")
+            print("[DATA] [WARN]  replay bin too small, ignored")
 
     rng = np.random.default_rng(seed)
     order = np.arange(total_chunks)
@@ -862,7 +862,7 @@ def evaluate_on_val_sft(model, val_bin_path, config, device, mask_kind="file",
     """Masked val loss: same convention as training (loss on the answer span only)."""
     model.eval()
     if not Path(val_bin_path).exists():
-        print(f"[VAL] ⚠️  no SFT val: {val_bin_path}")
+        print(f"[VAL] [WARN]  no SFT val: {val_bin_path}")
         model.train()
         return None
     data = np.memmap(str(val_bin_path), dtype=np.uint16, mode='r')
@@ -901,7 +901,7 @@ def evaluate_on_val_sft(model, val_bin_path, config, device, mask_kind="file",
         tok_sum += n
     model.train()
     if tok_sum == 0:
-        print("[VAL] ⚠️  SFT val mask is all 0, cannot compute masked loss")
+        print("[VAL] [WARN]  SFT val mask is all 0, cannot compute masked loss")
         return None
     return loss_sum / tok_sum
 
@@ -935,9 +935,9 @@ def inspect_loss_mask(bin_path, mask_kind, mask_path, seq_len=1024, n_probe=64):
     print(f"[MASK] 🔍 self-check on {n} chunks ({tot:,} target tokens total): "
           f"counted in loss {ones:,} ({ratio*100:.1f}%), ignored (prompt) {zeros:,} ({(1-ratio)*100:.1f}%)")
     if ones == 0:
-        raise SystemExit("[MASK] ❌ no sampled token counts toward loss: mask and data are misaligned (training would learn nothing)")
+        raise SystemExit("[MASK] [FAIL] no sampled token counts toward loss: mask and data are misaligned (training would learn nothing)")
     if zeros == 0:
-        print("[MASK] ⚠️  no prompt span was masked in the sample (mask always 1?) -- confirm this is --no-loss-mask or pure LM data")
+        print("[MASK] [WARN]  no prompt span was masked in the sample (mask always 1?) -- confirm this is --no-loss-mask or pure LM data")
 
 
 # ═══════════════════ Evaluation ═══════════════════
@@ -1012,7 +1012,7 @@ def run_training(args):
     if torch.cuda.is_available():
         print(f"   GPU: {torch.cuda.get_device_name(0)}")
         print(f"   VRAM: {torch.cuda.get_device_properties(0).total_memory/1e9:.1f} GB")
-        print(f"   BF16: {'✅' if torch.cuda.is_bf16_supported() else '❌'}")
+        print(f"   BF16: {'[OK]' if torch.cuda.is_bf16_supported() else '[FAIL]'}")
         print(f"   PyTorch: {torch.__version__}, CUDA: {torch.version.cuda}")
     print("=" * 60)
 
@@ -1042,13 +1042,13 @@ def run_training(args):
     cc_major = torch.cuda.get_device_capability(0)[0]
 
     # 1. TF32: supported on sm_80 (Ampere) and above
-    #    sm_120 (RTX 5090) ✅ — fully supported on consumer Blackwell
+    #    sm_120 (RTX 5090) [OK] — fully supported on consumer Blackwell
     if cc_major >= 8:
         torch.set_float32_matmul_precision('high')
         torch.backends.cudnn.allow_tf32 = True
         print(f"[PERF] 🔧 TF32 enabled (sm_{cc_major}0, ~+10-15%)")
     else:
-        print(f"[PERF] ⚠️  TF32 unavailable (needs sm_80+)")
+        print(f"[PERF] [WARN]  TF32 unavailable (needs sm_80+)")
 
     # 2. torch.compile: prefer Inductor (needs Triton), fall back to CUDA Graphs (no Triton needed)
     compile_ok = False
@@ -1062,7 +1062,7 @@ def run_training(args):
             # max_fusion_size=1 is too conservative (no fusion = no speedup); 2-3 bypasses the three-way-fusion bug
             if cc_major >= 12:
                 torch._inductor.config.max_fusion_size = 2
-                print(f"[PERF] ⚠️  sm_120 workaround: max_fusion_size=2 (BF16 fusion bug, ~10-20%)")
+                print(f"[PERF] [WARN]  sm_120 workaround: max_fusion_size=2 (BF16 fusion bug, ~10-20%)")
             model = torch.compile(model, mode=args.compile_mode)
             compile_ok = True
             compile_msg = f"Inductor ({args.compile_mode}, ~+15-25%)"
@@ -1082,7 +1082,7 @@ def run_training(args):
     if compile_ok:
         print(f"[PERF] 🔧 torch.compile enabled: {compile_msg} (sm_{cc_major}0)")
     else:
-        print(f"[PERF] ⚠️  torch.compile {compile_msg}")
+        print(f"[PERF] [WARN]  torch.compile {compile_msg}")
     compile_enabled = compile_ok  # for warmup check later
 
     n_params = sum(p.numel() for p in model.parameters())
@@ -1122,10 +1122,10 @@ def run_training(args):
             resume_path = str(latest)
             print(f"[INIT] auto-resume: using {latest}")
         elif args.resume:
-            # ⚠️ 2026-09-12 fix: the old logic was `elif args.resume`, so passing --auto-resume together with --resume
+            # [WARN] 2026-09-12 fix: the old logic was `elif args.resume`, so passing --auto-resume together with --resume
             #    silently trained from scratch (Arm3 wasted 8 minutes locally: loss 5.5 / pretrain_val 6.6)
             resume_path = args.resume
-            print(f"[INIT] ⚠️ auto-resume found no ckpt → falling back to --resume {args.resume}")
+            print(f"[INIT] [WARN] auto-resume found no ckpt → falling back to --resume {args.resume}")
         else:
             print("[INIT] no existing checkpoint, training from scratch")
     elif args.resume:
@@ -1141,7 +1141,7 @@ def run_training(args):
             ckpt_val = getattr(loaded_config, k, None)
             cli_val = getattr(args, k, None)
             if cli_val is not None and ckpt_val is not None and cli_val != ckpt_val:
-                print(f"[RESUME] ⚠️  --{k}={cli_val} != ckpt({ckpt_val}), using the checkpoint value")
+                print(f"[RESUME] [WARN]  --{k}={cli_val} != ckpt({ckpt_val}), using the checkpoint value")
                 setattr(config, k, ckpt_val)
         config.max_seq_len = args.seq_len
         config.dropout_rate = args.dropout
@@ -1189,9 +1189,9 @@ def run_training(args):
                 model = torch.compile(model, backend="cudagraphs")
                 print("[PERF] 🔧 torch.compile (cudagraphs) re-applied to the resumed model")
             except Exception as e:
-                print(f"[PERF] ⚠️ recompile after resume failed: {e}")
+                print(f"[PERF] [WARN] recompile after resume failed: {e}")
         except Exception as e:
-            print(f"[PERF] ⚠️ recompile after resume failed: {e}")
+            print(f"[PERF] [WARN] recompile after resume failed: {e}")
 
     # ── Optimizer (must be created after resume/compile so it references the final model's params) ──
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr,
@@ -1202,7 +1202,7 @@ def run_training(args):
             optimizer.load_state_dict(opt_state)
             print("[RESUME] 📂 optimizer state restored")
         except Exception as e:
-            print(f"[RESUME] ⚠️  optimizer incompatible: {e}")
+            print(f"[RESUME] [WARN]  optimizer incompatible: {e}")
     elif resume_path and args.reset_optimizer:
         print("[RESUME] 🔄 rebuilding the optimizer (not loading old state)")
 
@@ -1259,7 +1259,7 @@ def run_training(args):
             elif step < warmup + stable_steps:
                 return 1.0
             elif decay_steps <= 0:
-                # ⚠️ No-decay mode (wsd-decay-fraction=0.0): decay_steps=0, no decay phase.
+                # [WARN] No-decay mode (wsd-decay-fraction=0.0): decay_steps=0, no decay phase.
                 # Hold the LR constant once steps pass the end of the stable phase; otherwise progress explodes → negative LR → NaN
                 # (2026-09-08 fix: with bs=12 total_steps was recomputed to 366210 and step 370000 overshot,
                 #  progress=(370000-500-365710)/1=3790, λ=1-3790*0.9=-3410 → LR=-0.85 → NaN)
@@ -1300,7 +1300,7 @@ def run_training(args):
                 scheduler.load_state_dict(sched_state)
                 print("[RESUME] 📈 WSD scheduler restored")
             except Exception as e:
-                print(f"[RESUME] ⚠️  WSD scheduler incompatible: {e}")
+                print(f"[RESUME] [WARN]  WSD scheduler incompatible: {e}")
     else:
         # Cosine annealing
         t_max = args.t_max if (args.t_max and args.t_max > 0) else (planned_steps or 500)
@@ -1315,12 +1315,12 @@ def run_training(args):
                 scheduler.load_state_dict(sched_state)
                 print("[RESUME] 📈 scheduler restored (LR curve continues)")
             except Exception as e:
-                print(f"[RESUME] ⚠️  scheduler incompatible: {e}")
+                print(f"[RESUME] [WARN]  scheduler incompatible: {e}")
 
     # ── Dtype ──
     dtype = torch.bfloat16 if torch.cuda.is_available() and torch.cuda.is_bf16_supported() else torch.float32
     amp_enabled = (dtype == torch.bfloat16)
-    print(f"[INIT] dtype={dtype}, AMP={'✅' if amp_enabled else '❌'}")
+    print(f"[INIT] dtype={dtype}, AMP={'[OK]' if amp_enabled else '[FAIL]'}")
 
     # ── Tokenizer ──
     tokenizer = load_tokenizer()
@@ -1340,7 +1340,7 @@ def run_training(args):
             args._sft_val_mask_kind, args._sft_val_mask_path = _k, _p
             print(f"[INIT] validation set (SFT masked convention): {args.sft_val_bin} (mask={_k})")
         else:
-            print(f"[INIT] ⚠️  SFT val not found: {args.sft_val_bin}")
+            print(f"[INIT] [WARN]  SFT val not found: {args.sft_val_bin}")
     if args.eval_every:
         print(f"[INIT] eval interval: every {args.eval_every} step")
 
@@ -1349,7 +1349,7 @@ def run_training(args):
     if args.mode == "online":
         if getattr(args, "nofilter_lang_only", False):
             if not args.data_dir:
-                print("❌ online lang-only mode requires --data-dir (comma-separated dirs allowed)")
+                print("[FAIL] online lang-only mode requires --data-dir (comma-separated dirs allowed)")
                 return 1
             data_gen, n_files = create_lang_only_online_dataloader(
                 data_dirs=args.data_dir, tokenizer=tokenizer,
@@ -1357,7 +1357,7 @@ def run_training(args):
             print("[DATA] language-only filter (keep Python); L1-L6 quality filters disabled")
         else:
             if not args.data_dir:
-                print("❌ online mode requires --data-dir")
+                print("[FAIL] online mode requires --data-dir")
                 return 1
             data_gen, n_files = create_online_dataloader(
                 data_dir=args.data_dir, tokenizer=tokenizer,
@@ -1369,7 +1369,7 @@ def run_training(args):
             args.bin_data = state.data_position.bin_path
             print(f"[INIT] 📂 restored bin path from checkpoint: {args.bin_data}")
         if not args.bin_data:
-            print("❌ offline mode requires --bin-data")
+            print("[FAIL] offline mode requires --bin-data")
             return
         # Detect a data switch: if --bin-data changed, read from the start of the new file
         prev_bin = state.data_position.bin_path if state.data_position.source_type == "bin" else ""
@@ -1420,7 +1420,7 @@ def run_training(args):
                 loss = loss / args.grad_accum
         loss.backward()
         optimizer.zero_grad()
-        print(f"[PERF] ✅ warmup done ({time.time()-_t0:.1f}s)")
+        print(f"[PERF] [OK] warmup done ({time.time()-_t0:.1f}s)")
 
     print(f"\n{'='*60}")
     print(f"🚀 training started")
@@ -1573,7 +1573,7 @@ def run_training(args):
                                 print(f"  🛡️  [anti-forget] pretraining val loss: {pretrain_val_loss:.4f} (baseline)")
                             else:
                                 _d = pretrain_val_loss - best_pretrain_val
-                                _f = "✅" if _d <= 0.05 else "⚠️ rose >0.05 (anti-forgetting red line)"
+                                _f = "[OK]" if _d <= 0.05 else "[WARN] rose >0.05 (anti-forgetting red line)"
                                 print(f"  🛡️  [anti-forget] pretraining val loss: {pretrain_val_loss:.4f} "
                                       f"(Δ{_d:+.4f} vs best {best_pretrain_val:.4f}) {_f}")
                                 best_pretrain_val = min(best_pretrain_val, pretrain_val_loss)
@@ -1636,10 +1636,10 @@ def run_training(args):
 
                 # Termination (uses tokens relative to this round)
                 if args.max_tokens and (total_tokens - state.round_start_tokens) >= args.max_tokens:
-                    print(f"\n✅ target reached: {total_tokens/1e9:.2f}B tokens")
+                    print(f"\n[OK] target reached: {total_tokens/1e9:.2f}B tokens")
                     break
                 if args.max_steps and step >= args.max_steps:
-                    print(f"\n✅ step limit reached: {step}")
+                    print(f"\n[OK] step limit reached: {step}")
                     break
 
     except KeyboardInterrupt:
@@ -1663,7 +1663,7 @@ def run_training(args):
                      epoch=max(cur_epoch, 0), mask_ratio=mask_ratio_now)
 
     print(f"\n{'='*60}")
-    print(f"✅ training complete!")
+    print(f"[OK] training complete!")
     print(f"   Steps: {step}  Tokens: {_fmt_tokens(total_tokens)}  "
           f"Time: {elapsed/3600:.1f}h  Speed: {tok_per_sec:,.0f} tok/s")
     if best_val_loss < float("inf"):
@@ -1695,7 +1695,7 @@ def main():
     g_sft.add_argument("--loss-in-high-bit", action="store_true",
                        help="loss flag embedded in bit15 of the uint16 data (vocab 32000<32768, low 15 bits = token)")
     g_sft.add_argument("--no-loss-mask", action="store_true",
-                       help="⚠️ disable the prompt mask (mask all 1) → degrades to plain next-token LM loss")
+                       help="[WARN] disable the prompt mask (mask all 1) → degrades to plain next-token LM loss")
     g_sft.add_argument("--sft-val-bin", type=str, default=None,
                        help="held-out SFT val (.bin, same mask carrier), evaluated with masked loss")
     g_sft.add_argument("--val-mask-bin", type=str, default=None, help="uint8 mask for the SFT val")
@@ -1771,14 +1771,14 @@ def main():
 
     # Validation
     if args.mode == "online" and not args.data_dir:
-        print("❌ online mode requires --data-dir")
+        print("[FAIL] online mode requires --data-dir")
         return 1
     if args.mode == "offline" and not args.bin_data and not args.auto_resume and not args.resume:
-        print("❌ offline mode requires --bin-data (first training run)")
+        print("[FAIL] offline mode requires --bin-data (first training run)")
         return 1
 
     if args.lr_override and args.reset_optimizer:
-        print("⚠️  --lr-override + --reset-optimizer: optimizer was rebuilt, lr-override still applies")
+        print("[WARN]  --lr-override + --reset-optimizer: optimizer was rebuilt, lr-override still applies")
 
     # Print non-default arguments
     defaults = {a.dest: a.default for a in parser._actions if a.dest != 'help'}

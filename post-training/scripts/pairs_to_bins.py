@@ -70,7 +70,7 @@ import numpy as np                                      # noqa: E402
 import build_instr_data as BI                           # noqa: E402  single source of truth for templates / fences / blacklist
 from tokenizers import Tokenizer                        # noqa: E402
 
-DEFAULT_TOKENIZER = HERE.parent / "tokenizer" / "tokenizer.json"
+DEFAULT_TOKENIZER = HERE.parent / "tokenizer" / "tokenizer_435m.json"
 
 INSTR_ALIASES = ("instruction", "prompt", "input", "question", "task")
 CODE_ALIASES = ("code", "completion", "response", "output", "solution", "answer")

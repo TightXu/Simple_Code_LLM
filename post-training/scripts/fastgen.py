@@ -77,7 +77,7 @@ it is bound to the generation length), and there is no `torch.inference_mode()`.
        graph capture records pointers, so in-place updates are visible to replay.
    Measured (CPU, counting backend='eager'): 16 decode steps compile **exactly 1 frame** → a tensor pos
    does avoid "a new shape every step → recompile every step".
-   ⚠️ This machine has no C++ compiler (MSVC cl), so Inductor/CUDA graphs **cannot be verified
+   [WARN] This machine has no C++ compiler (MSVC cl), so Inductor/CUDA graphs **cannot be verified
       on this machine**; on a failed first call the code warns explicitly and falls back to eager (numerics and semantics unchanged).
       Verify on real hardware: `--bench --device cuda` (look at the tok/s on the D row).
 
@@ -86,7 +86,7 @@ it is bound to the generation length), and there is no `torch.inference_mode()`.
      with a single query row → `is_causal=False`.
      Measured: against the last row of the baseline's full-length forward it is **32/32 bitwise identical in
      bf16** and differs by ~1 ulp in fp32. This is **numerically the read mode closest to the baseline**.
-     ⚠️ Never pass `is_causal=True` for "1 query row + n key rows": PyTorch aligns the mask by the
+     [WARN] Never pass `is_causal=True` for "1 query row + n key rows": PyTorch aligns the mask by the
      non-square rule and the measured result is completely wrong (Δ≈2.6) — a semantic error, not a precision issue.
    * `mask` (automatic with --compile): read the whole cap-sized cache + a bool mask → static shapes,
      which CUDA graphs require. Cost: the mask sends SDPA down a different kernel, and in bf16 roughly
@@ -165,7 +165,7 @@ except Exception:
 import eval_sft as E        # noqa: E402  reuse CodeLLM / ModelConfig / apply_rope / generate_one read-only
 import build_instr_data as BI   # noqa: E402  single source of truth for prompt templates
 
-DEFAULT_TOKENIZER = HERE.parent / "tokenizer" / "tokenizer.json"
+DEFAULT_TOKENIZER = HERE.parent / "tokenizer" / "tokenizer_435m.json"
 REF_SIG_ARGS = ("max_new", "temperature", "top_k", "repetition_penalty", "min_p", "device")
 
 
@@ -265,7 +265,7 @@ class FastGen:
                 self._compile_pending = True      # torch.compile is lazy: only the first call reveals whether it works
             except Exception as e:                # pragma: no cover - depends on the environment
                 self.compile_failed = f"{type(e).__name__}: {e}"
-                self._warn(f"[fastgen] ⚠️ torch.compile(mode={compile_mode}) unavailable → falling back to eager: "
+                self._warn(f"[fastgen] [WARN] torch.compile(mode={compile_mode}) unavailable → falling back to eager: "
                            f"{self.compile_failed}")
                 self._decode_fwd = self._decode_step
                 self.compile_mode = "none"
@@ -292,7 +292,7 @@ class FastGen:
                                                  attn_mask=self._mask)
         else:
             # read only the valid prefix; a single query row → is_causal=False (causality is enforced by the key length)
-            # ⚠️ never pass is_causal=True for 1 query row + n key rows: PyTorch aligns the mask by the
+            # [WARN] never pass is_causal=True for 1 query row + n key rows: PyTorch aligns the mask by the
             #    non-square rule (measured result completely wrong, Δ≈2.6)
             n = self._n_valid
             out = F.scaled_dot_product_attention(
@@ -333,7 +333,7 @@ class FastGen:
                 return self._decode_fwd(cos_sel, sin_sel)
             except Exception as e:            # pragma: no cover - depends on the environment
                 self.compile_failed = f"{type(e).__name__}: {str(e)[:200]}"
-                self._warn(f"[fastgen] ⚠️ torch.compile(mode={self.compile_mode}) failed on the first call → "
+                self._warn(f"[fastgen] [WARN] torch.compile(mode={self.compile_mode}) failed on the first call → "
                            f"falling back to eager (numerics and semantics unchanged): {self.compile_failed}")
                 self.compile_mode = "none"
                 self._decode_fwd = self._decode_step
@@ -341,7 +341,7 @@ class FastGen:
                     # mask is only a static-shape compromise (needed by CUDA graphs); with eager there is no reason to keep it:
                     # the slice read (valid prefix only) is both faster and numerically closer to the baseline
                     self.decode_read = "slice"
-                    self._warn("[fastgen] ⚠️ compile unavailable → decode cache read falls back to slice (valid prefix only)")
+                    self._warn("[fastgen] [WARN] compile unavailable → decode cache read falls back to slice (valid prefix only)")
         return self._decode_fwd(cos_sel, sin_sel)
 
     def _decode_step(self, cos_sel, sin_sel):
@@ -717,7 +717,7 @@ def verify_equivalence_ckpt(args):
             for pi, prompt in enumerate(prompts):
                 plen = len(real_tok.encode(prompt).ids)
                 if plen + max_new > model.config.max_seq_len:
-                    print(f"  ⚠️ prompt {plen} tok + max_new {max_new} > context "
+                    print(f"  [WARN] prompt {plen} tok + max_new {max_new} > context "
                           f"{model.config.max_seq_len} → taking the truncation branch (slower but still semantically equivalent)")
                 ref_text, ref_logits = _run_ref_with_trace(
                     model, rec_tok, prompt, seed, max_new=max_new, temperature=temperature,
@@ -904,7 +904,7 @@ def verify_equivalence(args):
                 return _b(gm, example_inputs)
         except Exception as e:            # pragma: no cover
             counting_backend, nframes = None, {"n": -1}
-            print(f"  ⚠️ dynamo counting backend unavailable: {type(e).__name__}: {e}")
+            print(f"  [WARN] dynamo counting backend unavailable: {type(e).__name__}: {e}")
         for mode in ("eager", "default", "reduce-overhead"):
             cb = counting_backend if mode == "eager" else None
             fg = FastGen(model, "cpu", compile_mode=mode, decode_read="mask", compile_backend=cb)
@@ -918,7 +918,7 @@ def verify_equivalence(args):
                 status = "match ✓" if ids_c == ids_e else "mismatch ✗"
                 extra = ""
                 if fg.compile_failed:
-                    extra = f"  ⚠️ compile failed, fell back to eager: {fg.compile_failed[:80]}"
+                    extra = f"  [WARN] compile failed, fell back to eager: {fg.compile_failed[:80]}"
                 print(f"  mode={mode:16s} {status}  tokens={len(ids_c)}/{len(ids_e)}  "
                       f"new compiled frames={n_new} (=1 means 16 decode steps captured one graph, no recompiles as pos changes)"
                       f"  time {dt:.1f}s{extra}")
@@ -1014,7 +1014,7 @@ def bench(args, device):
                 torch.cuda.synchronize()
                 dt = time.time() - t
                 if fg.compile_failed:
-                    print(f"  ⚠️ {name}: compile failed, fell back to eager — {fg.compile_failed[:120]}")
+                    print(f"  [WARN] {name}: compile failed, fell back to eager — {fg.compile_failed[:120]}")
                 print(f"  {name:38s} {dt / len(BENCH_PROMPTS):7.2f} s/seq   "
                       f"{args.max_new * len(BENCH_PROMPTS) / dt:7.1f} tok/s   "
                       f"(decode_read={fg.decode_read}; {note})")
@@ -1022,7 +1022,7 @@ def bench(args, device):
                 break
             except Exception as e:
                 if kw.get("compile_mode") not in (None, "none") and attempt == 1:
-                    print(f"  ⚠️ {name}: {type(e).__name__}: {str(e)[:200]} → retrying without compile")
+                    print(f"  [WARN] {name}: {type(e).__name__}: {str(e)[:200]} → retrying without compile")
                     kw = dict(kw, compile_mode="none")
                     continue
                 print(f"  ✗ {name} failed: {type(e).__name__}: {str(e)[:300]}")
@@ -1088,7 +1088,7 @@ def bench_cpu(args):
         except Exception as e:
             print(f"  ✗ {name} failed: {type(e).__name__}: {str(e)[:200]}")
     print("=" * 76)
-    print("⚠️ CPU conclusions ≠ GPU conclusions: on CPU the benefit of removing per-token sync is amplified by the Python"
+    print("[WARN] CPU conclusions ≠ GPU conclusions: on CPU the benefit of removing per-token sync is amplified by the Python"
           "interpreter, while the CUDA graphs benefit does not exist on CPU (nothing can be compiled to a graph). GPU conclusions require --bench.")
 
 
@@ -1150,7 +1150,7 @@ def run_gen(args):
         probs = probs[:args.limit]
     prepared = [(*build_prompt(pr, tmpl, args.template), pr) for pr in probs]
     if args.top_p < 1.0:
-        eprint(f"[fastgen] ⚠️ --top-p {args.top_p} ignored: the baseline generate_one samples with only "
+        eprint(f"[fastgen] [WARN] --top-p {args.top_p} ignored: the baseline generate_one samples with only "
                f"top_k + min_p + repetition_penalty (same settings as esd_sample.py).")
     print(f"[fastgen] {len(prepared)} problems × k={args.k} | template={args.template} | "
           f"device={args.device} | kv_cache={not args.no_kv_cache} "
@@ -1246,7 +1246,7 @@ def build_parser():
     ap.add_argument("--max-new", type=int, default=256)
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--top-k", type=int, default=50)
-    ap.add_argument("--top-p", type=float, default=0.95, help="⚠️ not supported by the baseline → warns and is ignored")
+    ap.add_argument("--top-p", type=float, default=0.95, help="[WARN] not supported by the baseline → warns and is ignored")
     ap.add_argument("--repetition-penalty", type=float, default=1.2)
     ap.add_argument("--min-p", type=float, default=0.05)
     ap.add_argument("--seed", type=int, default=0)

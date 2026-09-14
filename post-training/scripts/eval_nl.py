@@ -71,7 +71,7 @@ from eval_sft import (  # noqa: E402
     truncate,
 )
 
-TOKENIZER_PATH = PROJECT_ROOT / "tokenizer" / "tokenizer.json"
+TOKENIZER_PATH = PROJECT_ROOT / "tokenizer" / "tokenizer_435m.json"
 
 # ===================================================================
 # Template / generation params (same values as eval_sft; compared at runtime by the self-test)

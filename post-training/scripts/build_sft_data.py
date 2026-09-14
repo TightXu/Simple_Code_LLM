@@ -80,7 +80,7 @@ except Exception:
 
 HERE = Path(__file__).resolve().parent            # .../435M-v2/fine-tuning
 PROJECT = HERE.parent                             # .../435M-v2
-DEFAULT_TOKENIZER = PROJECT / "tokenizer" / "tokenizer.json"
+DEFAULT_TOKENIZER = PROJECT / "tokenizer" / "tokenizer_435m.json"
 # Raw source files for the signature corpus. Override with --sources or the
 # SFT_SOURCE_1 / SFT_SOURCE_2 environment variables; the defaults are a relative layout.
 DEFAULT_SOURCES = [

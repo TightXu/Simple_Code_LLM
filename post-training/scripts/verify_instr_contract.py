@@ -27,7 +27,7 @@ import numpy as np                                    # noqa: E402
 import sft_train as S                                 # noqa: E402
 from tokenizers import Tokenizer                      # noqa: E402
 
-DEFAULT_TOKENIZER = HERE.parent / "tokenizer" / "tokenizer.json"
+DEFAULT_TOKENIZER = HERE.parent / "tokenizer" / "tokenizer_435m.json"
 
 
 def check_one(bin_path: Path, tok, vocab: int, seq_len: int):
@@ -142,13 +142,13 @@ def main(argv=None):
         if "first_sample" in info:
             print(f"  first prompt: {info['first_sample']['prompt_head']!r}")
             print(f"  first code  : {info['first_sample']['code_head']!r}")
-        print("  " + ("✅ PASS" if not fails else "❌ FAIL"))
+        print("  " + ("[OK] PASS" if not fails else "[FAIL] FAIL"))
         for f in fails:
             print(f"    - {f}")
         all_fails[str(b)] = fails
 
     bad = sum(1 for v in all_fails.values() if v)
-    print(f"\n[VERDICT] {'✅ all passed' if bad == 0 else f'❌ {bad} split(s) failed'} "
+    print(f"\n[VERDICT] {'[OK] all passed' if bad == 0 else f'[FAIL] {bad} split(s) failed'} "
           f"(checked {sum(1 for b in bins if b.exists())} bin(s))")
     return 0 if bad == 0 else 1
 

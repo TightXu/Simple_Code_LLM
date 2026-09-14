@@ -75,7 +75,7 @@ HERE = Path(__file__).resolve().parent            # .../435M-v2/fine-tuning
 PROJECT = HERE.parent                             # .../435M-v2
 DEFAULT_PARQUET = HERE / "data_instr_raw" / "opencodeinstruct_shard0.parquet"
 DEFAULT_OUTDIR = HERE / "esd"
-DEFAULT_TOKENIZER = PROJECT / "tokenizer" / "tokenizer.json"
+DEFAULT_TOKENIZER = PROJECT / "tokenizer" / "tokenizer_435m.json"
 DEFAULT_IMAGE = "python:3.12-slim"
 
 try:
@@ -790,7 +790,7 @@ def write_report(path: Path, p: dict, docker: str) -> None:
     A(f"- sandbox: `{p['image']}` (Docker, `--network none`), "
       f"docker=`{docker}`, per-sample timeout={p['timeout']}s, in-container concurrency={p['jobs']}, "
       f"{p['batch_size']} per container")
-    A(f"- **overall verdict: {'all as expected ✅' if p['all_ok'] else 'deviations found ❌'}**")
+    A(f"- **overall verdict: {'all as expected [OK]' if p['all_ok'] else 'deviations found [FAIL]'}**")
     A("")
     A("---")
     A("")
@@ -977,7 +977,7 @@ def write_report(path: Path, p: dict, docker: str) -> None:
     A("|---|---|---|---|---|")
     for i, b in enumerate(p.get("batches", [])):
         A(f"| `dry[{i}]` | {b['rc']} | {b['elapsed']} | {b['n_results']}/{b['n_items']} | "
-          f"{'✅' if b['n_results'] == b['n_items'] and b['rc'] == 0 else '❌'} |")
+          f"{'[OK]' if b['n_results'] == b['n_items'] and b['rc'] == 0 else '[FAIL]'} |")
     A("")
     A(f"→ the 100 candidates needed only **{len(p.get('batches', []))} containers** ({p['batch_size']} each),"
       f" not one container per sample.")
@@ -997,11 +997,11 @@ def write_report(path: Path, p: dict, docker: str) -> None:
     A("| Class | Expected | Measured | Verdict |")
     A("|---|---|---|---|")
     A(f"| reference solution `ref_solution` | 20/20 PASS | **{v['ref']['passed']}/{v['ref']['n']} PASS**"
-      f" | {'✅' if v['ref']['ok'] else '❌'} |")
+      f" | {'[OK]' if v['ref']['ok'] else '[FAIL]'} |")
     for name, label, _ in NEG_CLASSES:
         vv = v[name]
         A(f"| negative · {label} (`{name}`) | all FAIL | **{vv['failed']}/{vv['n']} FAIL**"
-          f" | {'✅' if vv['ok'] else '❌'} |")
+          f" | {'[OK]' if vv['ok'] else '[FAIL]'} |")
     A("")
     A("Negative-failure reason distribution:")
     A("")
