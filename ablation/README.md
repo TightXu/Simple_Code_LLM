@@ -26,6 +26,21 @@ python ablation/eval_cross_models.py
 
 All scripts are self-contained (no cross-file imports) — see `ablation_common.py` for the shared model/training/inference infra.
 
+### Paths this repository does not ship
+
+`eval_cross_models.py` is the one script that reads outside this repository: it loads the
+earlier 353M first version from a sibling checkout, `<parent>/code-llm-project-353M/`,
+expecting `checkpoints/` and `tokenizer/` under it. That is deliberate — the cross-model
+table at the bottom of this file compares this project against that one, so both models
+have to be loadable at once. The sibling project's checkpoints are not shipped here (they
+are large), and its own sources are archived under `archive/353M/`. Point the constants at
+the top of the script at wherever you keep that checkout if your layout differs.
+
+`src/data/filter.py` carries a `CODE_LLM_PROJECT` constant for the same legacy sibling
+layout, used only when filtering the original 353M corpus; the clean-rebuild path in
+`data/README.md` does not touch it. Everything else in this directory runs against this
+repository alone.
+
 ## Results
 
 ### 1. Data scaling (recursion emergence on fibonacci, 5 seeds) — √ done

@@ -48,3 +48,5 @@ python src/train.py --mode offline --bin-data data/all/train.bin \
 ```
 
 > The raw `.bin` files (62 GB) and source JSONL are **not** in git — regenerate them with the pipeline above. The `data/` dir in this repo holds only this README.
+
+> `filter.py` also carries a `CODE_LLM_PROJECT` constant that points at the **353M first version's** sibling checkout (`<parent>/code-llm-project-353M/`). It is only used when filtering that older corpus — the rebuild above never touches it. See `ablation/README.md` for the one script that does need the sibling directory.
