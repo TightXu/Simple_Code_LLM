@@ -3,7 +3,7 @@
 # Goal: obtain the precision level of every seed for the 1.5:1 / 3:1 / 5:1 recipes, so as to answer "which recipe is truly stronger",
 #       instead of being misled by a single seed's lucky draw.
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 exec > >(tee -a logs/chain_seed_20seeds.log) 2>&1
 say(){ echo "[$(date '+%F %T')] $*"; }
 SEEDS20="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Plan C: SFT fixed at 29.4M + instruction seed expanded to 9M (mix ratio 3.3:1) -- isolate how much instruction is most cost-effective
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 echo "=== A7 (big seed) start $(date '+%F %T') ==="
 py -3.12 sft_train.py \
   --bin-data data_mix_seed9m/sft_train.bin \

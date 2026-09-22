@@ -3,7 +3,7 @@
 #   data : data_mix_big/sft_train.bin  <- data_big/sft_train.bin(147.0M) + data_instr_big/instr_train.bin(14.7M)
 #   base : checkpoints_wsm/merged; all other hyperparameters same as Arm1/Arm4 (LR 2e-5 / warmup 50 / cosine / 1 epoch)
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 echo "=== A5 (bigmix) start $(date '+%F %T') ==="
 py -3.12 sft_train.py \
   --bin-data data_mix_big/sft_train.bin \

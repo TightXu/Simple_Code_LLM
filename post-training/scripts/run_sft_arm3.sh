@@ -12,7 +12,7 @@
 #   WARNING: within 2 minutes of start, check the first log lines: loss should be ~1.6, pretrain_val_loss ~1.3;
 #      if loss > 4 / pretrain_val > 6 = the base was not loaded, stop immediately.
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 
 echo "=== SFT Arm3 start $(date '+%Y-%m-%d %H:%M:%S') ==="
 py -3.12 sft_train.py \

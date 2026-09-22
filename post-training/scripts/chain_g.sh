@@ -2,7 +2,7 @@
 # Gold-standard chain: G1 (pure gold 62.5M) -> G2 (gold + signature 91.9M), each step trains + evaluates both columns + merges
 # Usage: once the GPU is free, run bash chain_g.sh   (completed steps are skipped, safe to re-run)
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 exec > >(tee -a logs/chain_g.log) 2>&1
 say() { echo "[$(date '+%F %T')] $*"; }
 

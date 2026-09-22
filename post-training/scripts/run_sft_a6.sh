@@ -2,7 +2,7 @@
 # Plan B: Arm4 data (29.4M signature + 2.94M instruction) for 2 epochs -- only the number of passes changes
 #   note: --t-max not passed -> total steps derived from epochs (the cosine schedule stretches accordingly)
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 echo "=== A6 (2 epochs) start $(date '+%F %T') ==="
 py -3.12 sft_train.py \
   --bin-data data_mix/sft_train.bin \

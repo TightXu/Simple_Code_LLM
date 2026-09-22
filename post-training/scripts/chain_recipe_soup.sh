@@ -6,7 +6,7 @@
 #     to re-measure the key candidates, yielding a mutually comparable precision board (the 5-seed and 20-seed boards cannot be mixed, the seed sets differ).
 # Order: build soups (CPU) -> numerical check -> 20-seed evaluation one by one (isolated: back up main summary -> run -> save aside -> restore) -> summary
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 exec > >(tee -a logs/chain_recipe_soup.log) 2>&1
 say(){ echo "[$(date '+%F %T')] $*"; }
 SEEDS20="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19"

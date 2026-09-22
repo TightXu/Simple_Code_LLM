@@ -4,7 +4,7 @@
 #   data : data/sft_train.bin (29.4M, pure signature -> function body)
 #   idea : mixing within one round dilutes both sides (verified by G2) -> instead learn to follow instructions first, then restore the completion format separately
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 echo "=== G4 (G1-bestval + pure-signature short train) start $(date '+%F %T') ==="
 py -3.12 sft_train.py \
   --bin-data data/sft_train.bin \

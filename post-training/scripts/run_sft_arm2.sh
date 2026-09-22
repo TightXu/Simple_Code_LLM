@@ -7,7 +7,7 @@
 #   artifacts : ckpt_arm2/ (does not write ckpt/, to avoid touching Arm 1's artifacts)
 #   rationale : the plan said lr 5e-5 (then 8e-5 on plateau); Arm 1 conservatively used 2e-5 -> this arm tests that decision
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 
 echo "=== SFT Arm2 (plan A: base + lr5e-5) start $(date '+%Y-%m-%d %H:%M:%S') ==="
 py -3.12 sft_train.py \

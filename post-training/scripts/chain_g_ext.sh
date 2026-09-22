@@ -3,7 +3,7 @@
 #   G9  = gold 147.0M : signature 29.4M ~ 5:1
 #   G10 = gold 235.2M : signature 29.4M ~ 8:1 (capped by the pool size, extract as much as we can)
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 exec > >(tee -a logs/chain_g_ext.log) 2>&1
 say(){ echo "[$(date '+%F %T')] $*"; }
 SRC="data_instr_raw/self_oss_instruct_50k.parquet"

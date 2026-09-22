@@ -6,7 +6,7 @@
 #   (2) add 2 more seeds (45/46, no selection bias) -> five-way soup, purely variance reduction + a more trustworthy recipe mean
 #   (3) evaluate everything with the same 20-seed set, comparable with existing measurements
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 exec > >(tee -a logs/chain_g9_soup_final.log) 2>&1
 say(){ echo "[$(date '+%F %T')] $*"; }
 SEEDS20="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19"

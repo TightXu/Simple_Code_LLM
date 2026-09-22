@@ -7,7 +7,7 @@
 #   artifacts : ckpt_arm4/
 #   evaluation : must report both columns -- signature protocol (eval_sft.py, comparable with the first three arms) + natural-language protocol (instruction template)
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 
 echo "=== SFT Arm4 (instruction mix) start $(date '+%Y-%m-%d %H:%M:%S') ==="
 py -3.12 sft_train.py \

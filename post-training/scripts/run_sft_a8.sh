@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Plan D1: A8 = 29.4M signature + 14.4M instruction (2:1)
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 echo "=== A8 (2:1) start $(date '+%F %T') ==="
 py -3.12 sft_train.py \
   --bin-data data_mix_2to1/sft_train.bin \

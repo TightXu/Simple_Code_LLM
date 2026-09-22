@@ -12,7 +12,7 @@
 #   guards : every 100 steps evaluate both SFT masked val (protocol) and pretrain val (forgetting check), checkpoint every 100 steps, best_val kept automatically
 #   not done : replay / shuffle -- run the most conservative path already covered by smoke tests
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 
 echo "=== SFT Arm1 start $(date '+%Y-%m-%d %H:%M:%S') ==="
 py -3.12 sft_train.py \

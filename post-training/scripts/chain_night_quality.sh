@@ -11,7 +11,7 @@
 #   stage 4 summary: report a "distribution" per recipe instead of a single point (3:1 already has 42/43/44)
 # Serial use of the GPU throughout; every artifact lands in the logs; the main summary is only wrapped in "backup - run - restore", so no failing step should pollute it.
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 exec > >(tee -a logs/chain_night_quality.log) 2>&1
 say(){ echo "[$(date '+%F %T')] $*"; }
 SEEDS20="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Plan G3: gold standard : signature = 1:1 (29.4M each) -- a true 1:1 (A9's 1:1 used a small instruction seed, and G2 is 2.1:1)
 set -u
-cd "/c/Users/Tight/Documents/Train LLM/435M-v2/fine-tuning" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 echo "=== G3 (gold:sig = 1:1) start $(date '+%F %T') ==="
 py -3.12 sft_train.py \
   --bin-data data_mix_g11/sft_train.bin \
