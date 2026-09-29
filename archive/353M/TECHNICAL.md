@@ -2,6 +2,8 @@
 
 **353M GPT-style Decoder Language Model for Code Generation**
 
+*Archive snapshot: numbers below are as of the July 2026 training snapshot.*
+
 ---
 
 ## 1. Introduction
@@ -63,7 +65,7 @@ Trained on 2 million randomly sampled code files from the corpus.
 | Special tokens | `<pad>`, `<eos>`, `<unk>` |
 
 For comparison, GPT-2's generic tokenizer achieves ~2.8 chars/token on
-Python code. Our code-specific tokenizer is ~25% more efficient, meaning
+Python code. This code-specific tokenizer is ~25% more efficient, meaning
 fewer tokens per code snippet → more code fits in the context window.
 
 ### Why BPE?
@@ -76,7 +78,7 @@ This balances vocabulary size with coverage.
 
 ## 4. Model Architecture
 
-### High-Level Architecture
+### High-level architecture
 
 ```
 Input Tokens (seq_len=1024)
@@ -117,22 +119,22 @@ Input Tokens (seq_len=1024)
 | Vocabulary | 32,000 | BPE code tokenizer |
 | Context length | 1024 | Fits most function/file fragments |
 
-### Modern Architectural Choices
+### Modern architectural choices
 
-| Feature | Traditional (GPT-2) | Our Model | Why Better |
+| Feature | Traditional (GPT-2) | This Model | Difference |
 |---------|--------------------|-----------|------------|
-| Position Encoding | Learned / Sinusoidal | **RoPE** | Extrapolates to longer sequences |
-| Normalization | LayerNorm | **RMSNorm** | Faster, fewer parameters |
-| Activation | GELU | **SwiGLU** | Better training dynamics |
-| Attention | Standard | **Flash Attention (SDPA/cuDNN)** | 2–3× throughput, less VRAM |
-| Embedding/LM Head | Tied | **Untied** | More expressive output |
+| Position Encoding | Learned / Sinusoidal | **RoPE** | relative positions, extrapolates further |
+| Normalization | LayerNorm | **RMSNorm** | no mean subtraction, no bias terms |
+| Activation | GELU | **SwiGLU** | gated FFN, 3 matrices per block |
+| Attention | Standard | **Flash Attention (SDPA/cuDNN)** | measured 2–3× throughput, less VRAM |
+| Embedding/LM Head | Tied | **Untied** | separate output projection (+32.8M parameters) |
 
-### Comparison with Production Models
+### Comparison with production models
 
-To contextualize our 353M model against a typical production-scale code LLM
+To contextualize the 353M model against a typical production-scale code LLM
 (Qwen 3.5 9B as reference):
 
-| Parameter | Our Model (353M) | Qwen 3.5 9B | Ratio |
+| Parameter | This Model (353M) | Qwen 3.5 9B | Ratio |
 |-----------|-----------------|-------------|-------|
 | Total parameters | 353M | 9B | 25× |
 | Layers | 18 | 32 | 1.8× |
@@ -144,14 +146,14 @@ To contextualize our 353M model against a typical production-scale code LLM
 | VRAM (BF16 training) | 29 GB | ~70+ GB (multi-GPU) | — |
 | Training throughput (single RTX 5090) | 46K tok/s | Cannot train on single GPU | — |
 
-**Key insight**: The 25× parameter gap translates to approximately 25× more
-compute required for training. Yet our 353M model already demonstrates
-emergent algorithmic reasoning (correct recursive Fibonacci) at 7.78B tokens.
-This validates the core hypothesis: **small, well-trained models can capture
-non-trivial code semantics on consumer hardware**, making them practical for
-personal/local deployment scenarios where a 9B model would be infeasible.
+The 25× parameter gap translates to roughly 25× more compute for training.
+At 7.78B tokens the 353M model writes the *shape* of a recursive Fibonacci
+(`fibonacci(n-1) + fibonacci(n-2)`) but still gets the base case wrong
+(see §7), so the honest reading is that a 353M model trained on 7.7B tokens
+starts to learn the structure of recursion. On this evidence the model remains
+a feasibility demonstration, not a substitute for a 9B model.
 
-### Parameter Breakdown
+### Parameter breakdown
 
 ```
 Token Embedding:   32,000 × 1,024          =   32.8 M
@@ -174,7 +176,7 @@ Total:                                      ≈  353.4 M
 
 ## 5. Loss Function
 
-### Cross-Entropy Loss
+### Cross-entropy loss
 
 At every token position, the model predicts a probability distribution over
 the 32,000-token vocabulary. **Cross-entropy loss** measures the divergence
@@ -202,7 +204,7 @@ Ground truth:    if
 Loss contribution:  -log(0.18) = 1.71
 ```
 
-### Why Cross-Entropy, Not MSE?
+### Why cross-entropy, not MSE?
 
 Language modeling is a **classification** problem (predict the correct token
 from a discrete vocabulary), not a regression problem. Cross-entropy is the
@@ -254,9 +256,7 @@ Padding tokens (index 0) are excluded from the loss calculation.
 | VRAM used | ~29 GB (model + activations + optimizer states) |
 | Training throughput | ~49K tok/s (BF16 + Flash Attention) |
 
-### Pre-Tokenization Strategy
-
-> **This is critical for training efficiency.**
+### Pre-tokenization strategy
 
 Tokenization on-the-fly during training creates a CPU bottleneck: the GPU
 trains at ~49K tok/s, but a single-threaded tokenizer on Windows maxes out
@@ -281,7 +281,7 @@ tokenizer involved. The GPU is fed at memory-bandwidth speed.
 - Each worker process writes to its own temporary `.bin` file (avoids file locks and memory accumulation)
 - Final step: `cat chunk_*.bin > train.bin` (OS-level merge, no Python overhead)
 
-### Checkpoint & Crash Recovery
+### Checkpoint and crash recovery
 
 | Feature | Implementation |
 |---------|---------------|
@@ -299,20 +299,20 @@ cosine cycle from its peak.
 
 ## 7. Experimental Results
 
-### Training Progress
+### Training progress
 
 | Metric | Value |
 |--------|-------|
-| Current step | 141,600 |
+| Steps completed at this snapshot | 141,600 |
 | Tokens trained | ~8.12 B (81% of dataset) |
-| Best loss | 0.91 (step 134,800) |
+| Best loss at this snapshot | 0.91 (step 134,800) |
 | Latest loss | ~1.2 |
-| Learning rate (current) | ~1.6 × 10⁻⁴ (cosine decay from 2.4×10⁻⁴) |
+| Learning rate at this snapshot | ~1.6 × 10⁻⁴ (cosine decay from 2.4×10⁻⁴) |
 | Total dataset | ~10 B tokens |
-| Effective training time | ~65+ hours (aggregate across sessions) |
-| **Fine-tuning status** | Phase 1 (clean short functions) in progress |
+| Effective training time at this snapshot | ~65+ hours (aggregate across sessions) |
+| **Fine-tuning status** | Phase 1 (clean short functions) ran after this snapshot |
 
-### Actual Loss Progression
+### Loss progression (measured from checkpoint logs)
 
 Measured from checkpoint logs at 10K-step intervals:
 
@@ -330,9 +330,9 @@ Measured from checkpoint logs at 10K-step intervals:
 | 90,000 | 5.16 | 1.39 | ↑ data switch, LR adjustment |
 | 100,000 | 5.73 | 1.58 | ↑ LR change without optimizer reset |
 | 110,000 | 6.31 | 1.32 | Recovery after correction |
-| 110,600 | 6.34 | 1.44 | Current (oscillating ~1.2-1.6) |
+| 110,600 | 6.34 | 1.44 | Oscillating (~1.2-1.6) |
 | 134,800 | 7.73 | **0.91** | New best loss |
-| 135,600 | 7.78 | 1.15 | Latest |
+| 135,600 | 7.78 | 1.15 | Last point logged at this snapshot |
 
 **Key observations from the loss curve:**
 
@@ -341,7 +341,7 @@ Measured from checkpoint logs at 10K-step intervals:
 3. **40K-110K**: Oscillation regime (1.2-1.6) — model is in the diminishing returns zone; loss improvements are small and sensitive to data distribution shifts and LR adjustments
 4. **Spikes at 90K and 100K**: Coincident with data source expansion (`--start-file-index 90`) and an LR increase from 1.62→2.8×10⁻⁴ without resetting optimizer momentum, causing temporary instability
 
-### Generation Samples (step 135,000, 7.74B tokens, temp=0.2)
+### Generation samples (step 135,000, 7.74B tokens, temp=0.2)
 
 **Prompt:** `def fibonacci(n):`
 
@@ -388,19 +388,19 @@ class Node:
         return "<%s>" % self.value
 ```
 
-### Generation Quality Assessment
+### Generation quality assessment
 
 | Capability | 2.59B tokens | 7.74B tokens | Assessment |
 |-----------|-------------|-------------|------------|
-| Function definition syntax | √ | √ | Stable from early stage |
-| Docstrings / comments | √ | √ | NumPy-style docstrings learned |
-| Simple recursive algorithms | × `return (2*n*n)` | √ Correct F(n)=F(n-1)+F(n-2) | **Major breakthrough** |
-| Algorithmic semantics (binary search) | — | × Docstring correct, no loop body | Shape learned, logic missing |
-| Class definitions | √ | √ | `__init__` + `__repr__` correct |
-| Avoiding repetition | × | ! Partial | Drifts after ~20 lines (license headers, repeated classes) |
-| Long-range coherence | × | ! Partial | Coherent for ~15 lines, then distribution shift |
+| Function definition syntax | present | present | stable from early stage |
+| Docstrings / comments | present | present | NumPy-style docstrings learned |
+| Simple recursive algorithms | absent (`return (2*n*n)`) | correct F(n)=F(n-1)+F(n-2) | **major breakthrough** |
+| Algorithmic semantics (binary search) | not assessed | absent: docstring correct, no loop body | shape learned, logic missing |
+| Class definitions | present | present | `__init__` + `__repr__` correct |
+| Avoiding repetition | absent | partial | drifts after ~20 lines (license headers, repeated classes) |
+| Long-range coherence | absent | partial | coherent for ~15 lines, then a distribution shift |
 
-### Key Insight: The Fibonacci Breakthrough
+### The Fibonacci breakthrough
 
 At 2.59B tokens, Fibonacci output was `return (2*n*n)` — pure statistical noise.
 At 7.74B tokens, the model generates a **structurally correct recursive Fibonacci**
@@ -409,23 +409,23 @@ with proper base case and recursive call. The algorithm isn't 100% correct (retu
 recursive function definition — base case + recursive case using the function's
 own name.
 
-This validates the Chinchilla scaling hypothesis: more data + more training =
-qualitative capability jumps, not just quantitative loss improvements. The loss
-only dropped from ~1.3 to ~1.2 in this period, but the generation quality
-improved dramatically.
+The loss only dropped from ~1.3 to ~1.2 in this period, while generation quality
+improved dramatically, which is the pattern the project keeps running into:
+capability can jump while loss barely moves. Chinchilla itself is about
+compute-optimal allocation of parameters and tokens, not about qualitative
+jumps, so it is not the right frame for this observation.
 
-### Multi-Seed Stability Analysis
+### Multi-seed stability analysis
 
-To verify whether generation quality is robust or seed-dependent, we ran
-Fibonacci generation across 14 different random seeds (7, 13, 42, 56, 77, 99,
-123, 222, 333, 456, 555, 777, 789, 1024, 4096) at 4 key checkpoints:
+To verify whether generation quality is robust or seed-dependent, Fibonacci
+generation was run across 14 random seeds at 4 key checkpoints:
 
 | Checkpoint | Step | Tokens | Correct Rate | Usable Rate | Verdict |
 |-----------|------|--------|-------------|------------|---------|
-| step_046400 | 46K | 2.66B | 7/14 (50%) | 9/14 (64%) | Unstable, seed-dependent |
-| step_070000 | 70K | 4.01B | 2/14 (14%) | 2/14 (14%) | ! Degraded after data switch |
+| step_046400 | 46K | 2.66B | 7/14 (50%) | 9/14 (64%) | unstable, seed-dependent |
+| step_070000 | 70K | 4.01B | 2/14 (14%) | 2/14 (14%) | degraded after the data switch |
 | step_135000 | 135K | 7.74B | 11/14 (79%) | 11/14 (79%) | Recovering |
-| step_141600 | 141.6K | 8.12B | 10/14 (71%) | 12/14 (86%) | √ Best current |
+| step_141600 | 141.6K | 8.12B | 10/14 (71%) | 12/14 (86%) | best at this snapshot |
 
 **Key findings:**
 1. Generation quality can vary 30%+ across seeds at the same checkpoint —
@@ -439,7 +439,7 @@ Fibonacci generation across 14 different random seeds (7, 13, 42, 56, 77, 99,
 
 ## 8. Discussion
 
-### Observation 1: Syntax Before Semantics — Then a Breakthrough
+### Observation 1: syntax before semantics, then a breakthrough
 
 At 2.59B tokens (26% through the dataset), the model had learned Python
 syntax structure but not algorithmic logic. This matches the expected
@@ -451,11 +451,10 @@ generates a structurally correct recursive Fibonacci — `return fibonacci(n-1) 
 This is not a small incremental improvement; it represents the model
 acquiring the **abstract pattern of recursion**: base case + self-referential
 call. The loss only dropped from ~1.3 to ~1.2 during this period, but the
-generation quality improved dramatically, validating that loss ≠ capability
-and that Chinchilla-style scaling (more data → qualitative jumps) holds
-even at small model sizes.
+generation quality improved dramatically, which again separates loss from
+capability at small model sizes.
 
-### Observation 2: Repetition Degeneration
+### Observation 2: repetition degeneration
 
 The model frequently falls into token repetition loops. This is a known
 issue with small autoregressive models. Mitigations added:
@@ -467,7 +466,7 @@ These reduce but do not eliminate the problem at this training stage.
 More training data is expected to help, as the model learns when sequences
 "should" end.
 
-### Observation 3: Tokenization Bottleneck
+### Observation 3: tokenization bottleneck
 
 Real-time tokenization during training is a CPU bottleneck on single-core
 Windows (Rust tokenizers with Python GIL constraints). The standard
@@ -475,7 +474,7 @@ industry solution — pre-tokenization to memory-mapped binary — is
 implemented but not yet executed. Once complete, GPU utilization will
 increase from tokenizer-bound to compute-bound.
 
-### Observation 4: Loss ≠ Generation Quality
+### Observation 4: loss is not generation quality
 
 Validation loss alone does not fully capture generation quality.
 A model can have decreasing loss while still producing incoherent text,
@@ -485,15 +484,15 @@ essential.
 
 ---
 
-## 9. Future Work
+## 9. Future work
 
-### 9.1 Pre-Tokenization Pipeline
+### 9.1 Pre-tokenization pipeline
 
 Complete the one-time pre-tokenization of the full 10B token dataset
 using `encode_batch()` with parallel workers and sharded output.
 This eliminates the CPU bottleneck during all subsequent training runs.
 
-### 9.2 Targeted Fine-Tuning
+### 9.2 Targeted fine-tuning
 
 After pre-training, two fine-tuning phases are planned:
 
@@ -534,13 +533,13 @@ each optimizer step. A high LR (3×10⁻⁴) risks catastrophic forgetting of
 pretrained knowledge within the first few hundred steps. Starting at 5–8×10⁻⁵
 is safer; increase only if loss plateaus.
 
-### 9.3 Validation Set Monitoring
+### 9.3 Validation set monitoring
 
 Add periodic evaluation on a held-out validation set to detect overfitting
 and enable early stopping. Implement as a separate `.bin` file loaded via
 `--val-bin`.
 
-### 9.4 Learning Rate Flexibility
+### 9.4 Learning-rate flexibility
 
 Implement `--reset-optimizer` flag and configurable `--t-max` to support
 fine-tuning runs with fresh optimizer state and appropriate LR schedules,
@@ -548,7 +547,7 @@ distinct from the pre-training cosine cycle.
 
 ---
 
-## 10. What I Learned
+## 10. What I learned
 
 - Implemented a complete GPT-style decoder Transformer from scratch:
   RoPE, RMSNorm, SwiGLU, multi-head self-attention, Flash Attention (SDPA/cuDNN)
@@ -581,7 +580,7 @@ distinct from the pre-training cosine cycle.
 
 ---
 
-## Appendix: Quick Reference
+## Appendix: quick reference
 
 | Category | Parameter | Value |
 |----------|-----------|-------|

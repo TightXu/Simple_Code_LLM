@@ -11,9 +11,6 @@
 # Duplicate of tokenizer/tokenizer_435m.json (md5-identical) — canonical files live in tokenizer/
 /tokenizer.json
 
-# Duplicate of tokenizer/tokenizer_435m.json (md5-identical) — canonical files live in tokenizer/
-/tokenizer.json
-
 # Python
 __pycache__/
 *.pyc

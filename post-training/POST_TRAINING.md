@@ -1,4 +1,4 @@
-# Fine-tuning a 435M code model: what we tried, and what actually moved the needle
+# Fine-tuning a 435M code model: what worked and what did not
 
 *Post-training experiment log for a from-scratch code LLM. One RTX 5090, ~30 training runs, 2026-09.*
 
@@ -10,21 +10,21 @@ The model in question is a 435M-parameter code LLM that I pretrained from scratc
 
 Everything below ran on a single RTX 5090 (32 GB). Training runs were 12 minutes to 2 hours each; ~1.9 TB of intermediate checkpoints were produced and archived.
 
-One thing about how the work was organised, because it shaped the results. The implementation — training harness, data pipeline, evaluation harness, most scripts — was written and executed by an AI agent working under my direction. My role was to set the target, decide what counted as evidence, and audit outcomes. That is where most of the useful decisions in this report came from: the two most valuable findings below (a silent bug in the weight-interpolation code, and a "champion" model that did not generalise) were caught only because I refused to accept a summary without a reproducible artefact behind it.
+One thing about how the work was organised, because it shaped the results. The implementation — training harness, data pipeline, evaluation harness, most scripts — was developed with AI assistance. Every finding below is backed by a reproducible artefact rather than a summary: the two most valuable ones (a silent bug in the weight-interpolation code, and a "champion" model that did not generalise) surfaced only after re-running the code that produced them.
 
-## 2. Before optimising anything, we had to fix the measurement
+## 2. Before optimising anything, the measurement had to be fixed
 
 Three problems made the first few weeks of comparisons meaningless.
 
 **Single runs are not comparable.** Same data, same hyperparameters, only the random seed changed: pass rates ranged from 65% to 82%. Any two runs can differ by 6 points with no real difference in quality. Every early claim of the form "model A beats model B by 3 points" was noise.
 
-**Validation loss does not select models.** We found this three separate times, twice in controlled comparisons where the checkpoint with the *better* validation loss was worse on tasks — once by 17 points, from the same training run, on the same data. Loss on a per-arm validation set is also not comparable across arms, since each arm's validation set comes from its own data distribution. Model selection has to be execution-based.
+**Validation loss does not select models.** This came up three separate times, twice in controlled comparisons where the checkpoint with the *better* validation loss was worse on tasks — once by 17 points, from the same training run, on the same data. Loss on a per-arm validation set is also not comparable across arms, since each arm's validation set comes from its own data distribution. Model selection has to be execution-based.
 
 **The metric itself was contaminated.** The signature-column score was partly measuring output discipline rather than correctness. Correct implementations were marked wrong for printing a usage example after the function, or for sorting a list in place and returning `None` instead of a new list. A hand audit of raw generations showed that on one task, three models had all written a correct merge sort; the only difference was whether they appended `return arr` or an example — 19/20, 4/20 and 0/20 pass rates from that alone.
 
-The fix was a protocol, not a patch: 20 attempts per task per prompt style (which cuts the uncertainty on a comparison from ±7 points to ±1.7), per-sample hand audits of raw output, a second "lenient" metric reported alongside the strict one (allowing in-place mutation conventions), and a task set held out of all selection. Repairing the measurement was the highest-value work in the project. It also produced the least flattering numbers, which is the point.
+The fix was a protocol, not a patch: 20 attempts per task per prompt style (which cuts the uncertainty on a comparison from ±7 points to ±1.7), per-sample hand audits of raw output, a second "lenient" metric reported alongside the strict one (allowing in-place mutation conventions), and a task set that was held out of all selection. Fixing the metric changed more conclusions than any recipe change did, and it made the numbers worse.
 
-## 3. What we tried
+## 3. What was tried
 
 | # | Approach | What it was | Result |
 |---|---|---|---|
@@ -37,9 +37,9 @@ The fix was a protocol, not a patch: 20 attempts per task per prompt style (whic
 | 7 | Weight averaging ("soups") | Average the weights of two trained models, no training | 17 blends, none better than its best parent; the blends sit between the parents and closer to the weaker one |
 | 8 | Multi-seed averaging | Same recipe, three seeds, averaged weights | Better than the mean of its members (+1.7), worse than the best member (81 vs 78 in one case). Buys stability, not a new record |
 
-A note on #7: our first pass at it was wrong in a way that produced plausible numbers. The interpolation code used `v.to(torch.float32)` to get a copy for arithmetic — but when the tensor is already float32, `.to()` returns the *same* tensor, so the in-place arithmetic overwrote the parent model. Each successive blend was interpolating with a corrupted parent, compounding the error. A least-squares check against the nominal weights exposed it: files labelled 0.65 / 0.50 / 0.35 / 0.20 actually contained 0.52 / 0.26 / 0.09 / 0.02. All α-sweep results had to be withdrawn and rebuilt, and the rebuilt code now refuses to write a blend whose measured deviation exceeds tolerance.
+A note on #7: the first pass at it was wrong in a way that produced plausible numbers. The interpolation code used `v.to(torch.float32)` to get a copy for arithmetic — but when the tensor is already float32, `.to()` returns the *same* tensor, so the in-place arithmetic overwrote the parent model. Each successive blend was interpolating with a corrupted parent, compounding the error. A least-squares check against the nominal weights exposed it: files labelled 0.65 / 0.50 / 0.35 / 0.20 actually contained 0.52 / 0.26 / 0.09 / 0.02. All α-sweep results had to be withdrawn and rebuilt, and the rebuilt code now refuses to write a blend whose measured deviation exceeds tolerance.
 
-## 4. The trap: a champion that didn't generalise
+## 4. The trap: a champion that did not generalise
 
 By this point one model led the board: 81.6% (mean pass rate across both prompt styles, 20 attempts per task), well clear of the field. The plan was to ship it.
 
@@ -49,23 +49,23 @@ On those 12 tasks the leader finished **last** — 55.8%, against 59–65% for t
 
 The explanation is mundane and worth stating plainly: the "champion" had been selected on a fixed set of 11 tasks over many rounds of comparison. Part of its advantage was a stable formatting habit that happened to match what those tasks rewarded — and that habit paid nothing on new tasks. This is the standard failure mode of selecting on the same set repeatedly, and it produced the single largest correction in the project: a 26-point swing between the leaderboard and an honest evaluation.
 
-## 5. What we ship, and why
+## 5. What ships, and why
 
 **The shipped model is the mid-pack one** (74.8% on the tuning set, 64.6% on the held-out set — first of seven candidates on unseen tasks, second of eleven on the tuning set). Recipe: 435M base, 147M tokens of gold-standard instruction data mixed with 29.4M tokens of signature data at 5:1, one epoch, LR 2e-5 cosine schedule, 32k tokens per step, ~90 minutes on one RTX 5090. Training about 30 models, all evaluated on both prompt styles with hand-audited outputs.
 
 ## 6. Limits
 
-Read the numbers above with these three caveats.
+Three caveats apply to every number above.
 
 1. **The benchmark is 23 short algorithmic tasks.** That is a proxy for "writes small functions correctly"; it says nothing about debugging, library use, or multi-file changes. Every number here is bounded by that.
-2. **Seed variance is the largest effect we measured, and the shipped model rests on a single seed.** The honest interval around its true quality is roughly ±6 points. The recipe differences we chased (±3) are smaller than the noise we could not remove.
-3. **The held-out set was used once (correct) but is only 12 tasks (thin).** It rules out the specific failure we found; it does not prove broad generalisation.
+2. **Seed variance is the largest effect measured in this project, and the shipped model rests on a single seed.** The honest interval around its true quality is roughly ±6 points. The recipe differences chased here (±3) are smaller than the noise that could not be removed.
+3. **The held-out set was used once (correct) but is only 12 tasks (thin).** It rules out the specific failure it was built to catch; it does not prove broad generalisation.
 
 ## 7. What I would do next
 
-- **Multi-seed search with selection and confirmation sets kept separate.** With ±6 seed noise, picking the best of 10 seeds on a selection set and confirming on unused tasks is the only lever we have identified that converts luck into a reliable gain.
+- **Multi-seed search with selection and confirmation sets kept separate.** With ±6 seed noise, picking the best of 10 seeds on a selection set and confirming on unused tasks is the only lever identified in this project that converts luck into a reliable gain.
 - **Preference learning from execution feedback.** The sandbox already produces pass/fail signals; turning them into training signal is the one approach that raises the whole distribution rather than re-allocating between the two columns.
-- **Not**: more ratio tuning, more staged schedules, or more weight averaging. All three are measured and capped.
+- **Ruled out**: more ratio tuning, more staged schedules, or more weight averaging. All three are measured and capped.
 
 ## 8. Reproducibility
 

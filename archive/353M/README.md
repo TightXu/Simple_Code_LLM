@@ -1,6 +1,6 @@
-# 353M — The First Generation (Archived)
+# 353M: the first generation (archived)
 
-This directory holds the complete record of the first version: the model that proved a code LLM can be trained from scratch on a single consumer GPU. It's archived, not deleted. It's the baseline the current version is measured against, and it's where most of the lessons in the root `CHALLENGES.md` come from.
+This directory holds the complete record of the first version: the model that proved I could train a code LLM from scratch on a single consumer GPU. It is archived, not deleted — it is the baseline the current version is measured against, and most of the lessons in the root [`CHALLENGES.md`](../../CHALLENGES.md) come from it.
 
 | | Details |
 |---|---|
@@ -15,13 +15,28 @@ This directory holds the complete record of the first version: the model that pr
 
 ## Why it scored 6/100
 
-The three known defects (the root `CHALLENGES.md` covers them in detail):
+The three known defects (also recorded in the root [`CHALLENGES.md`](../../CHALLENGES.md)):
 
-1. **Resume re-read from file 0** — `--auto-resume` restarted the dataset from the top, so ~8 B tokens got trained twice while ~2.5 B never appeared. The "16.09 B trained" figure is ~2× inflated in coverage.
-2. **Loose filtering** — `.py` + length only. No quality gates, no contamination removal, no metadata strip (the current pipeline in `src/data/filter.py` fixes this with strict filtering + copyright + content checks).
-3. **Mid-training LR bump without optimizer reset** — loss spiked 1.16 → 1.58 and generation regressed until the optimizer dynamics recovered.
+1. **Resume re-read from file 0**: `--auto-resume` restarted the dataset from the top, so ~8 B tokens got trained twice while ~2.5 B never appeared. The "16.09 B trained" figure is ~2× inflated in coverage.
+2. **Loose filtering**: `.py` + length only. No quality gates, no contamination removal, no metadata strip (the current pipeline in `src/data/filter.py` fixes this with strict filtering + copyright + content checks).
+3. **Mid-training LR bump without optimizer reset**: loss spiked 1.16 → 1.58 and generation regressed until the optimizer dynamics recovered.
 
 On the same 10-task human-graded benchmark, the current rebuild (435M) scores **66/100**. The gap between the two numbers is why this rebuild exists.
+
+## The continuation run (8B → 16B)
+
+The model was later continued to 16.09B cumulative tokens on the same corpus, with the resume bug still active (the first ~8B got trained twice). A 14-seed human review of both checkpoints, eight tasks each (2026-08-31), measured:
+
+| Measure (14 seeds) | 8B checkpoint | 16B checkpoint |
+|---|---|---|
+| fibonacci: recursive structure | 14/14 | 7/14 |
+| fibonacci: correct base case | 0/14 | 0/14 |
+| quicksort: an actual implementation (`arr.sort()` counts as functional, not as quicksort) | 5/14 | 0/14 |
+| script pass rate (fibonacci / quicksort) | 0/14 / 3/14 | 0/14 / 0/14 |
+
+The verdict of that review was that the continuation did not improve on the 8B checkpoint and degraded it, which is what the resume bug predicts: the second pass was over data the model had already seen.
+
+These numbers measure *recursive structure*, not correctness. `TECHNICAL.md`'s own 14-seed table (steps 46.4K / 70K / 135K / 141.6K) records correct and usable rates for the pretraining checkpoints, which is a different measure on the same model.
 
 ## Files
 

@@ -62,7 +62,7 @@ def main():
                        help="training data volume (100M/500M/1B/5B/10B)")
     parser.add_argument("--lr", type=float, default=2.5e-4)
     parser.add_argument("--batch-size", type=int, default=8,
-                       help="batch_size=8 recommended for 435M (NAS CPU)")
+                       help="batch_size=8 recommended for 435M (CPU-only fallback)")
     parser.add_argument("--grad-accum", type=int, default=4)
     parser.add_argument("--seq-len", type=int, default=1024)
     parser.add_argument("--save-every", type=int, default=500)

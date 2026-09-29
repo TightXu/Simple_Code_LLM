@@ -1,6 +1,6 @@
 # Raw output index (arm → file → line range)
 
-generated: 2026-09-14 15:35 · script `fine-tuning/build_raw_index.py` (re-runnable, read-only)
+generated: 2026-09-14 15:35 · script `post-training/scripts/build_raw_index.py` (re-runnable, read-only)
 
 **How to use**: when a report shows a score for some arm, find it in the table below → open the
 matching file → `sed -n 'A,Bp'` to pull that arm's full raw generations (one JSON per line: `prompt` / `completion` / `passed`).
@@ -168,7 +168,7 @@ Line numbers are **1-based physical lines**, because one file may mix two checkp
 | `SOUP-G9x5-bestval` | NL column | `generations/generations_noise20_g9x5_nl.jsonl` | 1–220 | 220 | 186 | — | 20 / 11 |
 | `SOUP-G9x5-bestval` | signature column | `generations/generations_noise20_g9x5_sig.jsonl` | 1–220 | 220 | 129 | — | 20 / 11 |
 
-## held-out set (12 new tasks × 10 seeds)
+## Held-out set (12 new tasks × 10 seeds)
 
 | arm (in-line model field) | column | file | line range | n | passed | lenient | seeds / tasks |
 |---|---|---|---|---|---|---|---|
@@ -194,17 +194,17 @@ The lenient column re-judges **failed samples** only (when the sole argument is 
 
 | file | contents |
 |---|---|
-| `eval/lenient_results.json` | strict/lenient score per model (55 points per column) + source file name, produced by `rejudge_lenient.py` (CPU-only, re-runnable) |
+| `tables/lenient_results.json` | strict/lenient score per model (55 points per column) + source file name, produced by `rejudge_lenient.py` (CPU-only, re-runnable) |
 | the "lenient" column in the held-out section table | strict and lenient are both judged at generation time (field `passed_lenient`) |
 
 ## Summary file reference
 
 | file | contents |
 |---|---|
-| `eval_sft_summary.json` | signature-column summary (per-model per-task `x/5`) |
-| `nl_eval_summary.json` | NL-column summary |
-| `heldout_summary.json` / `heldout_results.json` | held-out set: strict/lenient for both columns, per model |
-| `noise20_*_{sig,nl}.json` | per-model summary of the 20-run precision pass |
-| `soup_summary.md` | weight soup candidate table |
+| `tables/eval_sft_summary.json` | signature-column summary (per-model per-task `x/5`) |
+| `tables/nl_eval_summary.json` | NL-column summary |
+| `tables/heldout_summary.json` / `tables/heldout_results.json` | held-out set: strict/lenient for both columns, per model |
+| `tables/noise20_*_{sig,nl}.json` | per-model summary of the 20-run precision pass |
+| `tables/soup_summary.md` | weight soup candidate table |
 
 166 records (arm × file × column) covering 69 distinct model names.

@@ -6,13 +6,13 @@ The clean rebuild tokenizes three public permissively-licensed Python code sourc
 
 | Dataset | Tokens (clean rebuild) | Role | Link |
 |---|---|---|---|
-| codeparrot_clean | 4.13 B | First — distribution-matched with the tokenizer sample | [codeparrot/github-code](https://huggingface.co/datasets/codeparrot/github-code) |
-| the_stack_v1 (Python) | 18.51 B | Second — bulk & diversity | [bigcode/the-stack-dedup](https://huggingface.co/datasets/bigcode/the-stack-dedup) |
-| star_coder_data (Python) | 8.37 B | Third — different provenance, metadata stripped | [bigcode/starcoderdata](https://huggingface.co/datasets/bigcode/starcoderdata) |
+| codeparrot_clean | 4.13 B | First, distribution-matched with the tokenizer sample | [codeparrot/github-code](https://huggingface.co/datasets/codeparrot/github-code) |
+| the_stack_v1 (Python) | 18.51 B | Second, bulk and diversity | [bigcode/the-stack-dedup](https://huggingface.co/datasets/bigcode/the-stack-dedup) |
+| star_coder_data (Python) | 8.37 B | Third, different provenance, metadata stripped | [bigcode/starcoderdata](https://huggingface.co/datasets/bigcode/starcoderdata) |
 
 > 435M (clean rebuild) total = **31.01 B tokens** merged into one continuous stream (`data/all/train.bin`). The 353M first version used codeparrot Python only (~10.6 B unique). Both are explained in the README.
 
-## Filtering pipeline (clean rebuild — `src/data/filter.py`)
+## Filtering pipeline (clean rebuild, `src/data/filter.py`)
 
 Each layer addresses a flaw found in the project's earlier attempts:
 
@@ -32,21 +32,21 @@ Each layer addresses a flaw found in the project's earlier attempts:
 
 ```bash
 # 1. filter + strip metadata + retokenize (see src/data/, src/tokenizer/)
-python src/data/filter.py                       # strict filter + copyright
-python src/tokenizer/strip_metadata.py          # star_coder metadata
-python src/tokenizer/train_tokenizer.py         # train 32K BPE (pure-Python)
-python src/tokenizer/retokenize.py              # → .bin per dataset
+py -3.12 src/data/filter.py                       # strict filter + copyright
+py -3.12 src/tokenizer/strip_metadata.py          # star_coder metadata
+py -3.12 src/tokenizer/train_tokenizer.py         # train 32K BPE (pure-Python)
+py -3.12 src/tokenizer/retokenize.py              # → .bin per dataset
 
 # 2. merge into one stream
 #    (codeparrot → the_stack → star_coder, consistent with training order)
 
 # 3. train (single continuous run, no per-dataset resets)
-python src/train.py --mode offline --bin-data data/all/train.bin \
+py -3.12 src/train.py --mode offline --bin-data data/all/train.bin \
     --val-bin data/all/val.bin --max-tokens 31013881856 \
     --lr-schedule wsm --wsd-decay-fraction 0.0 \
     --final-lr-steps 30000 --final-lr 1e-4 --compile-mode default
 ```
 
-> The raw `.bin` files (62 GB) and source JSONL are **not** in git — regenerate them with the pipeline above. The `data/` dir in this repo holds only this README.
+> The raw `.bin` files (62 GB) and source JSONL are **not** in git, so regenerate them with the pipeline above. The `data/` dir in this repo holds only this README.
 
-> `filter.py` also carries a `CODE_LLM_PROJECT` constant that points at the **353M first version's** sibling checkout (`<parent>/code-llm-project-353M/`). It is only used when filtering that older corpus — the rebuild above never touches it. See `ablation/README.md` for the one script that does need the sibling directory.
+> `filter.py` also carries a `CODE_LLM_PROJECT` constant that points at the **353M first version's** sibling checkout (`<parent>/code-llm-project-353M/`). It is only used when filtering that older corpus, and the rebuild above never touches it. See `ablation/README.md` for the one script that does need the sibling directory.

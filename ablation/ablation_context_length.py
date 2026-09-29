@@ -25,7 +25,7 @@ RoPE theta adjustment rule:
   - seq_len=1024: theta=500000 (current default)
   - seq_len=2048: theta=1000000
 
-Memory considerations (NAS CPU):
+Memory considerations (CPU-only fallback):
   - doubling seq_len roughly doubles per-step memory, so lower batch_size
   - 512: batch=16, ga=2
   - 1024: batch=8, ga=4
