@@ -53,6 +53,8 @@ The explanation is mundane and worth stating plainly: the "champion" had been se
 
 **The shipped model is the mid-pack one** (74.8% on the tuning set, 64.6% on the held-out set — first of seven candidates on unseen tasks, second of eleven on the tuning set). Recipe: 435M base, 147M tokens of gold-standard instruction data mixed with 29.4M tokens of signature data at 5:1, one epoch, LR 2e-5 cosine schedule, 32k tokens per step, ~90 minutes on one RTX 5090. Training about 30 models, all evaluated on both prompt styles with hand-audited outputs.
 
+That checkpoint is published as [`TightX/code-llm-435m-sft`](https://huggingface.co/TightX/code-llm-435m-sft), fine-tuned from the pretrained base [`TightX/code-llm-435m-base`](https://huggingface.co/TightX/code-llm-435m-base); both Hub repositories are public.
+
 ## 6. Limits
 
 Three caveats apply to every number above.

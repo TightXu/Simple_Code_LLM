@@ -245,7 +245,7 @@ Every design decision in this report maps to a specific v1 failure, and the v1 p
 2. **Tokenizer and context-length ablations.** Closed by design at this scale rather than skipped (see [`ablation/README.md`](ablation/README.md)); worth revisiting only with a budget of tens of billions of tokens per arm.
 3. **Schedule ablation** (WSM+merge vs full cosine), not run.
 4. **Fine-tuning on the clean baseline**: done (about 30 runs; see [`post-training/POST_TRAINING.md`](post-training/POST_TRAINING.md)). The open question is the one that report ends on: whether execution-feedback preference learning beats further data/recipe tuning.
-5. **Public release**: checkpoints to HuggingFace Hub, this repo with complete ablation tables
+**Public release (done).** The checkpoints are on Hugging Face Hub — [`TightX/code-llm-435m-base`](https://huggingface.co/TightX/code-llm-435m-base) (merged pretraining weights) and [`TightX/code-llm-435m-sft`](https://huggingface.co/TightX/code-llm-435m-sft) (instruction-tuned) — and this repo carries the complete ablation tables and reports. Both Hub repositories are public.
 
 ---
 

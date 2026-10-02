@@ -11,6 +11,7 @@ A code LLM trained from scratch on one RTX 5090: an archived 353M first version 
 
 ## Where to start
 - [README.md](README.md), section `## Start here`
+- Weights: [TightX/code-llm-435m-base](https://huggingface.co/TightX/code-llm-435m-base), [-sft](https://huggingface.co/TightX/code-llm-435m-sft)
 - [DESIGN.md](DESIGN.md) and [post-training/POST_TRAINING.md](post-training/POST_TRAINING.md)
 
 ## What it does not claim

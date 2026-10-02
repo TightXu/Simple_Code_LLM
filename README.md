@@ -58,6 +58,19 @@ The reason the scores differ is worth stating plainly: these are the same kind o
 └── experiments/         # .gitignored — checkpoints / eval outputs (not in git)
 ```
 
+## The released weights
+
+The 435M v2 model this repo describes is published on Hugging Face Hub as two repositories:
+
+- [`TightX/code-llm-435m-base`](https://huggingface.co/TightX/code-llm-435m-base) — the pretrained
+  base: the merged (weight-averaged) checkpoint from the 31B-token run above, 434,680,832 parameters
+  in bf16.
+- [`TightX/code-llm-435m-sft`](https://huggingface.co/TightX/code-llm-435m-sft) — the
+  instruction-tuned variant: the same architecture, tokenizer and context length, fine-tuned on
+  gold-standard instruction data (the checkpoint selected in `post-training/`).
+
+Both repositories are public on the Hub.
+
 ## How to run
 
 Python 3.12 and one CUDA GPU. `pip install -r requirements.txt` (install a CUDA build of PyTorch for your GPU first). Everything below was run on a single RTX 5090.
