@@ -16,7 +16,7 @@ One thing about how the work was organised, because it shaped the results. The i
 
 Three problems made the first few weeks of comparisons meaningless.
 
-**Single runs are not comparable.** Same data, same hyperparameters, only the random seed changed: pass rates ranged from 65% to 82%. Any two runs can differ by 6 points with no real difference in quality. Every early claim of the form "model A beats model B by 3 points" was noise.
+**Single runs are not comparable.** Same data, same hyperparameters, only the random seed changed: pass rates ranged from 65% to 82%. Any two runs can differ by 6 points with no real difference in quality. (The 65% to 82% range is the spread across the whole seed sweep; the ±6 points quoted in the README is the typical gap between any two runs, not the full spread.) Every early claim of the form "model A beats model B by 3 points" was noise.
 
 **Validation loss does not select models.** This came up three separate times, twice in controlled comparisons where the checkpoint with the *better* validation loss was worse on tasks — once by 17 points, from the same training run, on the same data. Loss on a per-arm validation set is also not comparable across arms, since each arm's validation set comes from its own data distribution. Model selection has to be execution-based.
 

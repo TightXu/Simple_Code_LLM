@@ -1,6 +1,7 @@
 # A Code Language Model From Scratch on a Single RTX 5090
+> 30-second version: [TLDR.md](TLDR.md)
 
-This repo documents my two attempts at training a code LLM from scratch, end to end, on one consumer GPU: data, tokenizer, architecture, training loop and evaluation.
+This repo documents my three training runs and two complete versions for a code LLM built from scratch, end to end, on one consumer GPU: data, tokenizer, architecture, training loop and evaluation.
 
 The first version, the 353M model ([`archive/353M/`](archive/353M/)), showed that a single GPU can run the whole pipeline, and that even at a fraction of the size of a frontier model the result learns the pattern of recursion. It also showed three problems: weakly filtered data, about eight billion tokens quietly trained twice by a resume bug, and a mid-training learning-rate change that wasn't planned for. An intermediate 435M attempt then failed outright (val loss frozen at 1.97 across 21.5B tokens, no usable generation), and what it exposed is summarized in [`CHALLENGES.md`](CHALLENGES.md). So the 435M documented here starts from a clean foundation and turns all of those problems into a controlled set of experiments.
 
@@ -102,3 +103,17 @@ The implementation throughout (training harness, data pipeline, evaluation code)
 Most "train your own LLM" material stops at a toy model with 10M parameters and no real evaluation. This one goes somewhere less comfortable: a real dataset, real training infrastructure, and a hard look at what a few-hundred-million-parameter model actually learns, including the parts that go wrong. It covers data contamination, silent training bugs and evaluation failures, with the raw generations kept in the repository for inspection, through to a model that writes working code.
 
 Both runs trained on one machine: a single NVIDIA RTX 5090 (32 GB, Blackwell sm_120), July–September 2026.
+
+## Start here
+
+A code LLM trained from scratch on one RTX 5090: an archived 353M and a 435M rebuild trained on 31B tokens of filtered Python, then fine-tuned (about 30 runs).
+
+1. [DESIGN.md](DESIGN.md): how the 435M was designed and what it scores (66/100 vs the 353M's 6/100, human-graded).
+2. [ablation/README.md](ablation/README.md): why the data pipeline mattered, measured rather than asserted (a 14-seed human review: fibonacci recursion 14/14 before, 7/14 after training on repeated data).
+3. [post-training/POST_TRAINING.md](post-training/POST_TRAINING.md): how the shipped model was picked (the tuning-set leader finished last on 12 unseen tasks: 55.8% vs the shipped 64.6%).
+
+Check it yourself: open [ablation/README.md](ablation/README.md#cross-model-comparison-the-headline), the cross-model table (6/100 vs 66/100).
+
+Limits: the headline benchmark is 10 tasks; tokenizer, context-length and learning-rate-schedule rows were closed without training runs.
+
+Summary: [TLDR.md](TLDR.md).
