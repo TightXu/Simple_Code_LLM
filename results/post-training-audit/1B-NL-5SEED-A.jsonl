@@ -1,0 +1,297 @@
+{"i": 0, "model": "BASE1B-merged", "name": "fibonacci", "seed": 0, "script_passed": false, "score": 1, "reason": "递推序列本身正确，但用 yield 写成生成器，fibonacci(n) 返回生成器而非第 n 项", "uncertain": true, "reused": true}
+{"i": 1, "model": "BASE1B-merged", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "pivot 被并入 right 又被单独拼接，等于 pivot 的元素重复，含重复元素时无限递归", "uncertain": false, "reused": true}
+{"i": 2, "model": "BASE1B-merged", "name": "binary_search", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代二分标准实现，含空表返回 -1", "uncertain": false, "reused": true}
+{"i": 3, "model": "BASE1B-merged", "name": "two_sum", "seed": 0, "script_passed": true, "score": 2, "reason": "双重循环枚举下标对，命中即返回 [i,j]（无解时无返回，题面未约定）", "uncertain": false, "reused": true}
+{"i": 4, "model": "BASE1B-merged", "name": "mergesort", "seed": 0, "script_passed": false, "score": 1, "reason": "归并逻辑写全但函数无 return，原地写回 arr 后返回 None，递归子调用即 TypeError", "uncertain": true, "reused": true}
+{"i": 5, "model": "BASE1B-merged", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "s == s[::-1] 切片比较，正确", "uncertain": false, "reused": true}
+{"i": 6, "model": "BASE1B-merged", "name": "is_prime", "seed": 0, "script_passed": false, "score": 0, "reason": "整段只有 doctest 文档串，无任何代码（且截断）", "uncertain": false, "reused": true}
+{"i": 7, "model": "BASE1B-merged", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))，正确", "uncertain": false, "reused": true}
+{"i": 8, "model": "BASE1B-merged", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "小写元音列表计数，正确", "uncertain": false, "reused": true}
+{"i": 9, "model": "BASE1B-merged", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "sum(nums)，空表返回 0", "uncertain": false, "reused": true}
+{"i": 10, "model": "BASE1B-merged", "name": "factorial", "seed": 0, "script_passed": false, "score": 1, "reason": "递归结构对但缺 n==0 基准，factorial(0)=0 且 5! 也算成 0", "uncertain": false, "reused": true}
+{"i": 11, "model": "BASE1B-final", "name": "fibonacci", "seed": 0, "script_passed": false, "score": 1, "reason": "n<2 一律返回 0，fib(1) 应为 1，基准情形写反", "uncertain": false, "reused": true}
+{"i": 12, "model": "BASE1B-final", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "left 收 <pivot、right 收 >pivot，等于 pivot 的元素被丢弃（[5,5,5] 只剩 [5]）", "uncertain": false, "reused": true}
+{"i": 13, "model": "BASE1B-final", "name": "binary_search", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代二分标准实现，未找到显式 return -1，空表也为 -1", "uncertain": false, "reused": true}
+{"i": 14, "model": "BASE1B-final", "name": "two_sum", "seed": 0, "script_passed": false, "score": 1, "reason": "对 sorted 副本用双指针并返回 first+1/second+1，原下标信息丢失，返回值与原数组不符", "uncertain": true, "reused": true}
+{"i": 15, "model": "BASE1B-final", "name": "mergesort", "seed": 0, "script_passed": false, "score": 0, "reason": "mergesort 调用的 merge 只定义在类里（全局 NameError），且该 merge 实现错乱、无返回", "uncertain": false, "reused": true}
+{"i": 16, "model": "BASE1B-final", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "先把 s 覆盖为逆序再与原串比较（s[::-1] 得回原串），等价于 s == s[::-1]，结果正确", "uncertain": false, "reused": true}
+{"i": 17, "model": "BASE1B-final", "name": "is_prime", "seed": 0, "script_passed": false, "score": 1, "reason": "试除结构正确，但 sqrt 未 import（NameError），且 n<2 未处理", "uncertain": false, "reused": true}
+{"i": 18, "model": "BASE1B-final", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "倒序索引拼接，正确", "uncertain": false, "reused": true}
+{"i": 19, "model": "BASE1B-final", "name": "count_vowels", "seed": 0, "script_passed": false, "score": 1, "reason": "把 y 也当元音（in \"aeiouy\"），且 sum 累加字符本身，实际运行 TypeError", "uncertain": false, "reused": true}
+{"i": 20, "model": "BASE1B-final", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "循环累加并单独处理空表，正确", "uncertain": false, "reused": true}
+{"i": 21, "model": "BASE1B-final", "name": "factorial", "seed": 0, "script_passed": true, "score": 2, "reason": "递归正确（n<=1 返回 1，负数报错）；尾部示例注释数值错但无副作用", "uncertain": false, "reused": true}
+{"i": 22, "model": "BASE1B-best_val", "name": "fibonacci", "seed": 0, "script_passed": false, "score": 1, "reason": "n<2 返回 0，fib(1) 应为 1，基准情形写反", "uncertain": false, "reused": true}
+{"i": 23, "model": "BASE1B-best_val", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "pivot 计入划分循环又被单独拼接，等于 pivot 的元素重复（无限递归/结果重复）", "uncertain": false, "reused": true}
+{"i": 24, "model": "BASE1B-best_val", "name": "binary_search", "seed": 0, "script_passed": false, "score": 1, "reason": "mid 用 / 得到浮点下标，arr[mid] 直接 TypeError（应 //）", "uncertain": false, "reused": true}
+{"i": 25, "model": "BASE1B-best_val", "name": "two_sum", "seed": 0, "script_passed": false, "score": 0, "reason": "只有 doctest 文档串、无任何实现（且截断）", "uncertain": false, "reused": true}
+{"i": 26, "model": "BASE1B-best_val", "name": "mergesort", "seed": 0, "script_passed": true, "score": 2, "reason": "递归二分 + 双指针归并返回新列表，正确", "uncertain": false, "reused": true}
+{"i": 27, "model": "BASE1B-best_val", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "转 list 后首尾逐位比较，正确", "uncertain": false, "reused": true}
+{"i": 28, "model": "BASE1B-best_val", "name": "is_prime", "seed": 0, "script_passed": false, "score": 1, "reason": "试除结构正确，但 sqrt 未 import（NameError），且 n<2 未处理", "uncertain": false, "reused": true}
+{"i": 29, "model": "BASE1B-best_val", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))，正确", "uncertain": false, "reused": true}
+{"i": 30, "model": "BASE1B-best_val", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "sum(字符 in 'aeiou')，与题目给定小写元音集一致，正确", "uncertain": false, "reused": true}
+{"i": 31, "model": "BASE1B-best_val", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "sum 列表推导，正确", "uncertain": false, "reused": true}
+{"i": 32, "model": "BASE1B-best_val", "name": "factorial", "seed": 0, "script_passed": true, "score": 2, "reason": "递归 n<2 返回 1，0! 与 1! 均正确", "uncertain": false, "reused": true}
+{"i": 33, "model": "SFT1B-s42-merged-final", "name": "fibonacci", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代实现，基准与递推均正确", "uncertain": false, "reused": true}
+{"i": 34, "model": "SFT1B-s42-merged-final", "name": "quicksort", "seed": 0, "script_passed": true, "score": 2, "reason": "pivot=arr[mid] 三分划分，正确", "uncertain": false, "reused": true}
+{"i": 35, "model": "SFT1B-s42-merged-final", "name": "binary_search", "seed": 0, "script_passed": true, "score": 2, "reason": "标准迭代二分，返回 -1", "uncertain": false, "reused": true}
+{"i": 36, "model": "SFT1B-s42-merged-final", "name": "two_sum", "seed": 0, "script_passed": true, "score": 2, "reason": "哈希表返回下标对，无解返回 None（题面未约定）", "uncertain": false, "reused": true}
+{"i": 37, "model": "SFT1B-s42-merged-final", "name": "mergesort", "seed": 0, "script_passed": false, "score": 1, "reason": "mergesort 结构对，但 merge 少了尾部追加与 return，返回 None 使上层 TypeError", "uncertain": true, "reused": true}
+{"i": 38, "model": "SFT1B-s42-merged-final", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "s == s[::-1]，正确", "uncertain": false, "reused": true}
+{"i": 39, "model": "SFT1B-s42-merged-final", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "6k±1 试除，含 n<=1 处理，正确", "uncertain": false, "reused": true}
+{"i": 40, "model": "SFT1B-s42-merged-final", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))，正确", "uncertain": false, "reused": true}
+{"i": 41, "model": "SFT1B-s42-merged-final", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "元音集合含大小写，计数正确", "uncertain": false, "reused": true}
+{"i": 42, "model": "SFT1B-s42-merged-final", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "sum(nums)，正确", "uncertain": false, "reused": true}
+{"i": 43, "model": "SFT1B-s42-merged-final", "name": "factorial", "seed": 0, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative，未定义 factorial（接口不符）", "uncertain": true, "reused": true}
+{"i": 44, "model": "SFT1B-s42-merged-best_val", "name": "fibonacci", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代实现，基准与递推均正确", "uncertain": false, "reused": true}
+{"i": 45, "model": "SFT1B-s42-merged-best_val", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 划分后 greater 段在前，结果为降序（应升序）", "uncertain": false, "reused": true}
+{"i": 46, "model": "SFT1B-s42-merged-best_val", "name": "binary_search", "seed": 0, "script_passed": true, "score": 2, "reason": "记录 result 并向左收缩，未找到返回 -1，正确", "uncertain": false, "reused": true}
+{"i": 47, "model": "SFT1B-s42-merged-best_val", "name": "two_sum", "seed": 0, "script_passed": false, "score": 1, "reason": "对未排序数组直接双指针（[3,2,4] 无解返回 [-1,-1]），下标映射只用于回填", "uncertain": true, "reused": true}
+{"i": 48, "model": "SFT1B-s42-merged-best_val", "name": "mergesort", "seed": 0, "script_passed": true, "score": 2, "reason": "原地归并 + return arr，正确", "uncertain": false, "reused": true}
+{"i": 49, "model": "SFT1B-s42-merged-best_val", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "过滤并 lower 后比较逆序，正确", "uncertain": false, "reused": true}
+{"i": 50, "model": "SFT1B-s42-merged-best_val", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "6k±1 试除，含 n<=1 处理，正确", "uncertain": false, "reused": true}
+{"i": 51, "model": "SFT1B-s42-merged-best_val", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))，正确", "uncertain": false, "reused": true}
+{"i": 52, "model": "SFT1B-s42-merged-best_val", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "元音集合含大小写，计数正确", "uncertain": false, "reused": true}
+{"i": 53, "model": "SFT1B-s42-merged-best_val", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "sum(... if num) 过滤零值，数值和不变，结果正确", "uncertain": false, "reused": true}
+{"i": 54, "model": "SFT1B-s42-merged-best_val", "name": "factorial", "seed": 0, "script_passed": false, "score": 1, "reason": "递归基准正确（n==0/1 -> 1），但函数名为 factorial_recursive，未定义 factorial", "uncertain": true, "reused": true}
+{"i": 55, "model": "SFT1B-s42-final-final", "name": "fibonacci", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代实现，n<=0 -> 0、n==1 -> 1，正确", "uncertain": false, "reused": true}
+{"i": 56, "model": "SFT1B-s42-final-final", "name": "quicksort", "seed": 0, "script_passed": true, "score": 2, "reason": "pivot=arr[mid] 三分划分（<,=,>），无丢无重，正确", "uncertain": false, "reused": true}
+{"i": 57, "model": "SFT1B-s42-final-final", "name": "binary_search", "seed": 0, "script_passed": true, "score": 2, "reason": "mid 用 left+(right-left)//2，未找到返回 -1，正确", "uncertain": false, "reused": true}
+{"i": 58, "model": "SFT1B-s42-final-final", "name": "two_sum", "seed": 0, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解时无返回，题面未约定）", "uncertain": false, "reused": true}
+{"i": 59, "model": "SFT1B-s42-final-final", "name": "mergesort", "seed": 0, "script_passed": false, "score": 0, "reason": "merge 被截断（while 的 else 体为空），语法错误、不可运行", "uncertain": true, "reused": true}
+{"i": 60, "model": "SFT1B-s42-final-final", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "过滤非字母数字并 lower 后与逆序比较，正确", "uncertain": false, "reused": true}
+{"i": 61, "model": "SFT1B-s42-final-final", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "6k±1 试除，n<=1 返回 False，正确", "uncertain": false, "reused": true}
+{"i": 62, "model": "SFT1B-s42-final-final", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))，正确", "uncertain": false, "reused": true}
+{"i": 63, "model": "SFT1B-s42-final-final", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "元音集合含大小写，计数正确", "uncertain": false, "reused": true}
+{"i": 64, "model": "SFT1B-s42-final-final", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "sum(nums)，空表返回 0", "uncertain": false, "reused": true}
+{"i": 65, "model": "SFT1B-s42-final-final", "name": "factorial", "seed": 0, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名写成 factorial_iterative，未定义题面要求的 factorial（接口不符）", "uncertain": true, "reused": true}
+{"i": 66, "model": "SFT1B-s42-final-best_val", "name": "fibonacci", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代实现，基准与递推均正确", "uncertain": false, "reused": true}
+{"i": 67, "model": "SFT1B-s42-final-best_val", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 划分后把 greater 段放在前面，结果为降序（应升序）", "uncertain": false, "reused": true}
+{"i": 68, "model": "SFT1B-s42-final-best_val", "name": "binary_search", "seed": 0, "script_passed": true, "score": 2, "reason": "标准迭代二分，未找到返回 -1", "uncertain": false, "reused": true}
+{"i": 69, "model": "SFT1B-s42-final-best_val", "name": "two_sum", "seed": 0, "script_passed": true, "score": 2, "reason": "哈希表返回下标对，无解返回 []，正确", "uncertain": false, "reused": true}
+{"i": 70, "model": "SFT1B-s42-final-best_val", "name": "mergesort", "seed": 0, "script_passed": true, "score": 2, "reason": "经典原地归并（子递归 + 写回 arr）并 return arr，正确", "uncertain": false, "reused": true}
+{"i": 71, "model": "SFT1B-s42-final-best_val", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "过滤非字母数字并 lower 后比较逆序，正确", "uncertain": false, "reused": true}
+{"i": 72, "model": "SFT1B-s42-final-best_val", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": true}
+{"i": 73, "model": "SFT1B-s42-final-best_val", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "s[::-1]，正确", "uncertain": false, "reused": true}
+{"i": 74, "model": "SFT1B-s42-final-best_val", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "小写元音集计数，与题目给定集合一致", "uncertain": false, "reused": true}
+{"i": 75, "model": "SFT1B-s42-final-best_val", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "sum(... if num) 过滤零值，对数值输入和不改变，结果正确", "uncertain": false, "reused": true}
+{"i": 76, "model": "SFT1B-s42-final-best_val", "name": "factorial", "seed": 0, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名写成 factorial_iterative，未定义 factorial（接口不符）", "uncertain": true, "reused": true}
+{"i": 77, "model": "SFT1B-s42-best_val-final", "name": "fibonacci", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代实现，基准与递推均正确", "uncertain": false, "reused": true}
+{"i": 78, "model": "SFT1B-s42-best_val-final", "name": "quicksort", "seed": 0, "script_passed": true, "score": 2, "reason": "pivot=arr[mid] 三分划分，正确", "uncertain": false, "reused": true}
+{"i": 79, "model": "SFT1B-s42-best_val-final", "name": "binary_search", "seed": 0, "script_passed": true, "score": 2, "reason": "标准迭代二分，返回 -1", "uncertain": false, "reused": true}
+{"i": 80, "model": "SFT1B-s42-best_val-final", "name": "two_sum", "seed": 0, "script_passed": true, "score": 2, "reason": "哈希表返回下标对，无解返回 [-1,-1]，正确", "uncertain": false, "reused": true}
+{"i": 81, "model": "SFT1B-s42-best_val-final", "name": "mergesort", "seed": 0, "script_passed": true, "score": 2, "reason": "原地归并 + return arr，正确", "uncertain": false, "reused": true}
+{"i": 82, "model": "SFT1B-s42-best_val-final", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "过滤并 lower 后比较逆序，正确", "uncertain": false, "reused": true}
+{"i": 83, "model": "SFT1B-s42-best_val-final", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "6k±1 试除，含 n<=1 处理，正确", "uncertain": false, "reused": true}
+{"i": 84, "model": "SFT1B-s42-best_val-final", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))，正确", "uncertain": false, "reused": true}
+{"i": 85, "model": "SFT1B-s42-best_val-final", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "小写元音集计数，符合题面", "uncertain": false, "reused": true}
+{"i": 86, "model": "SFT1B-s42-best_val-final", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "sum(nums)，正确", "uncertain": false, "reused": true}
+{"i": 87, "model": "SFT1B-s42-best_val-final", "name": "factorial", "seed": 0, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative，未定义 factorial（接口不符）", "uncertain": true, "reused": true}
+{"i": 88, "model": "SFT1B-s42-best_val-best_val", "name": "fibonacci", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代实现，基准与递推均正确", "uncertain": false, "reused": true}
+{"i": 89, "model": "SFT1B-s42-best_val-best_val", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 划分后 greater 段在前，结果为降序（应升序）", "uncertain": false, "reused": true}
+{"i": 90, "model": "SFT1B-s42-best_val-best_val", "name": "binary_search", "seed": 0, "script_passed": true, "score": 2, "reason": "改为记录 result 并向左收缩，未找到返回 -1，正确", "uncertain": false, "reused": true}
+{"i": 91, "model": "SFT1B-s42-best_val-best_val", "name": "two_sum", "seed": 0, "script_passed": true, "score": 2, "reason": "哈希表返回下标对，无解返回 None（题面未约定）", "uncertain": false, "reused": true}
+{"i": 92, "model": "SFT1B-s42-best_val-best_val", "name": "mergesort", "seed": 0, "script_passed": true, "score": 2, "reason": "原地归并 + return arr，正确", "uncertain": false, "reused": true}
+{"i": 93, "model": "SFT1B-s42-best_val-best_val", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "过滤并 lower 后比较逆序，正确", "uncertain": false, "reused": true}
+{"i": 94, "model": "SFT1B-s42-best_val-best_val", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "6k±1 试除，含 n<=1 处理，正确", "uncertain": false, "reused": true}
+{"i": 95, "model": "SFT1B-s42-best_val-best_val", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))，正确", "uncertain": false, "reused": true}
+{"i": 96, "model": "SFT1B-s42-best_val-best_val", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "元音集合含大小写，计数正确", "uncertain": false, "reused": true}
+{"i": 97, "model": "SFT1B-s42-best_val-best_val", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "sum(... if num) 过滤零值，数值和不变，结果正确", "uncertain": false, "reused": true}
+{"i": 98, "model": "SFT1B-s42-best_val-best_val", "name": "factorial", "seed": 0, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative，未定义 factorial（接口不符）", "uncertain": true, "reused": true}
+{"i": 99, "model": "BASE1B-merged", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "n<2 返回 n 或迭代 a,b 起始正确，fib(0)=0/fib(1)=1 成立", "uncertain": false, "reused": false}
+{"i": 100, "model": "BASE1B-merged", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "pivot 被并入 right（>= 分支）又被单独拼接，含重复元素时无限递归", "uncertain": false, "reused": false}
+{"i": 101, "model": "BASE1B-merged", "name": "binary_search", "seed": 42, "script_passed": true, "score": 2, "reason": "标准二分 [low,high] 闭区间，未命中 return -1", "uncertain": false, "reused": false}
+{"i": 102, "model": "BASE1B-merged", "name": "two_sum", "seed": 42, "script_passed": false, "score": 1, "reason": "并原地 sort 后在排序数组上双指针，返回的下标与原始 nums 不符", "uncertain": false, "reused": false}
+{"i": 103, "model": "BASE1B-merged", "name": "mergesort", "seed": 42, "script_passed": false, "score": 1, "reason": "归并逻辑写全但函数无 return，原地写回 arr 后返回 None", "uncertain": false, "reused": false}
+{"i": 104, "model": "BASE1B-final", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "n<2 返回 n 或迭代 a,b 起始正确，fib(0)=0/fib(1)=1 成立", "uncertain": false, "reused": false}
+{"i": 105, "model": "BASE1B-final", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "pivot 被并入 right（>= 分支）又被单独拼接，含重复元素时无限递归", "uncertain": false, "reused": false}
+{"i": 106, "model": "BASE1B-final", "name": "binary_search", "seed": 42, "script_passed": true, "score": 2, "reason": "标准二分（分支次序不同），未命中 return -1", "uncertain": false, "reused": false}
+{"i": 107, "model": "BASE1B-final", "name": "two_sum", "seed": 42, "script_passed": false, "score": 1, "reason": "sorted 副本 + 双指针并返回 [i+1,j+1]，原下标信息丢失", "uncertain": false, "reused": false}
+{"i": 108, "model": "BASE1B-final", "name": "mergesort", "seed": 42, "script_passed": false, "score": 1, "reason": "函数名为 merge_sort 不符，且归并写成尾部弹出/直接拼接，结果非升序", "uncertain": false, "reused": false}
+{"i": 109, "model": "BASE1B-best_val", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "n<2 返回 n 或迭代 a,b 起始正确，fib(0)=0/fib(1)=1 成立", "uncertain": false, "reused": false}
+{"i": 110, "model": "BASE1B-best_val", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "pivot 被并入 right（>= 分支）又被单独拼接，含重复元素时无限递归", "uncertain": false, "reused": false}
+{"i": 111, "model": "BASE1B-best_val", "name": "binary_search", "seed": 42, "script_passed": false, "score": 1, "reason": "mid=(low+high)/2 为浮点数，arr[mid] 下标报错（应 //2）", "uncertain": false, "reused": false}
+{"i": 112, "model": "BASE1B-best_val", "name": "two_sum", "seed": 42, "script_passed": false, "score": 0, "reason": "函数体内只有 docstring/doctest，无任何实现", "uncertain": false, "reused": false}
+{"i": 113, "model": "BASE1B-best_val", "name": "mergesort", "seed": 42, "script_passed": false, "score": 1, "reason": "mergesort 结构正确但依赖的 merge 未定义（NameError）", "uncertain": false, "reused": false}
+{"i": 114, "model": "SFT1B-s42-merged-final", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "n<2 返回 n 或迭代 a,b 起始正确，fib(0)=0/fib(1)=1 成立", "uncertain": false, "reused": false}
+{"i": 115, "model": "SFT1B-s42-merged-final", "name": "quicksort", "seed": 42, "script_passed": true, "score": 2, "reason": "pivot=arr[mid] 三分划分（<,=,>），无丢无重，正确", "uncertain": false, "reused": false}
+{"i": 116, "model": "SFT1B-s42-merged-final", "name": "binary_search", "seed": 42, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 117, "model": "SFT1B-s42-merged-final", "name": "two_sum", "seed": 42, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 118, "model": "SFT1B-s42-merged-final", "name": "mergesort", "seed": 42, "script_passed": false, "score": 0, "reason": "merge 内 'i +=' 处截断，语法错误不可运行", "uncertain": false, "reused": false}
+{"i": 119, "model": "SFT1B-s42-merged-best_val", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "n<2 返回 n 或迭代 a,b 起始正确，fib(0)=0/fib(1)=1 成立", "uncertain": false, "reused": false}
+{"i": 120, "model": "SFT1B-s42-merged-best_val", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 划分后 greater 段放在前面，结果为降序（应升序）", "uncertain": false, "reused": false}
+{"i": 121, "model": "SFT1B-s42-merged-best_val", "name": "binary_search", "seed": 42, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 122, "model": "SFT1B-s42-merged-best_val", "name": "two_sum", "seed": 42, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 123, "model": "SFT1B-s42-merged-best_val", "name": "mergesort", "seed": 42, "script_passed": true, "score": 2, "reason": "原地归并（子递归 + 写回 arr）并 return arr，正确", "uncertain": false, "reused": false}
+{"i": 124, "model": "SFT1B-s42-final-final", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "n<2 返回 n 或迭代 a,b 起始正确，fib(0)=0/fib(1)=1 成立", "uncertain": false, "reused": false}
+{"i": 125, "model": "SFT1B-s42-final-final", "name": "quicksort", "seed": 42, "script_passed": false, "score": 2, "reason": "pivot=arr[mid] 三分划分（<,=,>），无丢无重，正确", "uncertain": false, "reused": false}
+{"i": 126, "model": "SFT1B-s42-final-final", "name": "binary_search", "seed": 42, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 127, "model": "SFT1B-s42-final-final", "name": "two_sum", "seed": 42, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 128, "model": "SFT1B-s42-final-final", "name": "mergesort", "seed": 42, "script_passed": false, "score": 0, "reason": "merge 内 else 体为空即截断，语法错误不可运行", "uncertain": false, "reused": false}
+{"i": 129, "model": "SFT1B-s42-final-best_val", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "n<2 返回 n 或迭代 a,b 起始正确，fib(0)=0/fib(1)=1 成立", "uncertain": false, "reused": false}
+{"i": 130, "model": "SFT1B-s42-final-best_val", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 划分后 greater 段放在前面，结果为降序（应升序）", "uncertain": false, "reused": false}
+{"i": 131, "model": "SFT1B-s42-final-best_val", "name": "binary_search", "seed": 42, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 132, "model": "SFT1B-s42-final-best_val", "name": "two_sum", "seed": 42, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 133, "model": "SFT1B-s42-final-best_val", "name": "mergesort", "seed": 42, "script_passed": true, "score": 2, "reason": "原地归并（子递归 + 写回 arr）并 return arr，正确", "uncertain": false, "reused": false}
+{"i": 134, "model": "SFT1B-s42-best_val-final", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "n<2 返回 n 或迭代 a,b 起始正确，fib(0)=0/fib(1)=1 成立", "uncertain": false, "reused": false}
+{"i": 135, "model": "SFT1B-s42-best_val-final", "name": "quicksort", "seed": 42, "script_passed": false, "score": 2, "reason": "pivot=arr[mid] 三分划分（<,=,>），无丢无重，正确", "uncertain": false, "reused": false}
+{"i": 136, "model": "SFT1B-s42-best_val-final", "name": "binary_search", "seed": 42, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 137, "model": "SFT1B-s42-best_val-final", "name": "two_sum", "seed": 42, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 138, "model": "SFT1B-s42-best_val-final", "name": "mergesort", "seed": 42, "script_passed": false, "score": 0, "reason": "merge 内 else 体为空即截断，语法错误不可运行", "uncertain": false, "reused": false}
+{"i": 139, "model": "SFT1B-s42-best_val-best_val", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "n<2 返回 n 或迭代 a,b 起始正确，fib(0)=0/fib(1)=1 成立", "uncertain": false, "reused": false}
+{"i": 140, "model": "SFT1B-s42-best_val-best_val", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 划分后 greater 段放在前面，结果为降序（应升序）", "uncertain": false, "reused": false}
+{"i": 141, "model": "SFT1B-s42-best_val-best_val", "name": "binary_search", "seed": 42, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 142, "model": "SFT1B-s42-best_val-best_val", "name": "two_sum", "seed": 42, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 143, "model": "SFT1B-s42-best_val-best_val", "name": "mergesort", "seed": 42, "script_passed": true, "score": 2, "reason": "原地归并（子递归 + 写回 arr）并 return arr，正确", "uncertain": false, "reused": false}
+{"i": 144, "model": "BASE1B-merged", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "s == s[::-1] 切片比较，正确", "uncertain": false, "reused": false}
+{"i": 145, "model": "BASE1B-merged", "name": "is_prime", "seed": 42, "script_passed": false, "score": 1, "reason": "试除结构正确，但 math 未 import（NameError），且 n<2 未处理", "uncertain": false, "reused": false}
+{"i": 146, "model": "BASE1B-merged", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "倒序索引拼接（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 147, "model": "BASE1B-merged", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "小写元音集合计数，正确", "uncertain": false, "reused": false}
+{"i": 148, "model": "BASE1B-merged", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "sum(nums)，空表返回 0", "uncertain": false, "reused": false}
+{"i": 149, "model": "BASE1B-merged", "name": "factorial", "seed": 42, "script_passed": true, "score": 2, "reason": "迭代 1..n 累乘，factorial(0)=1，正确", "uncertain": false, "reused": false}
+{"i": 150, "model": "BASE1B-final", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "str(s) 后与逆序比较，正确", "uncertain": false, "reused": false}
+{"i": 151, "model": "BASE1B-final", "name": "is_prime", "seed": 42, "script_passed": false, "score": 1, "reason": "试除结构正确，但 math 未 import（NameError），且 n<2 未处理", "uncertain": false, "reused": false}
+{"i": 152, "model": "BASE1B-final", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 153, "model": "BASE1B-final", "name": "count_vowels", "seed": 42, "script_passed": false, "score": 1, "reason": "额外条件 c != 'a' 把 a 排除，元音计数偏少", "uncertain": false, "reused": false}
+{"i": 154, "model": "BASE1B-final", "name": "sum_list", "seed": 42, "script_passed": false, "score": 1, "reason": "对每个前缀再求和并累加，结果远大于真实和", "uncertain": false, "reused": false}
+{"i": 155, "model": "BASE1B-final", "name": "factorial", "seed": 42, "script_passed": false, "score": 1, "reason": "主答案缺 n==0 基准（factorial(0)=0、5! 也算成 0）；后附 reduce 版非主答案", "uncertain": true, "reused": false}
+{"i": 156, "model": "BASE1B-best_val", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "主答案转 list 首尾逐位比较，正确（后面另附 Solution2 属多余）", "uncertain": false, "reused": false}
+{"i": 157, "model": "BASE1B-best_val", "name": "is_prime", "seed": 42, "script_passed": false, "score": 0, "reason": "return n>1 or any(...) 布尔逻辑无意义，n>1 时恒为 True", "uncertain": false, "reused": false}
+{"i": 158, "model": "BASE1B-best_val", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "主答案 ''.join(reversed(s))，正确", "uncertain": false, "reused": false}
+{"i": 159, "model": "BASE1B-best_val", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "附加条件 c not in ['ae',...] 对单字符恒真，等价正确计数", "uncertain": false, "reused": false}
+{"i": 160, "model": "BASE1B-best_val", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "主答案 sum(nums)，正确", "uncertain": false, "reused": false}
+{"i": 161, "model": "BASE1B-best_val", "name": "factorial", "seed": 42, "script_passed": true, "score": 2, "reason": "主答案 n<2 返回 1，0! 与 1! 均正确", "uncertain": false, "reused": false}
+{"i": 162, "model": "SFT1B-s42-merged-final", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "过滤非字母数字并 lower 后与逆序比较，正确", "uncertain": false, "reused": false}
+{"i": 163, "model": "SFT1B-s42-merged-final", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 164, "model": "SFT1B-s42-merged-final", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 165, "model": "SFT1B-s42-merged-final", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 166, "model": "SFT1B-s42-merged-final", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 167, "model": "SFT1B-s42-merged-final", "name": "factorial", "seed": 42, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 168, "model": "SFT1B-s42-merged-best_val", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "过滤非字母数字并 lower 后与逆序比较，正确", "uncertain": false, "reused": false}
+{"i": 169, "model": "SFT1B-s42-merged-best_val", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 170, "model": "SFT1B-s42-merged-best_val", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 171, "model": "SFT1B-s42-merged-best_val", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 172, "model": "SFT1B-s42-merged-best_val", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 173, "model": "SFT1B-s42-merged-best_val", "name": "factorial", "seed": 42, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 174, "model": "SFT1B-s42-final-final", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "过滤非字母数字并 lower 后与逆序比较，正确", "uncertain": false, "reused": false}
+{"i": 175, "model": "SFT1B-s42-final-final", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 176, "model": "SFT1B-s42-final-final", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 177, "model": "SFT1B-s42-final-final", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 178, "model": "SFT1B-s42-final-final", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 179, "model": "SFT1B-s42-final-final", "name": "factorial", "seed": 42, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 180, "model": "SFT1B-s42-final-best_val", "name": "is_palindrome", "seed": 42, "script_passed": false, "score": 1, "reason": "s1==s2[::-1] 中 s2 已是逆序，再逆转抵消，恒返回 True", "uncertain": false, "reused": false}
+{"i": 181, "model": "SFT1B-s42-final-best_val", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 182, "model": "SFT1B-s42-final-best_val", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 183, "model": "SFT1B-s42-final-best_val", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 184, "model": "SFT1B-s42-final-best_val", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 185, "model": "SFT1B-s42-final-best_val", "name": "factorial", "seed": 42, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 186, "model": "SFT1B-s42-best_val-final", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "过滤非字母数字并 lower 后与逆序比较，正确", "uncertain": false, "reused": false}
+{"i": 187, "model": "SFT1B-s42-best_val-final", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 188, "model": "SFT1B-s42-best_val-final", "name": "reverse_string", "seed": 42, "script_passed": false, "score": 1, "reason": "' '.join(s[::-1]) 会在每个字符间插空格，返回非逆序串", "uncertain": false, "reused": false}
+{"i": 189, "model": "SFT1B-s42-best_val-final", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 190, "model": "SFT1B-s42-best_val-final", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 191, "model": "SFT1B-s42-best_val-final", "name": "factorial", "seed": 42, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 192, "model": "SFT1B-s42-best_val-best_val", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "过滤非字母数字并 lower 后与逆序比较，正确", "uncertain": false, "reused": false}
+{"i": 193, "model": "SFT1B-s42-best_val-best_val", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 194, "model": "SFT1B-s42-best_val-best_val", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 195, "model": "SFT1B-s42-best_val-best_val", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 196, "model": "SFT1B-s42-best_val-best_val", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 197, "model": "SFT1B-s42-best_val-best_val", "name": "factorial", "seed": 42, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 198, "model": "BASE1B-merged", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "s == s[::-1]，正确", "uncertain": false, "reused": false}
+{"i": 199, "model": "BASE1B-merged", "name": "is_prime", "seed": 123, "script_passed": false, "score": 0, "reason": "整段只有 doctest 文档串且未闭合，无任何实现", "uncertain": false, "reused": false}
+{"i": 200, "model": "BASE1B-merged", "name": "reverse_string", "seed": 123, "script_passed": true, "score": 2, "reason": "倒序索引拼接（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 201, "model": "BASE1B-merged", "name": "count_vowels", "seed": 123, "script_passed": false, "score": 1, "reason": "sum 累加字符本身而非 1，遇到元音 TypeError", "uncertain": false, "reused": false}
+{"i": 202, "model": "BASE1B-merged", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "sum(nums)，空表返回 0", "uncertain": false, "reused": false}
+{"i": 203, "model": "BASE1B-merged", "name": "factorial", "seed": 123, "script_passed": true, "score": 2, "reason": "n==0/1 返回 1 的递归，正确", "uncertain": false, "reused": false}
+{"i": 204, "model": "BASE1B-final", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "s == s[::-1]，正确", "uncertain": false, "reused": false}
+{"i": 205, "model": "BASE1B-final", "name": "is_prime", "seed": 123, "script_passed": false, "score": 1, "reason": "试除结构正确，但 sqrt 未 import（NameError），且 n<2 未处理", "uncertain": false, "reused": false}
+{"i": 206, "model": "BASE1B-final", "name": "reverse_string", "seed": 123, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 207, "model": "BASE1B-final", "name": "count_vowels", "seed": 123, "script_passed": false, "score": 1, "reason": "把 y 也算元音（'aeiouy'），计数偏多", "uncertain": false, "reused": false}
+{"i": 208, "model": "BASE1B-final", "name": "sum_list", "seed": 123, "script_passed": false, "score": 2, "reason": "递归二分 + 空表/单元素基准，正确", "uncertain": false, "reused": false}
+{"i": 209, "model": "BASE1B-final", "name": "factorial", "seed": 123, "script_passed": false, "score": 2, "reason": "n==0 或 1 返回 1 的递归，正确", "uncertain": false, "reused": false}
+{"i": 210, "model": "BASE1B-best_val", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "s == s[::-1]，正确", "uncertain": false, "reused": false}
+{"i": 211, "model": "BASE1B-best_val", "name": "is_prime", "seed": 123, "script_passed": false, "score": 1, "reason": "主答案试除结构正确，但 sqrt 未 import（NameError）", "uncertain": false, "reused": false}
+{"i": 212, "model": "BASE1B-best_val", "name": "reverse_string", "seed": 123, "script_passed": true, "score": 2, "reason": "主答案 ''.join(reversed(s))，正确", "uncertain": false, "reused": false}
+{"i": 213, "model": "BASE1B-best_val", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "附加条件对单字符恒真，等价正确计数", "uncertain": false, "reused": false}
+{"i": 214, "model": "BASE1B-best_val", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "空表返回 0，否则 sum 列表，正确", "uncertain": false, "reused": false}
+{"i": 215, "model": "BASE1B-best_val", "name": "factorial", "seed": 123, "script_passed": true, "score": 2, "reason": "n==0 返回 1 的递归，正确", "uncertain": false, "reused": false}
+{"i": 216, "model": "SFT1B-s42-merged-final", "name": "is_palindrome", "seed": 123, "script_passed": false, "score": 1, "reason": "过滤只保留 isdigit() 数字，普通字母串被清空后恒为 True", "uncertain": false, "reused": false}
+{"i": 217, "model": "SFT1B-s42-merged-final", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 218, "model": "SFT1B-s42-merged-final", "name": "reverse_string", "seed": 123, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 219, "model": "SFT1B-s42-merged-final", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 220, "model": "SFT1B-s42-merged-final", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 221, "model": "SFT1B-s42-merged-final", "name": "factorial", "seed": 123, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 222, "model": "SFT1B-s42-merged-best_val", "name": "is_palindrome", "seed": 123, "script_passed": false, "score": 0, "reason": "return len(cleaned)%2==0 冒充回文判断，逻辑与回文无关", "uncertain": false, "reused": false}
+{"i": 223, "model": "SFT1B-s42-merged-best_val", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 224, "model": "SFT1B-s42-merged-best_val", "name": "reverse_string", "seed": 123, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 225, "model": "SFT1B-s42-merged-best_val", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 226, "model": "SFT1B-s42-merged-best_val", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 227, "model": "SFT1B-s42-merged-best_val", "name": "factorial", "seed": 123, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 228, "model": "SFT1B-s42-final-final", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "过滤非字母数字（或直接切片）后与逆序比较，正确", "uncertain": false, "reused": false}
+{"i": 229, "model": "SFT1B-s42-final-final", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 230, "model": "SFT1B-s42-final-final", "name": "reverse_string", "seed": 123, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 231, "model": "SFT1B-s42-final-final", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 232, "model": "SFT1B-s42-final-final", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 233, "model": "SFT1B-s42-final-final", "name": "factorial", "seed": 123, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 234, "model": "SFT1B-s42-final-best_val", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "过滤非字母数字（或直接切片）后与逆序比较，正确", "uncertain": false, "reused": false}
+{"i": 235, "model": "SFT1B-s42-final-best_val", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 236, "model": "SFT1B-s42-final-best_val", "name": "reverse_string", "seed": 123, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 237, "model": "SFT1B-s42-final-best_val", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 238, "model": "SFT1B-s42-final-best_val", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 239, "model": "SFT1B-s42-final-best_val", "name": "factorial", "seed": 123, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 240, "model": "SFT1B-s42-best_val-final", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "过滤非字母数字（或直接切片）后与逆序比较，正确", "uncertain": false, "reused": false}
+{"i": 241, "model": "SFT1B-s42-best_val-final", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 242, "model": "SFT1B-s42-best_val-final", "name": "reverse_string", "seed": 123, "script_passed": false, "score": 1, "reason": "' '.join(s[::-1]) 会在每个字符间插空格，返回非逆序串", "uncertain": false, "reused": false}
+{"i": 243, "model": "SFT1B-s42-best_val-final", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 244, "model": "SFT1B-s42-best_val-final", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 245, "model": "SFT1B-s42-best_val-final", "name": "factorial", "seed": 123, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 246, "model": "SFT1B-s42-best_val-best_val", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "过滤非字母数字（或直接切片）后与逆序比较，正确", "uncertain": false, "reused": false}
+{"i": 247, "model": "SFT1B-s42-best_val-best_val", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "6k±1 试除并含 n<=1 处理，正确", "uncertain": false, "reused": false}
+{"i": 248, "model": "SFT1B-s42-best_val-best_val", "name": "reverse_string", "seed": 123, "script_passed": true, "score": 2, "reason": "''.join(reversed(s))（或 s[::-1]），正确", "uncertain": false, "reused": false}
+{"i": 249, "model": "SFT1B-s42-best_val-best_val", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "元音集合（小写或含大小写）计数，与题面一致，正确", "uncertain": false, "reused": false}
+{"i": 250, "model": "SFT1B-s42-best_val-best_val", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "sum(nums)（或过滤 0 的等价写法），结果正确", "uncertain": false, "reused": false}
+{"i": 251, "model": "SFT1B-s42-best_val-best_val", "name": "factorial", "seed": 123, "script_passed": false, "score": 1, "reason": "实现本身正确，但函数名为 factorial_iterative/factorial_recursive，未定义题面要求的 factorial", "uncertain": false, "reused": false}
+{"i": 252, "model": "BASE1B-merged", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "n<2 返回 n，基准情形正确", "uncertain": false, "reused": false}
+{"i": 253, "model": "BASE1B-merged", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "pivot 参与原地交换循环又被单独拼接，元素重复/结果错乱", "uncertain": false, "reused": false}
+{"i": 254, "model": "BASE1B-merged", "name": "binary_search", "seed": 123, "script_passed": true, "score": 2, "reason": "标准二分 [low,high] 闭区间，未命中 return -1", "uncertain": false, "reused": false}
+{"i": 255, "model": "BASE1B-merged", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "nums.sort() 后双指针，返回排序后数组的下标，与原始下标不符", "uncertain": false, "reused": false}
+{"i": 256, "model": "BASE1B-merged", "name": "mergesort", "seed": 123, "script_passed": false, "score": 1, "reason": "归并逻辑写全但函数无 return，原地写回 arr 后返回 None", "uncertain": false, "reused": false}
+{"i": 257, "model": "BASE1B-final", "name": "fibonacci", "seed": 123, "script_passed": false, "score": 1, "reason": "n<2 返回 0、n<=4 一律返回 1，基准情形写错（fib(1) 应为 1）", "uncertain": false, "reused": false}
+{"i": 258, "model": "BASE1B-final", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "random pivot 取 arr[pivot+1:] 丢弃该元素，且 merge 循环条件与返回残缺", "uncertain": false, "reused": false}
+{"i": 259, "model": "BASE1B-final", "name": "binary_search", "seed": 123, "script_passed": true, "score": 2, "reason": "标准二分（分支次序不同），未命中 return -1", "uncertain": false, "reused": false}
+{"i": 260, "model": "BASE1B-final", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "只有 class Solution.twoSum，函数名不符导致 two_sum 未定义，返回体亦无意义", "uncertain": false, "reused": false}
+{"i": 261, "model": "BASE1B-final", "name": "mergesort", "seed": 123, "script_passed": false, "score": 1, "reason": "函数名为 merge_sort 不符，且归并写成尾部弹出/直接拼接，结果非升序", "uncertain": false, "reused": false}
+{"i": 262, "model": "BASE1B-best_val", "name": "fibonacci", "seed": 123, "script_passed": false, "score": 1, "reason": "n<=2 一律返回 n，fib(2) 应为 1 而非 2，基准情形差一", "uncertain": false, "reused": false}
+{"i": 263, "model": "BASE1B-best_val", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "pivot 被并入 right（>= 分支）又被单独拼接，含重复元素时无限递归", "uncertain": false, "reused": false}
+{"i": 264, "model": "BASE1B-best_val", "name": "binary_search", "seed": 123, "script_passed": false, "score": 1, "reason": "mid=(low+high)/2 为浮点数，arr[mid] 下标报错（应 //2）", "uncertain": false, "reused": false}
+{"i": 265, "model": "BASE1B-best_val", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "双重循环但收集 [[i,j],...] 后再返回列表套列表，返回结构不符", "uncertain": false, "reused": false}
+{"i": 266, "model": "BASE1B-best_val", "name": "mergesort", "seed": 123, "script_passed": false, "score": 1, "reason": "len(arr)==1 而非 <=1，空列表会无限递归（漏空列表）", "uncertain": false, "reused": false}
+{"i": 267, "model": "SFT1B-s42-merged-final", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "n<=0 返 0、n==1 返 1、迭代累加，完全正确", "uncertain": false, "reused": false}
+{"i": 268, "model": "SFT1B-s42-merged-final", "name": "quicksort", "seed": 123, "script_passed": true, "score": 2, "reason": "pivot=arr[mid] 三分划分（<,=,>），无丢无重，正确", "uncertain": false, "reused": false}
+{"i": 269, "model": "SFT1B-s42-merged-final", "name": "binary_search", "seed": 123, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 270, "model": "SFT1B-s42-merged-final", "name": "two_sum", "seed": 123, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 271, "model": "SFT1B-s42-merged-final", "name": "mergesort", "seed": 123, "script_passed": false, "score": 1, "reason": "merge 缺尾部追加与 return，返回 None 使上层 TypeError", "uncertain": false, "reused": false}
+{"i": 272, "model": "SFT1B-s42-merged-best_val", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "n<=0 返 0、n==1 返 1、迭代累加，完全正确", "uncertain": false, "reused": false}
+{"i": 273, "model": "SFT1B-s42-merged-best_val", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 划分后 greater 段放在前面，结果为降序（应升序）", "uncertain": false, "reused": false}
+{"i": 274, "model": "SFT1B-s42-merged-best_val", "name": "binary_search", "seed": 123, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 275, "model": "SFT1B-s42-merged-best_val", "name": "two_sum", "seed": 123, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 276, "model": "SFT1B-s42-merged-best_val", "name": "mergesort", "seed": 123, "script_passed": true, "score": 2, "reason": "原地归并（子递归 + 写回 arr）并 return arr，正确", "uncertain": false, "reused": false}
+{"i": 277, "model": "SFT1B-s42-final-final", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "n<=0 返 0、n==1 返 1、迭代累加，完全正确", "uncertain": false, "reused": false}
+{"i": 278, "model": "SFT1B-s42-final-final", "name": "quicksort", "seed": 123, "script_passed": true, "score": 2, "reason": "pivot=arr[mid] 三分划分（<,=,>），无丢无重，正确", "uncertain": false, "reused": false}
+{"i": 279, "model": "SFT1B-s42-final-final", "name": "binary_search", "seed": 123, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 280, "model": "SFT1B-s42-final-final", "name": "two_sum", "seed": 123, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 281, "model": "SFT1B-s42-final-final", "name": "mergesort", "seed": 123, "script_passed": false, "score": 0, "reason": "merge 内 else 体为空即截断，语法错误不可运行", "uncertain": false, "reused": false}
+{"i": 282, "model": "SFT1B-s42-final-best_val", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "n<=0 返 0、n==1 返 1、迭代累加，完全正确", "uncertain": false, "reused": false}
+{"i": 283, "model": "SFT1B-s42-final-best_val", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 划分后 greater 段放在前面，结果为降序（应升序）", "uncertain": false, "reused": false}
+{"i": 284, "model": "SFT1B-s42-final-best_val", "name": "binary_search", "seed": 123, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 285, "model": "SFT1B-s42-final-best_val", "name": "two_sum", "seed": 123, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 286, "model": "SFT1B-s42-final-best_val", "name": "mergesort", "seed": 123, "script_passed": true, "score": 2, "reason": "原地归并（子递归 + 写回 arr）并 return arr，正确", "uncertain": false, "reused": false}
+{"i": 287, "model": "SFT1B-s42-best_val-final", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "n<=0 返 0、n==1 返 1、迭代累加，完全正确", "uncertain": false, "reused": false}
+{"i": 288, "model": "SFT1B-s42-best_val-final", "name": "quicksort", "seed": 123, "script_passed": true, "score": 2, "reason": "pivot=arr[mid] 三分划分（<,=,>），无丢无重，正确", "uncertain": false, "reused": false}
+{"i": 289, "model": "SFT1B-s42-best_val-final", "name": "binary_search", "seed": 123, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 290, "model": "SFT1B-s42-best_val-final", "name": "two_sum", "seed": 123, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 291, "model": "SFT1B-s42-best_val-final", "name": "mergesort", "seed": 123, "script_passed": false, "score": 0, "reason": "merge 内 else 体为空即截断，语法错误不可运行", "uncertain": false, "reused": false}
+{"i": 292, "model": "SFT1B-s42-best_val-best_val", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "n<=0 返 0、n==1 返 1、迭代累加，完全正确", "uncertain": false, "reused": false}
+{"i": 293, "model": "SFT1B-s42-best_val-best_val", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 划分后 greater 段放在前面，结果为降序（应升序）", "uncertain": false, "reused": false}
+{"i": 294, "model": "SFT1B-s42-best_val-best_val", "name": "binary_search", "seed": 123, "script_passed": true, "score": 2, "reason": "标准二分（部分为首次出现变体），未命中 return -1，正确", "uncertain": false, "reused": false}
+{"i": 295, "model": "SFT1B-s42-best_val-best_val", "name": "two_sum", "seed": 123, "script_passed": true, "score": 2, "reason": "哈希表一次遍历返回下标对，正确（无解返回值题面未约定）", "uncertain": false, "reused": false}
+{"i": 296, "model": "SFT1B-s42-best_val-best_val", "name": "mergesort", "seed": 123, "script_passed": true, "score": 2, "reason": "原地归并（子递归 + 写回 arr）并 return arr，正确", "uncertain": false, "reused": false}

@@ -1,0 +1,198 @@
+{"i": 1, "model": "BASE1B-merged", "name": "fibonacci", "seed": 999, "script_passed": true, "score": 2, "reason": "返回第 n 个斐波那契数，基准情形与递推均正确", "uncertain": false}
+{"i": 2, "model": "BASE1B-merged", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "缺 arr[mid]<target 时 left=mid+1 的分支，target 偏大时死循环", "uncertain": false}
+{"i": 3, "model": "BASE1B-merged", "name": "two_sum", "seed": 999, "script_passed": false, "score": 2, "reason": "哈希一遍扫描返回 [下标, 下标]，正确", "uncertain": false}
+{"i": 4, "model": "BASE1B-merged", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且左右分区对全数组取 < 与 >，丢失等于 pivot 的元素", "uncertain": false}
+{"i": 5, "model": "BASE1B-merged", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "原地归并排序，逻辑完整正确", "uncertain": false}
+{"i": 6, "model": "BASE1B-merged", "name": "is_palindrome", "seed": 999, "script_passed": false, "score": 1, "reason": "含“空串返回 False”“奇偶长度返回 False”等错误前置条件，比较语句不可达，实际总返回 False", "uncertain": true}
+{"i": 7, "model": "BASE1B-merged", "name": "is_prime", "seed": 999, "script_passed": false, "score": 0, "reason": "整行被注释掉，无实现", "uncertain": false}
+{"i": 8, "model": "BASE1B-merged", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 2, "reason": "join 下标倒序拼接，正确", "uncertain": false}
+{"i": 9, "model": "BASE1B-merged", "name": "count_vowels", "seed": 999, "script_passed": false, "score": 0, "reason": "函数体整行被注释，无实现", "uncertain": false}
+{"i": 10, "model": "BASE1B-merged", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 11, "model": "BASE1B-merged", "name": "factorial", "seed": 999, "script_passed": false, "score": 0, "reason": "函数体整体被注释掉，无实现", "uncertain": false}
+{"i": 12, "model": "BASE1B-final", "name": "fibonacci", "seed": 999, "script_passed": true, "score": 2, "reason": "返回第 n 个斐波那契数，基准情形与递推均正确", "uncertain": false}
+{"i": 13, "model": "BASE1B-final", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "循环体完整正确，但未找到时无 return -1（隐式返回 None）", "uncertain": false}
+{"i": 14, "model": "BASE1B-final", "name": "two_sum", "seed": 999, "script_passed": true, "score": 2, "reason": "哈希一遍扫描返回 [下标, 下标]，正确", "uncertain": false}
+{"i": 15, "model": "BASE1B-final", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "左右分区取 < 与 >，丢失等于 pivot 的元素", "uncertain": false}
+{"i": 16, "model": "BASE1B-final", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "递归返回 merge(left,right)，merge 用 pop(0) 归并，正确", "uncertain": false}
+{"i": 17, "model": "BASE1B-final", "name": "is_palindrome", "seed": 999, "script_passed": false, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 18, "model": "BASE1B-final", "name": "is_prime", "seed": 999, "script_passed": false, "score": 1, "reason": "all(n%i...) 缺 n>1 守卫，0/1 被判为质数", "uncertain": false}
+{"i": 19, "model": "BASE1B-final", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 0, "reason": "函数体整行被注释，无实现", "uncertain": false}
+{"i": 20, "model": "BASE1B-final", "name": "count_vowels", "seed": 999, "script_passed": false, "score": 1, "reason": "条件含 y（aeiouy），元音集合约定不符", "uncertain": true}
+{"i": 21, "model": "BASE1B-final", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 22, "model": "BASE1B-final", "name": "factorial", "seed": 999, "script_passed": false, "score": 2, "reason": "n<2 返回 1，递推正确", "uncertain": false}
+{"i": 23, "model": "BASE1B-best_val", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 24, "model": "BASE1B-best_val", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "mid=(low+high)/2 用了浮点除法，索引会报错", "uncertain": true}
+{"i": 25, "model": "BASE1B-best_val", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "双循环能找到数对但返回 True/False 而非下标对", "uncertain": true}
+{"i": 26, "model": "BASE1B-best_val", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "左右分区取 < 与 >，丢失等于 pivot 的元素", "uncertain": false}
+{"i": 27, "model": "BASE1B-best_val", "name": "mergesort", "seed": 999, "script_passed": false, "score": 1, "reason": "merge 两支都 return merge(left,right)（同参），无限递归", "uncertain": true}
+{"i": 28, "model": "BASE1B-best_val", "name": "is_palindrome", "seed": 999, "script_passed": false, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 29, "model": "BASE1B-best_val", "name": "is_prime", "seed": 999, "script_passed": false, "score": 0, "reason": "not (n==1 or n%2) 逻辑颠倒，偶数被判为质数", "uncertain": true}
+{"i": 30, "model": "BASE1B-best_val", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 0, "reason": "函数体整行被注释，无实现", "uncertain": false}
+{"i": 31, "model": "BASE1B-best_val", "name": "count_vowels", "seed": 999, "script_passed": false, "score": 1, "reason": "对字符做 sum 而非计数（会报错），且 VOWELS 未定义", "uncertain": true}
+{"i": 32, "model": "BASE1B-best_val", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 33, "model": "BASE1B-best_val", "name": "factorial", "seed": 999, "script_passed": false, "score": 2, "reason": "n==0 或 n==1 返回 1，递推正确", "uncertain": false}
+{"i": 34, "model": "SFT1B-s42-merged-final", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 35, "model": "SFT1B-s42-merged-final", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "完整正确的二分查找，但未找到返回 None 而非 -1", "uncertain": false}
+{"i": 36, "model": "SFT1B-s42-merged-final", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "能找到相加等于 target 的数对，但返回元素值或单下标，与“返回下标对”接口不符", "uncertain": false}
+{"i": 37, "model": "SFT1B-s42-merged-final", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "三分区快排结构对，但排完丢弃结果且不原地写回，函数实际无效果", "uncertain": true}
+{"i": 38, "model": "SFT1B-s42-merged-final", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 39, "model": "SFT1B-s42-merged-final", "name": "is_palindrome", "seed": 999, "script_passed": true, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 40, "model": "SFT1B-s42-merged-final", "name": "is_prime", "seed": 999, "script_passed": false, "score": 1, "reason": "6k±1 骨架正确但漏 n%(i+2) 检查，49 之类的数被误判为质数", "uncertain": true}
+{"i": 41, "model": "SFT1B-s42-merged-final", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 2, "reason": "正确反转字符串", "uncertain": false}
+{"i": 42, "model": "SFT1B-s42-merged-final", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 43, "model": "SFT1B-s42-merged-final", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 44, "model": "SFT1B-s42-merged-final", "name": "factorial", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 45, "model": "SFT1B-s42-merged-best_val", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 46, "model": "SFT1B-s42-merged-best_val", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "完整正确的二分查找，但未找到返回 None 而非 -1", "uncertain": false}
+{"i": 47, "model": "SFT1B-s42-merged-best_val", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "能找到相加等于 target 的数对，但返回元素值或单下标，与“返回下标对”接口不符", "uncertain": false}
+{"i": 48, "model": "SFT1B-s42-merged-best_val", "name": "quicksort", "seed": 999, "script_passed": false, "score": 2, "reason": "三分区快排，正确处理重复元素，返回升序列表", "uncertain": false}
+{"i": 49, "model": "SFT1B-s42-merged-best_val", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 50, "model": "SFT1B-s42-merged-best_val", "name": "is_palindrome", "seed": 999, "script_passed": true, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 51, "model": "SFT1B-s42-merged-best_val", "name": "is_prime", "seed": 999, "script_passed": false, "score": 1, "reason": "骨架正确但先判 n%2==0 返回 False，n=2 被误判为非质数", "uncertain": true}
+{"i": 52, "model": "SFT1B-s42-merged-best_val", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 2, "reason": "正确反转字符串", "uncertain": false}
+{"i": 53, "model": "SFT1B-s42-merged-best_val", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 54, "model": "SFT1B-s42-merged-best_val", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 55, "model": "SFT1B-s42-merged-best_val", "name": "factorial", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 56, "model": "SFT1B-s42-final-final", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 57, "model": "SFT1B-s42-final-final", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "完整正确的二分查找，但未找到返回 None 而非 -1", "uncertain": false}
+{"i": 58, "model": "SFT1B-s42-final-final", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "能找到相加等于 target 的数对，但返回元素值或单下标，与“返回下标对”接口不符", "uncertain": false}
+{"i": 59, "model": "SFT1B-s42-final-final", "name": "quicksort", "seed": 999, "script_passed": false, "score": 2, "reason": "三分区快排，正确处理重复元素，返回升序列表", "uncertain": false}
+{"i": 60, "model": "SFT1B-s42-final-final", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 61, "model": "SFT1B-s42-final-final", "name": "is_palindrome", "seed": 999, "script_passed": true, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 62, "model": "SFT1B-s42-final-final", "name": "is_prime", "seed": 999, "script_passed": false, "score": 0, "reason": "筛法末行对整段区间做 all() 或仅注释，结果恒错", "uncertain": false}
+{"i": 63, "model": "SFT1B-s42-final-final", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 64, "model": "SFT1B-s42-final-final", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 65, "model": "SFT1B-s42-final-final", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 66, "model": "SFT1B-s42-final-final", "name": "factorial", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 67, "model": "SFT1B-s42-final-best_val", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 68, "model": "SFT1B-s42-final-best_val", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "完整正确的二分查找，但未找到返回 None 而非 -1", "uncertain": false}
+{"i": 69, "model": "SFT1B-s42-final-best_val", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "哈希思路对但返回单个下标而非下标对", "uncertain": true}
+{"i": 70, "model": "SFT1B-s42-final-best_val", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "漏掉 pivot 且丢弃递归结果，返回 greater+less_equal，结果缺元素且乱序", "uncertain": true}
+{"i": 71, "model": "SFT1B-s42-final-best_val", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 72, "model": "SFT1B-s42-final-best_val", "name": "is_palindrome", "seed": 999, "script_passed": false, "score": 0, "reason": "返回 len(s)%2==0，用长度奇偶冒充回文判定", "uncertain": false}
+{"i": 73, "model": "SFT1B-s42-final-best_val", "name": "is_prime", "seed": 999, "script_passed": false, "score": 0, "reason": "筛法末行对整段区间做 all() 或仅注释，结果恒错", "uncertain": false}
+{"i": 74, "model": "SFT1B-s42-final-best_val", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 75, "model": "SFT1B-s42-final-best_val", "name": "count_vowels", "seed": 999, "script_passed": false, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 76, "model": "SFT1B-s42-final-best_val", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 77, "model": "SFT1B-s42-final-best_val", "name": "factorial", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 78, "model": "SFT1B-s42-best_val-final", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 79, "model": "SFT1B-s42-best_val-final", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "完整正确的二分查找，但未找到返回 None 而非 -1", "uncertain": false}
+{"i": 80, "model": "SFT1B-s42-best_val-final", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "返回 (下标, 元素值) 元组，接口不符", "uncertain": false}
+{"i": 81, "model": "SFT1B-s42-best_val-final", "name": "quicksort", "seed": 999, "script_passed": false, "score": 2, "reason": "三分区快排，正确处理重复元素，返回升序列表", "uncertain": false}
+{"i": 82, "model": "SFT1B-s42-best_val-final", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 83, "model": "SFT1B-s42-best_val-final", "name": "is_palindrome", "seed": 999, "script_passed": true, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 84, "model": "SFT1B-s42-best_val-final", "name": "is_prime", "seed": 999, "script_passed": false, "score": 0, "reason": "筛法末行对整段区间做 all() 或仅注释，结果恒错", "uncertain": false}
+{"i": 85, "model": "SFT1B-s42-best_val-final", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 0, "reason": "仅一行 print 示例调用，无实现", "uncertain": true}
+{"i": 86, "model": "SFT1B-s42-best_val-final", "name": "count_vowels", "seed": 999, "script_passed": false, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 87, "model": "SFT1B-s42-best_val-final", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 88, "model": "SFT1B-s42-best_val-final", "name": "factorial", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 89, "model": "SFT1B-s42-best_val-best_val", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 90, "model": "SFT1B-s42-best_val-best_val", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "完整正确的二分查找，但未找到返回 None 而非 -1", "uncertain": false}
+{"i": 91, "model": "SFT1B-s42-best_val-best_val", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "返回单个下标 i，接口不符", "uncertain": false}
+{"i": 92, "model": "SFT1B-s42-best_val-best_val", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "快排结构正确但先接 greater 再接 less_equal，返回降序", "uncertain": true}
+{"i": 93, "model": "SFT1B-s42-best_val-best_val", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 94, "model": "SFT1B-s42-best_val-best_val", "name": "is_palindrome", "seed": 999, "script_passed": true, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 95, "model": "SFT1B-s42-best_val-best_val", "name": "is_prime", "seed": 999, "script_passed": false, "score": 0, "reason": "筛法末行对整段区间做 all() 或仅注释，结果恒错", "uncertain": false}
+{"i": 96, "model": "SFT1B-s42-best_val-best_val", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 97, "model": "SFT1B-s42-best_val-best_val", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 98, "model": "SFT1B-s42-best_val-best_val", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 99, "model": "SFT1B-s42-best_val-best_val", "name": "factorial", "seed": 999, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 100, "model": "BASE1B-merged", "name": "fibonacci", "seed": 2024, "script_passed": true, "score": 2, "reason": "返回第 n 个斐波那契数，基准情形与递推均正确", "uncertain": false}
+{"i": 101, "model": "BASE1B-merged", "name": "binary_search", "seed": 2024, "script_passed": true, "score": 1, "reason": "递归二分但返回的是切片内的相对下标，命中时下标错误", "uncertain": false}
+{"i": 102, "model": "BASE1B-merged", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅 docstring 与思路注释，无实现", "uncertain": false}
+{"i": 103, "model": "BASE1B-merged", "name": "quicksort", "seed": 2024, "script_passed": true, "score": 2, "reason": "arr[1:] 按 <= 与 > 划分，返回 less+[pivot]+greater，正确", "uncertain": false}
+{"i": 104, "model": "BASE1B-merged", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "原地归并排序，逻辑完整正确", "uncertain": false}
+{"i": 105, "model": "BASE1B-merged", "name": "is_palindrome", "seed": 2024, "script_passed": false, "score": 2, "reason": "str(s)==str(s)[::-1]，判定正确", "uncertain": false}
+{"i": 106, "model": "BASE1B-merged", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 1, "reason": "for-else 结构正确，但 n<=1 未排除，0/1 被判为质数", "uncertain": true}
+{"i": 107, "model": "BASE1B-merged", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 2, "reason": "join(reversed(s))，正确", "uncertain": false}
+{"i": 108, "model": "BASE1B-merged", "name": "count_vowels", "seed": 2024, "script_passed": false, "score": 1, "reason": "对字符做 sum 而非计数，会报错", "uncertain": true}
+{"i": 109, "model": "BASE1B-merged", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 110, "model": "BASE1B-merged", "name": "factorial", "seed": 2024, "script_passed": false, "score": 1, "reason": "只有 n*factorial(n-1)，缺基准情形会无限递归", "uncertain": true}
+{"i": 111, "model": "BASE1B-final", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 112, "model": "BASE1B-final", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 0, "reason": "缩进与控制流错乱、含不可达分支，代码无法运行", "uncertain": true}
+{"i": 113, "model": "BASE1B-final", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "哈希能找到数对但返回 True/False 而非下标对", "uncertain": true}
+{"i": 114, "model": "BASE1B-final", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "左右分区取 < 与 >，丢失等于 pivot 的元素", "uncertain": false}
+{"i": 115, "model": "BASE1B-final", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 1, "reason": "merge 在两表都非空时直接 return 空 result，归并结果为空", "uncertain": true}
+{"i": 116, "model": "BASE1B-final", "name": "is_palindrome", "seed": 2024, "script_passed": false, "score": 1, "reason": "首尾相等就返回 False、否则比较相邻字符，判定逻辑错误", "uncertain": true}
+{"i": 117, "model": "BASE1B-final", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 1, "reason": "all(n%i...) 缺 n>1 守卫，0/1 被判为质数", "uncertain": false}
+{"i": 118, "model": "BASE1B-final", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 0, "reason": "函数体整行被注释，无实现", "uncertain": false}
+{"i": 119, "model": "BASE1B-final", "name": "count_vowels", "seed": 2024, "script_passed": false, "score": 1, "reason": "对字符做 sum 而非计数，且 VOWELS 未定义", "uncertain": false}
+{"i": 120, "model": "BASE1B-final", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 1, "reason": "sum(map(sum, nums)) 对扁平整数列表会 TypeError，写法错误", "uncertain": true}
+{"i": 121, "model": "BASE1B-final", "name": "factorial", "seed": 2024, "script_passed": false, "score": 0, "reason": "函数体整体被注释掉，无实现", "uncertain": false}
+{"i": 122, "model": "BASE1B-best_val", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 123, "model": "BASE1B-best_val", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅 docstring 加 # Your code goes here 与 pass，无实现", "uncertain": false}
+{"i": 124, "model": "BASE1B-best_val", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 0, "reason": "docstring 后无代码（截断），无实现", "uncertain": false}
+{"i": 125, "model": "BASE1B-best_val", "name": "quicksort", "seed": 2024, "script_passed": true, "score": 2, "reason": "for 循环划分 left(<pivot)/right(>=pivot)，重复元素不丢，正确", "uncertain": false}
+{"i": 126, "model": "BASE1B-best_val", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 1, "reason": "merge 两支都 return merge(left,right)（同参），无限递归", "uncertain": false}
+{"i": 127, "model": "BASE1B-best_val", "name": "is_palindrome", "seed": 2024, "script_passed": false, "score": 0, "reason": "循环比较相邻字符是否相等，与回文判定无关，逻辑错误", "uncertain": true}
+{"i": 128, "model": "BASE1B-best_val", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 1, "reason": "all(n%i...) 缺 n>1 守卫，0/1 被判为质数", "uncertain": false}
+{"i": 129, "model": "BASE1B-best_val", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 0, "reason": "函数体整行被注释，无实现", "uncertain": false}
+{"i": 130, "model": "BASE1B-best_val", "name": "count_vowels", "seed": 2024, "script_passed": false, "score": 1, "reason": "对字符做 sum 而非计数，且 VOWELS 定义在函数之后", "uncertain": false}
+{"i": 131, "model": "BASE1B-best_val", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 132, "model": "BASE1B-best_val", "name": "factorial", "seed": 2024, "script_passed": false, "score": 0, "reason": "函数体整体被注释掉，无实现", "uncertain": false}
+{"i": 133, "model": "SFT1B-s42-merged-final", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 134, "model": "SFT1B-s42-merged-final", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "只定义了左右边界内层函数，外层无返回，实现不完整", "uncertain": false}
+{"i": 135, "model": "SFT1B-s42-merged-final", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "能找到相加等于 target 的数对，但返回元素值或单下标，与“返回下标对”接口不符", "uncertain": false}
+{"i": 136, "model": "SFT1B-s42-merged-final", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "三分区快排结构对，但丢弃结果不原地写回，函数实际无效果", "uncertain": false}
+{"i": 137, "model": "SFT1B-s42-merged-final", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 138, "model": "SFT1B-s42-merged-final", "name": "is_palindrome", "seed": 2024, "script_passed": true, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 139, "model": "SFT1B-s42-merged-final", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 0, "reason": "筛法末行对整段区间做 all() 或仅注释，结果恒错", "uncertain": false}
+{"i": 140, "model": "SFT1B-s42-merged-final", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 2, "reason": "正确反转字符串", "uncertain": false}
+{"i": 141, "model": "SFT1B-s42-merged-final", "name": "count_vowels", "seed": 2024, "script_passed": false, "score": 1, "reason": "统计骨架正确但条件写成 not in，数的是非元音字符", "uncertain": false}
+{"i": 142, "model": "SFT1B-s42-merged-final", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 143, "model": "SFT1B-s42-merged-final", "name": "factorial", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 144, "model": "SFT1B-s42-merged-best_val", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 145, "model": "SFT1B-s42-merged-best_val", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "完整正确的二分查找，但未找到返回 None 而非 -1", "uncertain": false}
+{"i": 146, "model": "SFT1B-s42-merged-best_val", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "能找到相加等于 target 的数对，但返回元素值或单下标，与“返回下标对”接口不符", "uncertain": false}
+{"i": 147, "model": "SFT1B-s42-merged-best_val", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "快排结构正确但先接 greater 再接 less_equal，返回降序", "uncertain": false}
+{"i": 148, "model": "SFT1B-s42-merged-best_val", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 149, "model": "SFT1B-s42-merged-best_val", "name": "is_palindrome", "seed": 2024, "script_passed": true, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 150, "model": "SFT1B-s42-merged-best_val", "name": "is_prime", "seed": 2024, "script_passed": true, "score": 1, "reason": "骨架正确但漏 n%(i+2) 检查，49 之类的数被误判为质数", "uncertain": true}
+{"i": 151, "model": "SFT1B-s42-merged-best_val", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 2, "reason": "正确反转字符串", "uncertain": false}
+{"i": 152, "model": "SFT1B-s42-merged-best_val", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 153, "model": "SFT1B-s42-merged-best_val", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 154, "model": "SFT1B-s42-merged-best_val", "name": "factorial", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 155, "model": "SFT1B-s42-final-final", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 156, "model": "SFT1B-s42-final-final", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "递归辅助函数两支递归方向写反，查找错半边", "uncertain": false}
+{"i": 157, "model": "SFT1B-s42-final-final", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "能找到相加等于 target 的数对，但返回元素值或单下标，与“返回下标对”接口不符", "uncertain": false}
+{"i": 158, "model": "SFT1B-s42-final-final", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "分区变量名与谓词不匹配，排完丢弃结果，无实际排序效果", "uncertain": false}
+{"i": 159, "model": "SFT1B-s42-final-final", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 160, "model": "SFT1B-s42-final-final", "name": "is_palindrome", "seed": 2024, "script_passed": true, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 161, "model": "SFT1B-s42-final-final", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 0, "reason": "筛法末行对整段区间做 all() 或仅注释，结果恒错", "uncertain": false}
+{"i": 162, "model": "SFT1B-s42-final-final", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 163, "model": "SFT1B-s42-final-final", "name": "count_vowels", "seed": 2024, "script_passed": false, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 164, "model": "SFT1B-s42-final-final", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 165, "model": "SFT1B-s42-final-final", "name": "factorial", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 166, "model": "SFT1B-s42-final-best_val", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 167, "model": "SFT1B-s42-final-best_val", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "完整正确的二分查找，但未找到返回 None 而非 -1", "uncertain": false}
+{"i": 168, "model": "SFT1B-s42-final-best_val", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅 docstring 加示例调用，无函数实现", "uncertain": false}
+{"i": 169, "model": "SFT1B-s42-final-best_val", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "快排结构正确但先接 greater 再接 less_equal，返回降序", "uncertain": false}
+{"i": 170, "model": "SFT1B-s42-final-best_val", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 171, "model": "SFT1B-s42-final-best_val", "name": "is_palindrome", "seed": 2024, "script_passed": true, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 172, "model": "SFT1B-s42-final-best_val", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 0, "reason": "筛法末行对整段区间做 all() 或仅注释，结果恒错", "uncertain": false}
+{"i": 173, "model": "SFT1B-s42-final-best_val", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 174, "model": "SFT1B-s42-final-best_val", "name": "count_vowels", "seed": 2024, "script_passed": false, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 175, "model": "SFT1B-s42-final-best_val", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 176, "model": "SFT1B-s42-final-best_val", "name": "factorial", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 177, "model": "SFT1B-s42-best_val-final", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "斐波那契结构正确但返回前 n 项列表而非第 n 个数，或 n=0 边界写反", "uncertain": false}
+{"i": 178, "model": "SFT1B-s42-best_val-final", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "完整正确的二分查找，但未找到返回 None 而非 -1", "uncertain": false}
+{"i": 179, "model": "SFT1B-s42-best_val-final", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "返回 nums.index(complement) 单个下标，接口不符", "uncertain": true}
+{"i": 180, "model": "SFT1B-s42-best_val-final", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "原地写回用 arr[0]=列表、arr[1:]=元素，装配错误，结果不是有序数组", "uncertain": true}
+{"i": 181, "model": "SFT1B-s42-best_val-final", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 182, "model": "SFT1B-s42-best_val-final", "name": "is_palindrome", "seed": 2024, "script_passed": false, "score": 0, "reason": "返回 len(s)%2==0，用长度奇偶冒充回文判定", "uncertain": false}
+{"i": 183, "model": "SFT1B-s42-best_val-final", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 0, "reason": "筛法末行对整段区间做 all() 或仅注释，结果恒错", "uncertain": false}
+{"i": 184, "model": "SFT1B-s42-best_val-final", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 185, "model": "SFT1B-s42-best_val-final", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 186, "model": "SFT1B-s42-best_val-final", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 187, "model": "SFT1B-s42-best_val-final", "name": "factorial", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 188, "model": "SFT1B-s42-best_val-best_val", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 2, "reason": "返回第 n 个斐波那契数，基准情形与递推均正确", "uncertain": false}
+{"i": 189, "model": "SFT1B-s42-best_val-best_val", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "完整正确的二分查找，但未找到返回 None 而非 -1", "uncertain": false}
+{"i": 190, "model": "SFT1B-s42-best_val-best_val", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "返回 (元素值, 下标) 元组，接口不符", "uncertain": false}
+{"i": 191, "model": "SFT1B-s42-best_val-best_val", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "快排结构正确但先接 greater 再接 less_equal，返回降序", "uncertain": false}
+{"i": 192, "model": "SFT1B-s42-best_val-best_val", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "归并排序正确完成排序（原地或返回）", "uncertain": false}
+{"i": 193, "model": "SFT1B-s42-best_val-best_val", "name": "is_palindrome", "seed": 2024, "script_passed": true, "score": 2, "reason": "s == s[::-1]（或清洗大小写与空格后比较），判定正确", "uncertain": false}
+{"i": 194, "model": "SFT1B-s42-best_val-best_val", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 0, "reason": "筛法末行对整段区间做 all() 或仅注释，结果恒错", "uncertain": false}
+{"i": 195, "model": "SFT1B-s42-best_val-best_val", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 196, "model": "SFT1B-s42-best_val-best_val", "name": "count_vowels", "seed": 2024, "script_passed": false, "score": 2, "reason": "正确统计元音个数", "uncertain": false}
+{"i": 197, "model": "SFT1B-s42-best_val-best_val", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}
+{"i": 198, "model": "SFT1B-s42-best_val-best_val", "name": "factorial", "seed": 2024, "script_passed": false, "score": 0, "reason": "仅注释或仅示例调用，无实现", "uncertain": false}

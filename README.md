@@ -1,23 +1,24 @@
 # A Code Language Model From Scratch on a Single RTX 5090
 > 30-second version: [TLDR.md](TLDR.md)
 
-This repo documents my three training runs and two complete versions for a code LLM built from scratch, end to end, on one consumer GPU: data, tokenizer, architecture, training loop and evaluation.
+This repo documents my four training runs and three complete versions for a code LLM built from scratch, end to end, on one consumer GPU: data, tokenizer, architecture, training loop and evaluation.
 
 The first version, the 353M model ([`archive/353M/`](archive/353M/)), showed that a single GPU can run the whole pipeline, and that even at a fraction of the size of a frontier model the result learns the pattern of recursion. It also showed three problems: weakly filtered data, about eight billion tokens quietly trained twice by a resume bug, and a mid-training learning-rate change that wasn't planned for. An intermediate 435M attempt then failed outright (val loss frozen at 1.97 across 21.5B tokens, no usable generation), and what it exposed is summarized in [`CHALLENGES.md`](CHALLENGES.md). So the 435M documented here starts from a clean foundation and turns all of those problems into a controlled set of experiments.
 
 The headline is the difference between the two finished versions. Nearly the same parameter count, the same single 32 GB RTX 5090, the same 32K-token code vocabulary. Yet on a human-graded 10-task benchmark the first version scores 6/100 and the rebuild scores 66/100. The architecture did not change. What I changed was the data: a tokenizer retrained on a sample drawn from the same distribution the model is expected to learn, metadata stripped from a fifth of the corpus, and a training loop that actually trains.
 
-## The project in two versions
+## The project in three versions
 
-| Version | 353M first version (archived) | 435M v2 (this repo) |
-|---|---|---|
-| Architecture | 353M — 18 layers / 3840 FFN | 435M — 22 layers / 4096 FFN |
-| Data | codeparrot Python, loose filter, ~10.6 B unique | 3 sources, strict filtering (copyright, metadata strip, quality gates), 31.0 B |
-| LR schedule | cosine annealing | WSM: stable + explicit 30K-step cooldown + checkpoint merge |
-| Tokens run | 16.09 B cumulative (8 B duplicated) | 31.0 B, single continuous stream |
-| Val loss | 1.21 | 1.2363 (merged, measured) |
-| **Human-graded (10 tasks × 5 seeds)** | **6/100** | **66/100** |
-| Full story | [`archive/353M/`](archive/353M/) | [`DESIGN.md`](DESIGN.md) |
+| Version | 353M first version (archived) | 435M v2 | 1B v3 (2026-10) |
+|---|---|---|---|
+| Architecture | 353M — 18 layers / 3840 FFN | 435M — 22 layers / 4096 FFN | 1,096M — 20 layers / 5120 FFN |
+| Data | codeparrot Python, loose filter, ~10.6 B unique | 3 sources, strict filtering (copyright, metadata strip, quality gates), 31.0 B | same 3-source strict pipeline, 30.98 B |
+| LR schedule | cosine annealing | WSM: stable + explicit 30K-step cooldown + checkpoint merge | WSM, same |
+| Tokens run | 16.09 B cumulative (8 B duplicated) | 31.0 B, single continuous stream | 30.98 B, single continuous stream |
+| Val loss | 1.21 | 1.2363 (merged, measured) | 1.1609 (best), merged from the last 21 checkpoints |
+| **Human-graded (10 tasks × 5 seeds)** | **6/100** | **66/100** | not run on this task set |
+| **Human-graded (11 tasks × 5 seeds, 0/1/2)** | — | see §12 | **188/220 combined** (signature 91 + instruction 97) |
+| Full story | [`archive/353M/`](archive/353M/) | [`DESIGN.md`](DESIGN.md) | [`DESIGN.md` §12](DESIGN.md) |
 
 The two sides use different LR schedules: the first run anneals with cosine (loss glides downward the whole run), while the clean rebuild runs WSM (a constant stable LR with a short cooldown at the end), because its final model is an average of the last checkpoints rather than a single late checkpoint. Constant-LR runs end with a naturally higher loss than cosine runs; that's an artifact of the schedule, not of model quality. The column that matters is the human-graded one: 6/100 vs 66/100, same architecture, same GPU, different data pipeline.
 
@@ -109,6 +110,8 @@ py -3.12 src/eval/eval.py --interactive
 
 The baseline above is a code *completion* model: it continues whatever it is given, and it does not read instructions. The second half of the project is supervised fine-tuning, about 30 runs on the same GPU, asking what turns it into a model that follows a request. Short version: what worked was training on instruction data whose reference solutions pass their own tests; the gold:signature ratio only traded between the two evaluation columns; random-seed variance (±6 points on identical settings) was larger than any recipe difference; weight averaging never beat its best parent; and the leader on the tuned-on benchmark finished **last** on 12 unseen tasks. (These are pass rates over repeated attempts — a different measure from the 0/1/2-graded benchmark above, and the two should not be compared.) The shipped model is the one that held up on the held-out set.
 
+A stricter second pass in October 2026 re-ran the same recipes with five seeds and a 0/1/2 hand-graded protocol, and it overturns one earlier reading: at equal token budgets a 5:1 gold:signature mix beats gold-only by 17.3 points on the signature column (176 vs 138 of 220, 10/10 variant-seed cells in the same direction), while training gold-only 47% longer moves it by 6 points, inside noise. The instruction column is flat. The cause is a data-format mismatch, not capacity: gold-only data teaches the model to open with a docstring, which collides with continuation-style prompts, and signature-style data supplies the supervision that fixes it. The same recipe lifts the 1B's signature column from 65/67 to 85/91 with no instruction-column cost. Raw per-item scores, 2,475 rows across both models: [`results/post-training-audit/`](results/post-training-audit/).
+
 The implementation throughout (training harness, data pipeline, evaluation code) was developed with AI assistance. [`post-training/POST_TRAINING.md`](post-training/POST_TRAINING.md) describes how that work was organised, corrections included. Per-attempt generations: [`post-training/results/RAW-INDEX.md`](post-training/results/RAW-INDEX.md).
 
 ## Why this is here
@@ -121,9 +124,10 @@ Both runs trained on one machine: a single NVIDIA RTX 5090 (32 GB, Blackwell sm_
 
 A code LLM trained from scratch on one RTX 5090: an archived 353M and a 435M rebuild trained on 31B tokens of filtered Python, then fine-tuned (about 30 runs).
 
-1. [DESIGN.md](DESIGN.md): how the 435M was designed and what it scores (66/100 vs the 353M's 6/100, human-graded).
-2. [ablation/README.md](ablation/README.md): why the data pipeline mattered, measured rather than asserted (a 14-seed human review: fibonacci recursion 14/14 before, 7/14 after training on repeated data).
-3. [post-training/POST_TRAINING.md](post-training/POST_TRAINING.md): how the shipped model was picked (the tuning-set leader finished last on 12 unseen tasks: 55.8% vs the shipped 64.6%).
+1. [DESIGN.md](DESIGN.md): how the 435M was designed and what it scores (66/100 vs the 353M's 6/100, human-graded). §12 covers the 1B rebuild and which conclusions survived the change of scale.
+2. [results/post-training-audit/](results/post-training-audit/): 2,475 hand-scored samples behind the fine-tuning numbers, both models, both columns, five seeds.
+3. [ablation/README.md](ablation/README.md): why the data pipeline mattered, measured rather than asserted (a 14-seed human review: fibonacci recursion 14/14 before, 7/14 after training on repeated data).
+4. [post-training/POST_TRAINING.md](post-training/POST_TRAINING.md): how the shipped model was picked (the tuning-set leader finished last on 12 unseen tasks: 55.8% vs the shipped 64.6%).
 
 Check it yourself: open [ablation/README.md](ablation/README.md#cross-model-comparison-the-headline), the cross-model table (6/100 vs 66/100).
 

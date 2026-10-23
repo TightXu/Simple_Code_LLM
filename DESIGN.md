@@ -178,6 +178,10 @@ The only lever that reliably helped was training on **verified** instruction dat
 
 Random-seed variance (±6 points) was larger than any recipe difference, weight averaging never beat its best parent model, and the leader on the tuning set finished **last** on 12 unseen tasks. The shipped model is the one that validated on the held-out set. Full experiment log, corrections included: [`post-training/POST_TRAINING.md`](post-training/POST_TRAINING.md).
 
+**A stricter second pass (2026-10) overturns part of the paragraph above.** The earlier reading — that the gold:signature ratio only traded between the two columns while the combined score stayed flat — came from pass rates over repeated attempts. Re-running the same question with a 0/1/2 hand-graded protocol on 5 seeds (11 tasks × 5 seeds × 0–2 points = 110 points per column) changes the answer. At equal token budgets a 5:1 gold:signature mix beats gold-only by **17.3 points on the signature column** (176 vs 138 of 220; 10 of 10 variant-seed cells in the same direction), while training gold-only 47% longer (62.4M → 91.8M tokens) moves it by 6 points, inside seed noise. The instruction column is flat across all three arms (192 / 195 / 197 of 220). The mix is therefore not a trade between columns: it buys the signature column outright.
+
+The mechanism is now identifiable, and it is a data-format problem, not a capacity one. Gold-only references are written as `def name(...):` + docstring + body, while signature-column prompts ask for the body directly; the model learns to open with a docstring, which lands mis-indented against the prompt and yields code that cannot be assembled (435M's gold-only arm: 24 of 110 samples runnable; the same `sum_list` placeholder pathology scores 0/20 on both models). Signature-style data supplies the literal continuation supervision that fixes it. The cost is interface drift: binary search returns `None` where the baseline returned `-1`. Raw per-item scores for both models: [`results/post-training-audit/`](results/post-training-audit/).
+
 ---
 
 ## 8. Ablation framework
@@ -258,6 +262,20 @@ Every design decision in this report maps to a specific v1 failure, and the v1 p
 - **Write the post-mortem while it hurts.** The v1 failure log is the reason v2 could be trained once, cleanly, in one pass.
 
 ---
+
+## 12. Scaling to 1.1B: what survives
+
+The 435M was rebuilt at 1.1B (20 layers, d_model 2048, 16 heads, d_ff 5120, 32K vocab; 1,096M parameters) on the same pipeline, the same tokenizer and the same WSM schedule: 630,120 steps, 30.98B tokens, best validation loss 1.1609, final model merged from the last 21 checkpoints. The second model exists to test which conclusions survive a change of scale, not to win a benchmark.
+
+**The evaluation.** 11 tasks × 5 seeds, every sample graded 0/1/2 by hand — 110 points per column per checkpoint. Script pass rates are reported alongside but never used as the metric; on one arm they under-scored 41 of 66 correct answers, and on a base-model shard they failed 79 of 165 answers that a human credited.
+
+**What survived.** First, SFT is a net gain at both scales. On the instruction column every fine-tuned arm is at or above its own base on all five seeds (6/6 arms × 5/5 seeds non-negative); on the 435M's signature column all six arms are non-negative on 5/5 seeds. Second, *the choice of base checkpoint stops mattering once you fine-tune it*. Before SFT the 435M's three checkpoints are 39 points apart on the signature column (57 / 40 / 18); after SFT its six arms fit inside 9 points (79–88). On the 1B the per-seed ordering flips outright — `merged > final > best_val` holds on 2 of 5 seeds, and one seed has `merged` last with five tasks at zero. Third, the base ranking is column-sensitive: `final` trails the other two on the 435M's instruction column by 28 points, while `best_val` is last on both models' signature columns.
+
+**What did not survive.** Confidence attached to single-seed numbers. Each of the 435M's recipe choices was originally made on one seed per cell; re-running the same recipes with five seeds leaves the direction intact but shows that the per-seed spread is the same size as several of the differences being ranked. The rule that came out of this (§8.3) is blunt: if the gap is smaller than the per-seed spread, the honest statement is that this amount of data cannot separate the arms.
+
+**The signature-column fix carries over.** The 5:1 mix lifts the 1B's signature column from 65/67 to **85/91** of 110 with the instruction column unchanged (95/97 → 98/97), and the equal-token control in §7.4 attributes that gain to composition rather than to the extra 47% of data. The best single 1B checkpoint by combined score is the mix arm on the `merged` base at selection point `best_val`: 91 + 97 = 188 of 220.
+
+Raw per-item scores for both models: [`results/post-training-audit/`](results/post-training-audit/).
 
 ## References
 

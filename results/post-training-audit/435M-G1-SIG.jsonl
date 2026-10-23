@@ -1,0 +1,110 @@
+{"i": 0, "model": "G1-gold-final", "name": "fibonacci", "seed": 0, "script_passed": false, "score": 2, "reason": "标准迭代实现，基准 n=0/1 与递推全对；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 1, "model": "G1-gold-final", "name": "fibonacci", "seed": 42, "script_passed": false, "score": 1, "reason": "基例位移：n<=0 返回字符串、n==1 返回 0（应返回 1），递推骨架正确", "uncertain": false}
+{"i": 2, "model": "G1-gold-final", "name": "fibonacci", "seed": 123, "script_passed": false, "score": 1, "reason": "基例位移：n<=0 返回字符串、n==1 返回 0（应为 1），递推骨架正确", "uncertain": false}
+{"i": 3, "model": "G1-gold-final", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "基例位移：n<=0 返回字符串、n==1 返回 0（应为 1），递推骨架正确", "uncertain": false}
+{"i": 4, "model": "G1-gold-final", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 2, "reason": "标准迭代实现，基准与递推全对；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 5, "model": "G1-gold-final", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "分区的比较方向写反（less 装大于 pivot 的元素）且递归结果未写回 arr，返回 None 不排序", "uncertain": false}
+{"i": 6, "model": "G1-gold-final", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且用 </> 双侧过滤，等于 pivot 的元素被整体丢弃，且结果未写回", "uncertain": false}
+{"i": 7, "model": "G1-gold-final", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "按位置对半切而不是按 pivot 值分区，写回循环被截断，只有快排骨架", "uncertain": true}
+{"i": 8, "model": "G1-gold-final", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "分区方向写反（greater 装小于 pivot 的元素）且未写回，返回 None", "uncertain": false}
+{"i": 9, "model": "G1-gold-final", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 用 </> 过滤丢弃等于 pivot 的元素，且结果未写回", "uncertain": false}
+{"i": 10, "model": "G1-gold-final", "name": "binary_search", "seed": 0, "script_passed": false, "score": 2, "reason": "标准二分且未找到返回 -1（守住底座契约）；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 11, "model": "G1-gold-final", "name": "binary_search", "seed": 42, "script_passed": false, "score": 2, "reason": "标准二分且未找到返回 -1（文档串写了 insertion index 与代码不符，代码本身对）；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 12, "model": "G1-gold-final", "name": "binary_search", "seed": 123, "script_passed": false, "score": 2, "reason": "标准二分且未找到返回 -1；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 13, "model": "G1-gold-final", "name": "binary_search", "seed": 999, "script_passed": false, "score": 2, "reason": "标准二分且未找到返回 -1；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 14, "model": "G1-gold-final", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "二分逻辑正确但未找到返回 None 而非 -1（接口漂移）", "uncertain": false}
+{"i": 15, "model": "G1-gold-final", "name": "two_sum", "seed": 0, "script_passed": false, "score": 1, "reason": "哈希补数骨架正确但只有命中时才把 num 入集合，实测恒返回空列表；且返回数值对而非索引", "uncertain": false}
+{"i": 16, "model": "G1-gold-final", "name": "two_sum", "seed": 42, "script_passed": false, "score": 1, "reason": "哈希补数骨架正确但返回数值列表而非索引对，接口漂移", "uncertain": false}
+{"i": 17, "model": "G1-gold-final", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "正确找出数值配对但返回数值对而非索引，接口漂移", "uncertain": false}
+{"i": 18, "model": "G1-gold-final", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "哈希补数骨架正确但返回数值列表而非索引对，接口漂移", "uncertain": false}
+{"i": 19, "model": "G1-gold-final", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "哈希补数骨架正确但返回数值列表而非索引对，接口漂移", "uncertain": false}
+{"i": 20, "model": "G1-gold-final", "name": "mergesort", "seed": 0, "script_passed": false, "score": 2, "reason": "标准原地归并并在末尾 return arr，合并双指针正确；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 21, "model": "G1-gold-final", "name": "mergesort", "seed": 42, "script_passed": false, "score": 1, "reason": "原地归并逻辑正确但不 return（返回 None），按底座/臂同尺子记 1", "uncertain": false}
+{"i": 22, "model": "G1-gold-final", "name": "mergesort", "seed": 123, "script_passed": false, "score": 2, "reason": "标准原地归并且 return arr，合并正确；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 23, "model": "G1-gold-final", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "标准原地归并且 return arr，合并正确；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 24, "model": "G1-gold-final", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "标准原地归并且 return arr，合并正确；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 25, "model": "G1-gold-final", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "先清洗非字母数字并转小写，再与自身反转比较，完全正确", "uncertain": false}
+{"i": 26, "model": "G1-gold-final", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "先清洗非字母数字并转小写，再与自身反转比较，完全正确", "uncertain": false}
+{"i": 27, "model": "G1-gold-final", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "先清洗非字母数字并转小写，再与自身反转比较，完全正确", "uncertain": false}
+{"i": 28, "model": "G1-gold-final", "name": "is_palindrome", "seed": 999, "script_passed": true, "score": 2, "reason": "先清洗非字母数字并转小写，再与自身反转比较，完全正确", "uncertain": false}
+{"i": 29, "model": "G1-gold-final", "name": "is_palindrome", "seed": 2024, "script_passed": true, "score": 2, "reason": "先清洗非字母数字并转小写，再与自身反转比较，完全正确", "uncertain": false}
+{"i": 30, "model": "G1-gold-final", "name": "is_prime", "seed": 0, "script_passed": false, "score": 1, "reason": "筛法结构正确但返回 all(sieve)（要求 n 以内全为素数）而非 sieve[n]，判据错", "uncertain": false}
+{"i": 31, "model": "G1-gold-final", "name": "is_prime", "seed": 42, "script_passed": false, "score": 1, "reason": "筛法结构正确但返回 all(sieve) 而非 sieve[n]，判据错", "uncertain": false}
+{"i": 32, "model": "G1-gold-final", "name": "is_prime", "seed": 123, "script_passed": false, "score": 1, "reason": "奇因子试除正确但 n=2 被 n%2==0 判为合数，边界错", "uncertain": false}
+{"i": 33, "model": "G1-gold-final", "name": "is_prime", "seed": 999, "script_passed": false, "score": 1, "reason": "筛法结构正确但表长为 n 且返回 all(sieve)，判据错", "uncertain": false}
+{"i": 34, "model": "G1-gold-final", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 1, "reason": "筛法结构正确但返回 all(sieve) 而非 sieve[n]，判据错", "uncertain": false}
+{"i": 35, "model": "G1-gold-final", "name": "reverse_string", "seed": 0, "script_passed": false, "score": 1, "reason": "用 re.split 反转的是词序而非字符序（单串输入原样返回），且 re 未 import", "uncertain": true}
+{"i": 36, "model": "G1-gold-final", "name": "reverse_string", "seed": 42, "script_passed": false, "score": 0, "reason": "只写了一段 Example usage 注释与 print，函数体没有实现", "uncertain": false}
+{"i": 37, "model": "G1-gold-final", "name": "reverse_string", "seed": 123, "script_passed": false, "score": 1, "reason": "反转词序而非字符序（单串输入原样返回），且 re 未 import", "uncertain": true}
+{"i": 38, "model": "G1-gold-final", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 1, "reason": "反转词序而非字符序（单串输入原样返回），且 re 未 import", "uncertain": true}
+{"i": 39, "model": "G1-gold-final", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 0, "reason": "只写了一段 Example usage 注释与 print，函数体没有实现", "uncertain": false}
+{"i": 40, "model": "G1-gold-final", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "元音集合 + 循环计数，完全正确", "uncertain": false}
+{"i": 41, "model": "G1-gold-final", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音集合 + sum 生成式计数，完全正确", "uncertain": false}
+{"i": 42, "model": "G1-gold-final", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "元音集合 + sum 生成式计数，完全正确", "uncertain": false}
+{"i": 43, "model": "G1-gold-final", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "元音集合 + 循环计数，完全正确", "uncertain": false}
+{"i": 44, "model": "G1-gold-final", "name": "count_vowels", "seed": 2024, "script_passed": false, "score": 1, "reason": "循环确实在识别元音但只 print 不 return，函数返回 None（接口失效）", "uncertain": false}
+{"i": 45, "model": "G1-gold-final", "name": "sum_list", "seed": 0, "script_passed": false, "score": 0, "reason": "函数体为空，只写了 Example usage 注释与 print（与 1B 金标准臂同款病理）", "uncertain": false}
+{"i": 46, "model": "G1-gold-final", "name": "sum_list", "seed": 42, "script_passed": false, "score": 0, "reason": "函数体为空，只写了 Example usage 注释与 print（与 1B 金标准臂同款病理）", "uncertain": false}
+{"i": 47, "model": "G1-gold-final", "name": "sum_list", "seed": 123, "script_passed": false, "score": 0, "reason": "函数体为空，只写了 Example usage 注释与 print（与 1B 金标准臂同款病理）", "uncertain": false}
+{"i": 48, "model": "G1-gold-final", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "函数体为空，只写了 Example usage 注释与 print（与 1B 金标准臂同款病理）", "uncertain": false}
+{"i": 49, "model": "G1-gold-final", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "函数体为空，只写了 Example usage 注释与 print（与 1B 金标准臂同款病理）", "uncertain": false}
+{"i": 50, "model": "G1-gold-final", "name": "factorial", "seed": 0, "script_passed": false, "score": 1, "reason": "只写了 n==1 基例，缺 n==0，factorial(0) 无限递归崩溃", "uncertain": false}
+{"i": 51, "model": "G1-gold-final", "name": "factorial", "seed": 42, "script_passed": true, "score": 2, "reason": "基例 n==0/n==1 齐全，递归正确", "uncertain": false}
+{"i": 52, "model": "G1-gold-final", "name": "factorial", "seed": 123, "script_passed": true, "score": 2, "reason": "基例 n==0/n==1 齐全，递归正确", "uncertain": false}
+{"i": 53, "model": "G1-gold-final", "name": "factorial", "seed": 999, "script_passed": false, "score": 1, "reason": "把 n<=0 当错误返回字符串、改用循环，factorial(0) 返回错误串而非 1", "uncertain": false}
+{"i": 54, "model": "G1-gold-final", "name": "factorial", "seed": 2024, "script_passed": false, "score": 1, "reason": "只写了 n==1 基例，缺 n==0，factorial(0) 无限递归崩溃", "uncertain": false}
+{"i": 55, "model": "G1-gold-bestval", "name": "fibonacci", "seed": 0, "script_passed": false, "score": 1, "reason": "基例位移：n==1 返回 0（应为 1）、n<=0 返回错误字符串，递推骨架正确", "uncertain": false}
+{"i": 56, "model": "G1-gold-bestval", "name": "fibonacci", "seed": 42, "script_passed": false, "score": 2, "reason": "标准迭代实现，基准与递推全对；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 57, "model": "G1-gold-bestval", "name": "fibonacci", "seed": 123, "script_passed": false, "score": 2, "reason": "标准迭代实现，基准与递推全对；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 58, "model": "G1-gold-bestval", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 2, "reason": "标准迭代实现，基准与递推全对；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 59, "model": "G1-gold-bestval", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "基例位移：n==1 返回 0（应为 1）、n<=0 返回错误字符串，递推骨架正确", "uncertain": false}
+{"i": 60, "model": "G1-gold-bestval", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "按位置对半切后分别递归，还把标量 pivot 当列表传入 quicksort(pivot)，无分区也无写回", "uncertain": true}
+{"i": 61, "model": "G1-gold-bestval", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "分区方向写反（greater 装大于 pivot）且递归结果未写回，返回 None", "uncertain": false}
+{"i": 62, "model": "G1-gold-bestval", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 二分分区本身正确（保留等值），但递归结果未写回 arr、返回 None", "uncertain": false}
+{"i": 63, "model": "G1-gold-bestval", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "分区方向写反且未写回，返回 None", "uncertain": false}
+{"i": 64, "model": "G1-gold-bestval", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "按位置对半切 + quicksort(pivot) 传标量，无分区、无写回", "uncertain": true}
+{"i": 65, "model": "G1-gold-bestval", "name": "binary_search", "seed": 0, "script_passed": false, "score": 2, "reason": "标准二分且未找到返回 -1；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 66, "model": "G1-gold-bestval", "name": "binary_search", "seed": 42, "script_passed": false, "score": 2, "reason": "标准二分且未找到返回 -1；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 67, "model": "G1-gold-bestval", "name": "binary_search", "seed": 123, "script_passed": false, "score": 2, "reason": "找首次出现的二分（result/right=mid-1）正确且未找到返回 -1；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 68, "model": "G1-gold-bestval", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "二分逻辑正确但未找到返回 None 而非 -1（接口漂移）", "uncertain": false}
+{"i": 69, "model": "G1-gold-bestval", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "二分逻辑正确但未找到返回 None 而非 -1（接口漂移）", "uncertain": false}
+{"i": 70, "model": "G1-gold-bestval", "name": "two_sum", "seed": 0, "script_passed": false, "score": 1, "reason": "哈希补数骨架正确但返回数值列表而非索引对，接口漂移", "uncertain": false}
+{"i": 71, "model": "G1-gold-bestval", "name": "two_sum", "seed": 42, "script_passed": false, "score": 1, "reason": "哈希补数骨架正确但返回数值列表而非索引对，接口漂移", "uncertain": false}
+{"i": 72, "model": "G1-gold-bestval", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "哈希补数骨架正确但返回数值列表而非索引对，接口漂移", "uncertain": false}
+{"i": 73, "model": "G1-gold-bestval", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "哈希补数骨架正确但返回数值列表而非索引对，接口漂移", "uncertain": false}
+{"i": 74, "model": "G1-gold-bestval", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "哈希补数骨架正确但返回数值列表而非索引对，接口漂移", "uncertain": false}
+{"i": 75, "model": "G1-gold-bestval", "name": "mergesort", "seed": 0, "script_passed": false, "score": 2, "reason": "标准原地归并且 return arr，合并正确；补全以三引号文档串开头且与 prompt 缩进错位（脚本 IndentationError），算法内容本身正确", "uncertain": true}
+{"i": 76, "model": "G1-gold-bestval", "name": "mergesort", "seed": 42, "script_passed": false, "score": 1, "reason": "原地归并逻辑正确但不 return（返回 None），同尺子记 1", "uncertain": false}
+{"i": 77, "model": "G1-gold-bestval", "name": "mergesort", "seed": 123, "script_passed": false, "score": 1, "reason": "原地归并逻辑正确但不 return（返回 None），同尺子记 1", "uncertain": false}
+{"i": 78, "model": "G1-gold-bestval", "name": "mergesort", "seed": 999, "script_passed": false, "score": 1, "reason": "原地归并逻辑正确但不 return（返回 None），同尺子记 1", "uncertain": false}
+{"i": 79, "model": "G1-gold-bestval", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 1, "reason": "原地归并逻辑正确但不 return（返回 None），同尺子记 1", "uncertain": false}
+{"i": 80, "model": "G1-gold-bestval", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "去空格转小写后首尾逐对比较，完全正确", "uncertain": false}
+{"i": 81, "model": "G1-gold-bestval", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "去空格转小写后首尾逐对比较，完全正确", "uncertain": false}
+{"i": 82, "model": "G1-gold-bestval", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "清洗后与自身反转比较，完全正确", "uncertain": false}
+{"i": 83, "model": "G1-gold-bestval", "name": "is_palindrome", "seed": 999, "script_passed": true, "score": 2, "reason": "清洗后与自身反转比较，完全正确", "uncertain": false}
+{"i": 84, "model": "G1-gold-bestval", "name": "is_palindrome", "seed": 2024, "script_passed": true, "score": 2, "reason": "清洗后与自身反转比较，完全正确", "uncertain": false}
+{"i": 85, "model": "G1-gold-bestval", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "n<=1 返回 False、试除到 sqrt(n)，2/17/15/1 全对", "uncertain": false}
+{"i": 86, "model": "G1-gold-bestval", "name": "is_prime", "seed": 42, "script_passed": false, "score": 1, "reason": "6k±1 轮式漏掉因子 3：n=15 无循环体即返回 True，误判合数", "uncertain": false}
+{"i": 87, "model": "G1-gold-bestval", "name": "is_prime", "seed": 123, "script_passed": false, "score": 1, "reason": "n=2 被 n%2==0 判为合数（边界错），其余试除正确", "uncertain": false}
+{"i": 88, "model": "G1-gold-bestval", "name": "is_prime", "seed": 999, "script_passed": true, "score": 1, "reason": "n=3 被 n%3==0 判为合数（边界错，脚本未覆盖故 script 通过）", "uncertain": false}
+{"i": 89, "model": "G1-gold-bestval", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 1, "reason": "筛法结构正确但返回 all(sieve) 而非 sieve[n]，判据错", "uncertain": false}
+{"i": 90, "model": "G1-gold-bestval", "name": "reverse_string", "seed": 0, "script_passed": false, "score": 1, "reason": "反转词序而非字符序（单串输入原样返回），且 re 未 import", "uncertain": true}
+{"i": 91, "model": "G1-gold-bestval", "name": "reverse_string", "seed": 42, "script_passed": false, "score": 0, "reason": "只写了一段 Example usage 注释与 print，函数体没有实现", "uncertain": false}
+{"i": 92, "model": "G1-gold-bestval", "name": "reverse_string", "seed": 123, "script_passed": false, "score": 1, "reason": "反转词序而非字符序（单串输入原样返回），且 re 未 import", "uncertain": true}
+{"i": 93, "model": "G1-gold-bestval", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 1, "reason": "反转词序而非字符序（单串输入原样返回），且 re 未 import", "uncertain": true}
+{"i": 94, "model": "G1-gold-bestval", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 0, "reason": "只写了一段 Example usage 注释与 print，函数体没有实现", "uncertain": false}
+{"i": 95, "model": "G1-gold-bestval", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "元音集合 + sum 生成式计数，完全正确", "uncertain": false}
+{"i": 96, "model": "G1-gold-bestval", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音集合 + sum 生成式计数，完全正确", "uncertain": false}
+{"i": 97, "model": "G1-gold-bestval", "name": "count_vowels", "seed": 123, "script_passed": false, "score": 1, "reason": "统计的是字符出现次数并按出现次数判元音，'hello' 返回 1（应为 2）", "uncertain": false}
+{"i": 98, "model": "G1-gold-bestval", "name": "count_vowels", "seed": 999, "script_passed": false, "score": 1, "reason": "统计字符出现次数 >1 的个数，与元音计数无关（'hello' 返回 1）", "uncertain": false}
+{"i": 99, "model": "G1-gold-bestval", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "元音集合 + sum 生成式计数，完全正确", "uncertain": false}
+{"i": 100, "model": "G1-gold-bestval", "name": "sum_list", "seed": 0, "script_passed": false, "score": 0, "reason": "函数体为空，只写了 Example usage 注释与 print（与 1B 金标准臂同款病理）", "uncertain": false}
+{"i": 101, "model": "G1-gold-bestval", "name": "sum_list", "seed": 42, "script_passed": false, "score": 0, "reason": "函数体为空，只写了 Example usage 注释与 print（与 1B 金标准臂同款病理）", "uncertain": false}
+{"i": 102, "model": "G1-gold-bestval", "name": "sum_list", "seed": 123, "script_passed": false, "score": 0, "reason": "函数体为空，只写了 Example usage 注释与 print（与 1B 金标准臂同款病理）", "uncertain": false}
+{"i": 103, "model": "G1-gold-bestval", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "函数体为空，只写了 Example usage 注释与 print（与 1B 金标准臂同款病理）", "uncertain": false}
+{"i": 104, "model": "G1-gold-bestval", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "函数体为空，只写了 Example usage 注释与 print（与 1B 金标准臂同款病理）", "uncertain": false}
+{"i": 105, "model": "G1-gold-bestval", "name": "factorial", "seed": 0, "script_passed": true, "score": 2, "reason": "基例 n==0/n==1 齐全，递归正确", "uncertain": false}
+{"i": 106, "model": "G1-gold-bestval", "name": "factorial", "seed": 42, "script_passed": true, "score": 2, "reason": "基例 n==0/n==1 齐全，递归正确", "uncertain": false}
+{"i": 107, "model": "G1-gold-bestval", "name": "factorial", "seed": 123, "script_passed": false, "score": 1, "reason": "只写了 n==1 基例，缺 n==0，factorial(0) 无限递归崩溃", "uncertain": false}
+{"i": 108, "model": "G1-gold-bestval", "name": "factorial", "seed": 999, "script_passed": false, "score": 1, "reason": "只写了 n==1 基例，缺 n==0，factorial(0) 无限递归崩溃", "uncertain": false}
+{"i": 109, "model": "G1-gold-bestval", "name": "factorial", "seed": 2024, "script_passed": true, "score": 2, "reason": "基例 n==0/n==1 齐全，递归正确", "uncertain": false}

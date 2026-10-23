@@ -1,0 +1,330 @@
+{"i": 0, "model": "EXPB-g9-merged-final", "name": "fibonacci", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代实现正确，fib(0)=0/fib(1)=1 与标准一致", "uncertain": false}
+{"i": 1, "model": "EXPB-g9-merged-final", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "迭代实现正确，fib(0)=0/fib(1)=1 与标准一致", "uncertain": false}
+{"i": 2, "model": "EXPB-g9-merged-final", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "迭代实现正确，fib(0)=0/fib(1)=1 与标准一致", "uncertain": false}
+{"i": 3, "model": "EXPB-g9-merged-final", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "返回前 n 项数列而非常规第 n 项：接口漂移，算法本身正确", "uncertain": true}
+{"i": 4, "model": "EXPB-g9-merged-final", "name": "fibonacci", "seed": 2024, "script_passed": true, "score": 2, "reason": "迭代实现正确，fib(0)=0/fib(1)=1 与标准一致", "uncertain": false}
+{"i": 5, "model": "EXPB-g9-merged-final", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且用 </> 划分，丢弃等于 pivot 的元素（[3,1,2,1]→[1,2,3] 少一个 1）", "uncertain": false}
+{"i": 6, "model": "EXPB-g9-merged-final", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且用 </> 划分，丢弃等于 pivot 的元素（[3,1,2,1]→[1,2,3] 少一个 1）", "uncertain": false}
+{"i": 7, "model": "EXPB-g9-merged-final", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且用 </> 划分，丢弃等于 pivot 的元素（[3,1,2,1]→[1,2,3] 少一个 1）", "uncertain": false}
+{"i": 8, "model": "EXPB-g9-merged-final", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且用 </> 划分，丢弃等于 pivot 的元素（[3,1,2,1]→[1,2,3] 少一个 1）", "uncertain": false}
+{"i": 9, "model": "EXPB-g9-merged-final", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且用 </> 划分，丢弃等于 pivot 的元素（[3,1,2,1]→[1,2,3] 少一个 1）", "uncertain": false}
+{"i": 10, "model": "EXPB-g9-merged-final", "name": "binary_search", "seed": 0, "script_passed": true, "score": 2, "reason": "索引二分，未找到返回 -1", "uncertain": false}
+{"i": 11, "model": "EXPB-g9-merged-final", "name": "binary_search", "seed": 42, "script_passed": false, "score": 1, "reason": "二分逻辑正确但返回 bool 而非索引：接口漂移", "uncertain": false}
+{"i": 12, "model": "EXPB-g9-merged-final", "name": "binary_search", "seed": 123, "script_passed": false, "score": 1, "reason": "索引二分正确但未找到返回 None（应 -1）", "uncertain": false}
+{"i": 13, "model": "EXPB-g9-merged-final", "name": "binary_search", "seed": 999, "script_passed": true, "score": 2, "reason": "索引二分，未找到返回 -1", "uncertain": false}
+{"i": 14, "model": "EXPB-g9-merged-final", "name": "binary_search", "seed": 2024, "script_passed": true, "score": 2, "reason": "索引二分，未找到返回 -1", "uncertain": false}
+{"i": 15, "model": "EXPB-g9-merged-final", "name": "two_sum", "seed": 0, "script_passed": false, "score": 1, "reason": "哈希集合骨架正确但 num 只在命中时入集合，实测恒返回空列表", "uncertain": true}
+{"i": 16, "model": "EXPB-g9-merged-final", "name": "two_sum", "seed": 42, "script_passed": false, "score": 1, "reason": "正确找出所有配对，但返回数值对而非索引：接口漂移", "uncertain": false}
+{"i": 17, "model": "EXPB-g9-merged-final", "name": "two_sum", "seed": 123, "script_passed": false, "score": 0, "reason": "三数之和式乱写，恒返回 False", "uncertain": false}
+{"i": 18, "model": "EXPB-g9-merged-final", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 19, "model": "EXPB-g9-merged-final", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 20, "model": "EXPB-g9-merged-final", "name": "mergesort", "seed": 0, "script_passed": false, "score": 2, "reason": "递归+完整 merge（含两段余量拷贝），结果正确", "uncertain": false}
+{"i": 21, "model": "EXPB-g9-merged-final", "name": "mergesort", "seed": 42, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return（返回 None）", "uncertain": false}
+{"i": 22, "model": "EXPB-g9-merged-final", "name": "mergesort", "seed": 123, "script_passed": false, "score": 2, "reason": "递归+完整 merge，结果正确", "uncertain": false}
+{"i": 23, "model": "EXPB-g9-merged-final", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "递归+完整 merge（extend 拷贝余量），结果正确", "uncertain": false}
+{"i": 24, "model": "EXPB-g9-merged-final", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "递归+完整 merge（extend 拷贝余量），结果正确", "uncertain": false}
+{"i": 25, "model": "EXPB-g9-merged-final", "name": "is_palindrome", "seed": 0, "script_passed": false, "score": 1, "reason": "把每个字符'反转'后按序拼接等于原串，实测对任何非空串都返回 True", "uncertain": false}
+{"i": 26, "model": "EXPB-g9-merged-final", "name": "is_palindrome", "seed": 42, "script_passed": false, "score": 1, "reason": "逐字符调用 reverse_and_check，实测对任何非空串都返回 True", "uncertain": false}
+{"i": 27, "model": "EXPB-g9-merged-final", "name": "is_palindrome", "seed": 123, "script_passed": false, "score": 0, "reason": "做 Caesar 位移后比较，与回文判断无关，恒返回 False", "uncertain": false}
+{"i": 28, "model": "EXPB-g9-merged-final", "name": "is_palindrome", "seed": 999, "script_passed": false, "score": 0, "reason": "引用未定义的 i，运行抛 NameError", "uncertain": false}
+{"i": 29, "model": "EXPB-g9-merged-final", "name": "is_palindrome", "seed": 2024, "script_passed": false, "score": 0, "reason": "比较 s[i:] 与 s[:i] 从不比较镜像字符，恒返回 False", "uncertain": false}
+{"i": 30, "model": "EXPB-g9-merged-final", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 31, "model": "EXPB-g9-merged-final", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 32, "model": "EXPB-g9-merged-final", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 33, "model": "EXPB-g9-merged-final", "name": "is_prime", "seed": 999, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 34, "model": "EXPB-g9-merged-final", "name": "is_prime", "seed": 2024, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 35, "model": "EXPB-g9-merged-final", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "切片倒序迭代构造，反转正确", "uncertain": false}
+{"i": 36, "model": "EXPB-g9-merged-final", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "切片倒序迭代构造，反转正确", "uncertain": false}
+{"i": 37, "model": "EXPB-g9-merged-final", "name": "reverse_string", "seed": 123, "script_passed": false, "score": 0, "reason": "做 +26 的 Caesar 位移等于恒等变换，与反转无关", "uncertain": true}
+{"i": 38, "model": "EXPB-g9-merged-final", "name": "reverse_string", "seed": 999, "script_passed": true, "score": 2, "reason": "切片倒序迭代构造，反转正确", "uncertain": false}
+{"i": 39, "model": "EXPB-g9-merged-final", "name": "reverse_string", "seed": 2024, "script_passed": true, "score": 2, "reason": "切片倒序迭代构造，反转正确", "uncertain": false}
+{"i": 40, "model": "EXPB-g9-merged-final", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 41, "model": "EXPB-g9-merged-final", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音 set+sum，正确", "uncertain": false}
+{"i": 42, "model": "EXPB-g9-merged-final", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 43, "model": "EXPB-g9-merged-final", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 44, "model": "EXPB-g9-merged-final", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 45, "model": "EXPB-g9-merged-final", "name": "sum_list", "seed": 0, "script_passed": false, "score": 1, "reason": "只累加正整数，含负数/非 int 的列表结果错误", "uncertain": false}
+{"i": 46, "model": "EXPB-g9-merged-final", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 47, "model": "EXPB-g9-merged-final", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 48, "model": "EXPB-g9-merged-final", "name": "sum_list", "seed": 999, "script_passed": false, "score": 1, "reason": "只累加正整数，含负数/非 int 的列表结果错误", "uncertain": false}
+{"i": 49, "model": "EXPB-g9-merged-final", "name": "sum_list", "seed": 2024, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 50, "model": "EXPB-g9-merged-final", "name": "factorial", "seed": 0, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 51, "model": "EXPB-g9-merged-final", "name": "factorial", "seed": 42, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 52, "model": "EXPB-g9-merged-final", "name": "factorial", "seed": 123, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 53, "model": "EXPB-g9-merged-final", "name": "factorial", "seed": 999, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 54, "model": "EXPB-g9-merged-final", "name": "factorial", "seed": 2024, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 55, "model": "EXPB-g9-merged-best_val", "name": "fibonacci", "seed": 0, "script_passed": false, "score": 1, "reason": "n<=0 返回字符串，且 n=1→0/n=2→1 使结果整体位移一位", "uncertain": false}
+{"i": 56, "model": "EXPB-g9-merged-best_val", "name": "fibonacci", "seed": 42, "script_passed": false, "score": 0, "reason": "n>=2 时递归把字符串与整数相加，运行抛 TypeError，不可用", "uncertain": false}
+{"i": 57, "model": "EXPB-g9-merged-best_val", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "迭代 2..n 正确，fib(0)=0/fib(1)=1", "uncertain": false}
+{"i": 58, "model": "EXPB-g9-merged-best_val", "name": "fibonacci", "seed": 999, "script_passed": true, "score": 2, "reason": "迭代 2..n 正确，fib(0)=0/fib(1)=1", "uncertain": false}
+{"i": 59, "model": "EXPB-g9-merged-best_val", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 0, "reason": "n>=2 时递归把字符串与整数相加，运行抛 TypeError，不可用", "uncertain": false}
+{"i": 60, "model": "EXPB-g9-merged-best_val", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "arr[1:] 上 </> 划分，丢弃等于 pivot 的元素", "uncertain": false}
+{"i": 61, "model": "EXPB-g9-merged-best_val", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "划分本身完整，但把 greater 放在前面，返回降序", "uncertain": false}
+{"i": 62, "model": "EXPB-g9-merged-best_val", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "arr[1:] 上 </> 划分，丢弃等于 pivot 的元素", "uncertain": false}
+{"i": 63, "model": "EXPB-g9-merged-best_val", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "划分完整但返回降序（greater 在前）", "uncertain": false}
+{"i": 64, "model": "EXPB-g9-merged-best_val", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "arr[1:] 上 </> 划分，丢弃等于 pivot 的元素", "uncertain": false}
+{"i": 65, "model": "EXPB-g9-merged-best_val", "name": "binary_search", "seed": 0, "script_passed": false, "score": 1, "reason": "二分逻辑正确但返回 bool 而非索引", "uncertain": false}
+{"i": 66, "model": "EXPB-g9-merged-best_val", "name": "binary_search", "seed": 42, "script_passed": false, "score": 1, "reason": "二分逻辑正确但返回 bool 而非索引：接口漂移", "uncertain": false}
+{"i": 67, "model": "EXPB-g9-merged-best_val", "name": "binary_search", "seed": 123, "script_passed": false, "score": 1, "reason": "二分逻辑正确但返回 bool 而非索引", "uncertain": false}
+{"i": 68, "model": "EXPB-g9-merged-best_val", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "二分逻辑正确但返回 bool 而非索引", "uncertain": false}
+{"i": 69, "model": "EXPB-g9-merged-best_val", "name": "binary_search", "seed": 2024, "script_passed": true, "score": 2, "reason": "索引二分，未找到返回 -1", "uncertain": false}
+{"i": 70, "model": "EXPB-g9-merged-best_val", "name": "two_sum", "seed": 0, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 71, "model": "EXPB-g9-merged-best_val", "name": "two_sum", "seed": 42, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 72, "model": "EXPB-g9-merged-best_val", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 73, "model": "EXPB-g9-merged-best_val", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 74, "model": "EXPB-g9-merged-best_val", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 75, "model": "EXPB-g9-merged-best_val", "name": "mergesort", "seed": 0, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return（返回 None）", "uncertain": false}
+{"i": 76, "model": "EXPB-g9-merged-best_val", "name": "mergesort", "seed": 42, "script_passed": true, "score": 2, "reason": "原地归并排序并 return arr", "uncertain": false}
+{"i": 77, "model": "EXPB-g9-merged-best_val", "name": "mergesort", "seed": 123, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 78, "model": "EXPB-g9-merged-best_val", "name": "mergesort", "seed": 999, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 79, "model": "EXPB-g9-merged-best_val", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 80, "model": "EXPB-g9-merged-best_val", "name": "is_palindrome", "seed": 0, "script_passed": false, "score": 1, "reason": "s==s[::-1] 正确，但把空串误判为 False", "uncertain": false}
+{"i": 81, "model": "EXPB-g9-merged-best_val", "name": "is_palindrome", "seed": 42, "script_passed": false, "score": 1, "reason": "s==s[::-1] 正确，但把空串误判为 False", "uncertain": false}
+{"i": 82, "model": "EXPB-g9-merged-best_val", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "lower+切片反转比较，含空串全对", "uncertain": false}
+{"i": 83, "model": "EXPB-g9-merged-best_val", "name": "is_palindrome", "seed": 999, "script_passed": false, "score": 1, "reason": "切片反转比较正确，但空串误判为 False", "uncertain": false}
+{"i": 84, "model": "EXPB-g9-merged-best_val", "name": "is_palindrome", "seed": 2024, "script_passed": false, "score": 1, "reason": "s==s[::-1] 正确，但把空串误判为 False", "uncertain": false}
+{"i": 85, "model": "EXPB-g9-merged-best_val", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确；末尾 print 无害", "uncertain": false}
+{"i": 86, "model": "EXPB-g9-merged-best_val", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 87, "model": "EXPB-g9-merged-best_val", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确；末尾 print 无害", "uncertain": false}
+{"i": 88, "model": "EXPB-g9-merged-best_val", "name": "is_prime", "seed": 999, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确；末尾 print 无害", "uncertain": false}
+{"i": 89, "model": "EXPB-g9-merged-best_val", "name": "is_prime", "seed": 2024, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确；末尾 print 无害", "uncertain": false}
+{"i": 90, "model": "EXPB-g9-merged-best_val", "name": "reverse_string", "seed": 0, "script_passed": false, "score": 1, "reason": "先倒序迭代又前插，双重反转导致返回原串", "uncertain": false}
+{"i": 91, "model": "EXPB-g9-merged-best_val", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "前插构造，反转正确", "uncertain": false}
+{"i": 92, "model": "EXPB-g9-merged-best_val", "name": "reverse_string", "seed": 123, "script_passed": false, "score": 1, "reason": "正序追加构造，忘记倒序，返回原串", "uncertain": false}
+{"i": 93, "model": "EXPB-g9-merged-best_val", "name": "reverse_string", "seed": 999, "script_passed": true, "score": 2, "reason": "切片倒序迭代构造，反转正确", "uncertain": false}
+{"i": 94, "model": "EXPB-g9-merged-best_val", "name": "reverse_string", "seed": 2024, "script_passed": true, "score": 2, "reason": "前插构造，反转正确", "uncertain": false}
+{"i": 95, "model": "EXPB-g9-merged-best_val", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 96, "model": "EXPB-g9-merged-best_val", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 97, "model": "EXPB-g9-merged-best_val", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 98, "model": "EXPB-g9-merged-best_val", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 99, "model": "EXPB-g9-merged-best_val", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 100, "model": "EXPB-g9-merged-best_val", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 101, "model": "EXPB-g9-merged-best_val", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 102, "model": "EXPB-g9-merged-best_val", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "正确求和（无显式空表判断但循环天然返回 0）", "uncertain": false}
+{"i": 103, "model": "EXPB-g9-merged-best_val", "name": "sum_list", "seed": 999, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 104, "model": "EXPB-g9-merged-best_val", "name": "sum_list", "seed": 2024, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 105, "model": "EXPB-g9-merged-best_val", "name": "factorial", "seed": 0, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 106, "model": "EXPB-g9-merged-best_val", "name": "factorial", "seed": 42, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 107, "model": "EXPB-g9-merged-best_val", "name": "factorial", "seed": 123, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 108, "model": "EXPB-g9-merged-best_val", "name": "factorial", "seed": 999, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 109, "model": "EXPB-g9-merged-best_val", "name": "factorial", "seed": 2024, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 110, "model": "EXPB-g9-final-final", "name": "fibonacci", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代实现正确，fib(0)=0/fib(1)=1 与标准一致", "uncertain": false}
+{"i": 111, "model": "EXPB-g9-final-final", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "迭代实现正确，fib(0)=0/fib(1)=1 与标准一致", "uncertain": false}
+{"i": 112, "model": "EXPB-g9-final-final", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "a,b=b,a+b 迭代正确", "uncertain": false}
+{"i": 113, "model": "EXPB-g9-final-final", "name": "fibonacci", "seed": 999, "script_passed": true, "score": 2, "reason": "迭代实现正确，fib(0)=0/fib(1)=1 与标准一致", "uncertain": false}
+{"i": 114, "model": "EXPB-g9-final-final", "name": "fibonacci", "seed": 2024, "script_passed": true, "score": 2, "reason": "a,b=b,a+b 迭代正确", "uncertain": false}
+{"i": 115, "model": "EXPB-g9-final-final", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且用 </> 划分，丢弃等于 pivot 的元素（[3,1,2,1]→[1,2,3] 少一个 1）", "uncertain": false}
+{"i": 116, "model": "EXPB-g9-final-final", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且用 </> 划分，丢弃等于 pivot 的元素（[3,1,2,1]→[1,2,3] 少一个 1）", "uncertain": false}
+{"i": 117, "model": "EXPB-g9-final-final", "name": "quicksort", "seed": 123, "script_passed": true, "score": 2, "reason": "三路划分（<,==,>）正确，重复元素保留", "uncertain": false}
+{"i": 118, "model": "EXPB-g9-final-final", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且用 </> 划分，丢弃等于 pivot 的元素（[3,1,2,1]→[1,2,3] 少一个 1）", "uncertain": false}
+{"i": 119, "model": "EXPB-g9-final-final", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "pivot=arr[0] 且用 </> 划分，丢弃等于 pivot 的元素（[3,1,2,1]→[1,2,3] 少一个 1）", "uncertain": false}
+{"i": 120, "model": "EXPB-g9-final-final", "name": "binary_search", "seed": 0, "script_passed": false, "score": 1, "reason": "二分逻辑正确但返回 bool 而非索引：接口漂移", "uncertain": false}
+{"i": 121, "model": "EXPB-g9-final-final", "name": "binary_search", "seed": 42, "script_passed": true, "score": 2, "reason": "索引二分，未找到返回 -1", "uncertain": false}
+{"i": 122, "model": "EXPB-g9-final-final", "name": "binary_search", "seed": 123, "script_passed": false, "score": 1, "reason": "二分逻辑正确但返回 bool 而非索引", "uncertain": false}
+{"i": 123, "model": "EXPB-g9-final-final", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "二分逻辑正确但返回 bool 而非索引：接口漂移", "uncertain": false}
+{"i": 124, "model": "EXPB-g9-final-final", "name": "binary_search", "seed": 2024, "script_passed": true, "score": 2, "reason": "索引二分，未找到返回 -1", "uncertain": false}
+{"i": 125, "model": "EXPB-g9-final-final", "name": "two_sum", "seed": 0, "script_passed": false, "score": 0, "reason": "比较 nums[i]==nums[j] 找重复值，与两数之和无关", "uncertain": false}
+{"i": 126, "model": "EXPB-g9-final-final", "name": "two_sum", "seed": 42, "script_passed": true, "score": 2, "reason": "哈希表返回正确索引对", "uncertain": false}
+{"i": 127, "model": "EXPB-g9-final-final", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 128, "model": "EXPB-g9-final-final", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 129, "model": "EXPB-g9-final-final", "name": "two_sum", "seed": 2024, "script_passed": true, "score": 2, "reason": "哈希表返回正确索引对", "uncertain": false}
+{"i": 130, "model": "EXPB-g9-final-final", "name": "mergesort", "seed": 0, "script_passed": false, "score": 2, "reason": "递归+完整 merge（extend），结果正确", "uncertain": false}
+{"i": 131, "model": "EXPB-g9-final-final", "name": "mergesort", "seed": 42, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 132, "model": "EXPB-g9-final-final", "name": "mergesort", "seed": 123, "script_passed": false, "score": 2, "reason": "递归+完整 merge（双 while 余量），结果正确", "uncertain": false}
+{"i": 133, "model": "EXPB-g9-final-final", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "递归+完整 merge，结果正确", "uncertain": false}
+{"i": 134, "model": "EXPB-g9-final-final", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "递归+完整 merge，结果正确", "uncertain": false}
+{"i": 135, "model": "EXPB-g9-final-final", "name": "is_palindrome", "seed": 0, "script_passed": false, "score": 0, "reason": "围绕中心的两段比较逻辑混乱，对 'abca' 误判为回文", "uncertain": false}
+{"i": 136, "model": "EXPB-g9-final-final", "name": "is_palindrome", "seed": 42, "script_passed": false, "score": 1, "reason": "核心 s==s[::-1] 正确，但空串返回 False", "uncertain": false}
+{"i": 137, "model": "EXPB-g9-final-final", "name": "is_palindrome", "seed": 123, "script_passed": false, "score": 1, "reason": "核心 s==s[::-1] 正确，但空串返回 False", "uncertain": false}
+{"i": 138, "model": "EXPB-g9-final-final", "name": "is_palindrome", "seed": 999, "script_passed": false, "score": 1, "reason": "只比较首字符与自身，对 'abca' 也返回 True", "uncertain": true}
+{"i": 139, "model": "EXPB-g9-final-final", "name": "is_palindrome", "seed": 2024, "script_passed": false, "score": 1, "reason": "切片反转比较正确，但空串返回 False", "uncertain": false}
+{"i": 140, "model": "EXPB-g9-final-final", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 141, "model": "EXPB-g9-final-final", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 142, "model": "EXPB-g9-final-final", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 143, "model": "EXPB-g9-final-final", "name": "is_prime", "seed": 999, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 144, "model": "EXPB-g9-final-final", "name": "is_prime", "seed": 2024, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 145, "model": "EXPB-g9-final-final", "name": "reverse_string", "seed": 0, "script_passed": true, "score": 2, "reason": "切片倒序迭代构造，反转正确", "uncertain": false}
+{"i": 146, "model": "EXPB-g9-final-final", "name": "reverse_string", "seed": 42, "script_passed": false, "score": 1, "reason": "正序追加且跳过空格，既不反转又丢字符", "uncertain": false}
+{"i": 147, "model": "EXPB-g9-final-final", "name": "reverse_string", "seed": 123, "script_passed": true, "score": 2, "reason": "切片倒序收集，反转正确", "uncertain": false}
+{"i": 148, "model": "EXPB-g9-final-final", "name": "reverse_string", "seed": 999, "script_passed": true, "score": 2, "reason": "切片倒序收集，反转正确", "uncertain": false}
+{"i": 149, "model": "EXPB-g9-final-final", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 1, "reason": "正序追加且跳过空格，既不反转又丢字符", "uncertain": false}
+{"i": 150, "model": "EXPB-g9-final-final", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "元音 set+sum，正确", "uncertain": false}
+{"i": 151, "model": "EXPB-g9-final-final", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 152, "model": "EXPB-g9-final-final", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 153, "model": "EXPB-g9-final-final", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "元音 set+sum，正确", "uncertain": false}
+{"i": 154, "model": "EXPB-g9-final-final", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "仅小写元音集合，小写输入正确（底座同尺子给 2）", "uncertain": false}
+{"i": 155, "model": "EXPB-g9-final-final", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 156, "model": "EXPB-g9-final-final", "name": "sum_list", "seed": 42, "script_passed": false, "score": 1, "reason": "只累加正整数，含负数结果错误", "uncertain": false}
+{"i": 157, "model": "EXPB-g9-final-final", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "正确求和（无显式空表判断但循环天然返回 0）", "uncertain": false}
+{"i": 158, "model": "EXPB-g9-final-final", "name": "sum_list", "seed": 999, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 159, "model": "EXPB-g9-final-final", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 1, "reason": "只累加正整数，含负数结果错误", "uncertain": false}
+{"i": 160, "model": "EXPB-g9-final-final", "name": "factorial", "seed": 0, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 161, "model": "EXPB-g9-final-final", "name": "factorial", "seed": 42, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 162, "model": "EXPB-g9-final-final", "name": "factorial", "seed": 123, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 163, "model": "EXPB-g9-final-final", "name": "factorial", "seed": 999, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 164, "model": "EXPB-g9-final-final", "name": "factorial", "seed": 2024, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 165, "model": "EXPB-g9-final-best_val", "name": "fibonacci", "seed": 0, "script_passed": true, "score": 2, "reason": "迭代 2..n 正确，fib(0)=0/fib(1)=1", "uncertain": false}
+{"i": 166, "model": "EXPB-g9-final-best_val", "name": "fibonacci", "seed": 42, "script_passed": true, "score": 2, "reason": "迭代 2..n 正确，fib(0)=0/fib(1)=1", "uncertain": false}
+{"i": 167, "model": "EXPB-g9-final-best_val", "name": "fibonacci", "seed": 123, "script_passed": true, "score": 2, "reason": "迭代 2..n 正确，fib(0)=0/fib(1)=1", "uncertain": false}
+{"i": 168, "model": "EXPB-g9-final-best_val", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "n<=0 返回字符串，n>=1 数列位移一位", "uncertain": false}
+{"i": 169, "model": "EXPB-g9-final-best_val", "name": "fibonacci", "seed": 2024, "script_passed": true, "score": 2, "reason": "迭代 2..n 正确，fib(0)=0/fib(1)=1", "uncertain": false}
+{"i": 170, "model": "EXPB-g9-final-best_val", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "丢弃等于 pivot 的元素；附带示例输出注释也是错的", "uncertain": false}
+{"i": 171, "model": "EXPB-g9-final-best_val", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "丢弃等于 pivot 的元素", "uncertain": false}
+{"i": 172, "model": "EXPB-g9-final-best_val", "name": "quicksort", "seed": 123, "script_passed": false, "score": 1, "reason": "丢弃等于 pivot 的元素", "uncertain": false}
+{"i": 173, "model": "EXPB-g9-final-best_val", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "丢弃等于 pivot 的元素", "uncertain": false}
+{"i": 174, "model": "EXPB-g9-final-best_val", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "丢弃等于 pivot 的元素", "uncertain": false}
+{"i": 175, "model": "EXPB-g9-final-best_val", "name": "binary_search", "seed": 0, "script_passed": false, "score": 1, "reason": "docstring+找首个匹配的索引二分，未找到返回 None：接口漂移", "uncertain": false}
+{"i": 176, "model": "EXPB-g9-final-best_val", "name": "binary_search", "seed": 42, "script_passed": true, "score": 2, "reason": "索引二分，未找到返回 -1", "uncertain": false}
+{"i": 177, "model": "EXPB-g9-final-best_val", "name": "binary_search", "seed": 123, "script_passed": true, "score": 2, "reason": "索引二分，未找到返回 -1", "uncertain": false}
+{"i": 178, "model": "EXPB-g9-final-best_val", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "二分逻辑正确但返回 bool 而非索引", "uncertain": false}
+{"i": 179, "model": "EXPB-g9-final-best_val", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "二分逻辑正确但返回 bool 而非索引：接口漂移", "uncertain": false}
+{"i": 180, "model": "EXPB-g9-final-best_val", "name": "two_sum", "seed": 0, "script_passed": true, "score": 2, "reason": "哈希表返回正确索引对", "uncertain": false}
+{"i": 181, "model": "EXPB-g9-final-best_val", "name": "two_sum", "seed": 42, "script_passed": false, "score": 1, "reason": "返回 [complement, index]，首元素是值不是索引", "uncertain": false}
+{"i": 182, "model": "EXPB-g9-final-best_val", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "返回 [complement, index]，首元素是值不是索引", "uncertain": false}
+{"i": 183, "model": "EXPB-g9-final-best_val", "name": "two_sum", "seed": 999, "script_passed": true, "score": 2, "reason": "哈希表返回正确索引对", "uncertain": false}
+{"i": 184, "model": "EXPB-g9-final-best_val", "name": "two_sum", "seed": 2024, "script_passed": true, "score": 2, "reason": "哈希表返回正确索引对", "uncertain": false}
+{"i": 185, "model": "EXPB-g9-final-best_val", "name": "mergesort", "seed": 0, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 186, "model": "EXPB-g9-final-best_val", "name": "mergesort", "seed": 42, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 187, "model": "EXPB-g9-final-best_val", "name": "mergesort", "seed": 123, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 188, "model": "EXPB-g9-final-best_val", "name": "mergesort", "seed": 999, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 189, "model": "EXPB-g9-final-best_val", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 190, "model": "EXPB-g9-final-best_val", "name": "is_palindrome", "seed": 0, "script_passed": false, "score": 1, "reason": "切片反转比较正确，但空串误判为 False", "uncertain": false}
+{"i": 191, "model": "EXPB-g9-final-best_val", "name": "is_palindrome", "seed": 42, "script_passed": false, "score": 1, "reason": "切片反转比较正确，但空串误判为 False", "uncertain": false}
+{"i": 192, "model": "EXPB-g9-final-best_val", "name": "is_palindrome", "seed": 123, "script_passed": false, "score": 1, "reason": "切片反转比较正确，但空串误判为 False", "uncertain": false}
+{"i": 193, "model": "EXPB-g9-final-best_val", "name": "is_palindrome", "seed": 999, "script_passed": false, "score": 1, "reason": "切片反转比较正确，但空串误判为 False", "uncertain": false}
+{"i": 194, "model": "EXPB-g9-final-best_val", "name": "is_palindrome", "seed": 2024, "script_passed": false, "score": 1, "reason": "切片反转比较正确，但空串误判为 False", "uncertain": false}
+{"i": 195, "model": "EXPB-g9-final-best_val", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 196, "model": "EXPB-g9-final-best_val", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 197, "model": "EXPB-g9-final-best_val", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 198, "model": "EXPB-g9-final-best_val", "name": "is_prime", "seed": 999, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 199, "model": "EXPB-g9-final-best_val", "name": "is_prime", "seed": 2024, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 200, "model": "EXPB-g9-final-best_val", "name": "reverse_string", "seed": 0, "script_passed": false, "score": 0, "reason": "实现的是括号匹配（遇 ')' pop），与反转无关", "uncertain": false}
+{"i": 201, "model": "EXPB-g9-final-best_val", "name": "reverse_string", "seed": 42, "script_passed": false, "score": 1, "reason": "正序追加构造，忘记倒序，返回原串", "uncertain": false}
+{"i": 202, "model": "EXPB-g9-final-best_val", "name": "reverse_string", "seed": 123, "script_passed": false, "score": 1, "reason": "正序追加构造，忘记倒序，返回原串", "uncertain": false}
+{"i": 203, "model": "EXPB-g9-final-best_val", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 1, "reason": "正序追加构造，忘记倒序，返回原串", "uncertain": false}
+{"i": 204, "model": "EXPB-g9-final-best_val", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 1, "reason": "正序追加构造，忘记倒序，返回原串", "uncertain": false}
+{"i": 205, "model": "EXPB-g9-final-best_val", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "仅小写元音集合，小写输入正确（底座同尺子给 2）", "uncertain": false}
+{"i": 206, "model": "EXPB-g9-final-best_val", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 207, "model": "EXPB-g9-final-best_val", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "仅小写元音集合，小写输入正确（底座同尺子给 2）", "uncertain": false}
+{"i": 208, "model": "EXPB-g9-final-best_val", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "仅小写元音集合，小写输入正确（底座同尺子给 2）", "uncertain": false}
+{"i": 209, "model": "EXPB-g9-final-best_val", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "仅小写元音集合，小写输入正确（底座同尺子给 2）", "uncertain": false}
+{"i": 210, "model": "EXPB-g9-final-best_val", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 211, "model": "EXPB-g9-final-best_val", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 212, "model": "EXPB-g9-final-best_val", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "正确求和（无显式空表判断但循环天然返回 0）", "uncertain": false}
+{"i": 213, "model": "EXPB-g9-final-best_val", "name": "sum_list", "seed": 999, "script_passed": true, "score": 2, "reason": "正确求和（无显式空表判断但循环天然返回 0）", "uncertain": false}
+{"i": 214, "model": "EXPB-g9-final-best_val", "name": "sum_list", "seed": 2024, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 215, "model": "EXPB-g9-final-best_val", "name": "factorial", "seed": 0, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 216, "model": "EXPB-g9-final-best_val", "name": "factorial", "seed": 42, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 217, "model": "EXPB-g9-final-best_val", "name": "factorial", "seed": 123, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 218, "model": "EXPB-g9-final-best_val", "name": "factorial", "seed": 999, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 219, "model": "EXPB-g9-final-best_val", "name": "factorial", "seed": 2024, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 220, "model": "EXPB-g9-best_val-final", "name": "fibonacci", "seed": 0, "script_passed": false, "score": 1, "reason": "n<=0 返回字符串，n>=1 数列位移一位", "uncertain": false}
+{"i": 221, "model": "EXPB-g9-best_val-final", "name": "fibonacci", "seed": 42, "script_passed": false, "score": 1, "reason": "n<=0 返回字符串，n>=1 数列位移一位", "uncertain": false}
+{"i": 222, "model": "EXPB-g9-best_val-final", "name": "fibonacci", "seed": 123, "script_passed": false, "score": 1, "reason": "n<=0 返回字符串，n>=1 数列位移一位", "uncertain": false}
+{"i": 223, "model": "EXPB-g9-best_val-final", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "n<=0 返回字符串，n>=1 数列位移一位", "uncertain": false}
+{"i": 224, "model": "EXPB-g9-best_val-final", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "n<=0 返回字符串，n>=1 数列位移一位", "uncertain": false}
+{"i": 225, "model": "EXPB-g9-best_val-final", "name": "quicksort", "seed": 0, "script_passed": true, "score": 2, "reason": "三路划分正确", "uncertain": false}
+{"i": 226, "model": "EXPB-g9-best_val-final", "name": "quicksort", "seed": 42, "script_passed": true, "score": 2, "reason": "三路划分（<,==,>）正确，重复元素保留", "uncertain": false}
+{"i": 227, "model": "EXPB-g9-best_val-final", "name": "quicksort", "seed": 123, "script_passed": true, "score": 2, "reason": "三路划分（<,==,>）正确，重复元素保留", "uncertain": false}
+{"i": 228, "model": "EXPB-g9-best_val-final", "name": "quicksort", "seed": 999, "script_passed": true, "score": 2, "reason": "三路划分正确", "uncertain": false}
+{"i": 229, "model": "EXPB-g9-best_val-final", "name": "quicksort", "seed": 2024, "script_passed": true, "score": 2, "reason": "三路划分（<,==,>）正确，重复元素保留", "uncertain": false}
+{"i": 230, "model": "EXPB-g9-best_val-final", "name": "binary_search", "seed": 0, "script_passed": false, "score": 1, "reason": "返回 [first,last] 列表而非索引，未找到返回 [None,None]", "uncertain": false}
+{"i": 231, "model": "EXPB-g9-best_val-final", "name": "binary_search", "seed": 42, "script_passed": false, "score": 1, "reason": "返回 [first,last 出现位置] 列表而非索引", "uncertain": false}
+{"i": 232, "model": "EXPB-g9-best_val-final", "name": "binary_search", "seed": 123, "script_passed": false, "score": 1, "reason": "索引二分正确但未找到返回 None", "uncertain": false}
+{"i": 233, "model": "EXPB-g9-best_val-final", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "索引二分正确但未找到返回 None", "uncertain": false}
+{"i": 234, "model": "EXPB-g9-best_val-final", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "返回 [first,last] 列表而非索引", "uncertain": false}
+{"i": 235, "model": "EXPB-g9-best_val-final", "name": "two_sum", "seed": 0, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 236, "model": "EXPB-g9-best_val-final", "name": "two_sum", "seed": 42, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 237, "model": "EXPB-g9-best_val-final", "name": "two_sum", "seed": 123, "script_passed": false, "score": 0, "reason": "找相等元素而非和为 target，常规输入返回 None", "uncertain": false}
+{"i": 238, "model": "EXPB-g9-best_val-final", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 239, "model": "EXPB-g9-best_val-final", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 240, "model": "EXPB-g9-best_val-final", "name": "mergesort", "seed": 0, "script_passed": false, "score": 2, "reason": "递归+完整 merge，结果正确", "uncertain": false}
+{"i": 241, "model": "EXPB-g9-best_val-final", "name": "mergesort", "seed": 42, "script_passed": false, "score": 2, "reason": "递归+完整 merge（extend），结果正确", "uncertain": false}
+{"i": 242, "model": "EXPB-g9-best_val-final", "name": "mergesort", "seed": 123, "script_passed": false, "score": 2, "reason": "递归+完整 merge，结果正确", "uncertain": false}
+{"i": 243, "model": "EXPB-g9-best_val-final", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "递归+完整 merge，结果正确", "uncertain": false}
+{"i": 244, "model": "EXPB-g9-best_val-final", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "递归+完整 merge，结果正确", "uncertain": false}
+{"i": 245, "model": "EXPB-g9-best_val-final", "name": "is_palindrome", "seed": 0, "script_passed": false, "score": 1, "reason": "reversed_s 按正序追加等于原串，多字符恒 True、单字符/空串又判 False", "uncertain": true}
+{"i": 246, "model": "EXPB-g9-best_val-final", "name": "is_palindrome", "seed": 42, "script_passed": false, "score": 1, "reason": "reversed_s 按正序追加等于原串，多字符恒 True、单字符/空串又判 False", "uncertain": true}
+{"i": 247, "model": "EXPB-g9-best_val-final", "name": "is_palindrome", "seed": 123, "script_passed": false, "score": 1, "reason": "围绕中心写法怪异，aba/abba/ab/abca 判对，空串与单字符判 False", "uncertain": false}
+{"i": 248, "model": "EXPB-g9-best_val-final", "name": "is_palindrome", "seed": 999, "script_passed": false, "score": 1, "reason": "双指针比较正确，但 len<2 直接返回 False", "uncertain": false}
+{"i": 249, "model": "EXPB-g9-best_val-final", "name": "is_palindrome", "seed": 2024, "script_passed": false, "score": 1, "reason": "reversed_s 按正序追加等于原串，多字符恒 True、单字符/空串判 False", "uncertain": true}
+{"i": 250, "model": "EXPB-g9-best_val-final", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 251, "model": "EXPB-g9-best_val-final", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 252, "model": "EXPB-g9-best_val-final", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 253, "model": "EXPB-g9-best_val-final", "name": "is_prime", "seed": 999, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 254, "model": "EXPB-g9-best_val-final", "name": "is_prime", "seed": 2024, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 255, "model": "EXPB-g9-best_val-final", "name": "reverse_string", "seed": 0, "script_passed": false, "score": 0, "reason": "把字母统一映射为 'A'，与反转无关", "uncertain": false}
+{"i": 256, "model": "EXPB-g9-best_val-final", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "切片倒序迭代构造，反转正确", "uncertain": false}
+{"i": 257, "model": "EXPB-g9-best_val-final", "name": "reverse_string", "seed": 123, "script_passed": false, "score": 0, "reason": "把字母映射为 'A'/'Z'，与反转无关", "uncertain": false}
+{"i": 258, "model": "EXPB-g9-best_val-final", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 0, "reason": "+26 恒等位移并丢弃非字母，与反转无关", "uncertain": true}
+{"i": 259, "model": "EXPB-g9-best_val-final", "name": "reverse_string", "seed": 2024, "script_passed": true, "score": 2, "reason": "切片倒序迭代构造，反转正确", "uncertain": false}
+{"i": 260, "model": "EXPB-g9-best_val-final", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "仅小写元音集合，小写输入正确（底座同尺子给 2）", "uncertain": false}
+{"i": 261, "model": "EXPB-g9-best_val-final", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 262, "model": "EXPB-g9-best_val-final", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 263, "model": "EXPB-g9-best_val-final", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "元音 set+sum，正确", "uncertain": false}
+{"i": 264, "model": "EXPB-g9-best_val-final", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "仅小写元音集合，小写输入正确（底座同尺子给 2）", "uncertain": false}
+{"i": 265, "model": "EXPB-g9-best_val-final", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 266, "model": "EXPB-g9-best_val-final", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 267, "model": "EXPB-g9-best_val-final", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "正确求和（无显式空表判断但循环天然返回 0）", "uncertain": false}
+{"i": 268, "model": "EXPB-g9-best_val-final", "name": "sum_list", "seed": 999, "script_passed": true, "score": 2, "reason": "正确求和（无显式空表判断但循环天然返回 0）", "uncertain": false}
+{"i": 269, "model": "EXPB-g9-best_val-final", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 1, "reason": "只累加正整数，含负数结果错误", "uncertain": false}
+{"i": 270, "model": "EXPB-g9-best_val-final", "name": "factorial", "seed": 0, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 271, "model": "EXPB-g9-best_val-final", "name": "factorial", "seed": 42, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 272, "model": "EXPB-g9-best_val-final", "name": "factorial", "seed": 123, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 273, "model": "EXPB-g9-best_val-final", "name": "factorial", "seed": 999, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 274, "model": "EXPB-g9-best_val-final", "name": "factorial", "seed": 2024, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 275, "model": "EXPB-g9-best_val-best_val", "name": "fibonacci", "seed": 0, "script_passed": false, "score": 1, "reason": "n<=0 返回字符串，n>=1 数列位移一位", "uncertain": false}
+{"i": 276, "model": "EXPB-g9-best_val-best_val", "name": "fibonacci", "seed": 42, "script_passed": false, "score": 1, "reason": "数列算法正确但 n<=0 返回字符串、n=1/2 返回 int 而 n>=3 返回 list，返回类型不一致", "uncertain": true}
+{"i": 277, "model": "EXPB-g9-best_val-best_val", "name": "fibonacci", "seed": 123, "script_passed": false, "score": 1, "reason": "数列算法正确但返回类型随 n 变化（字符串/int/list）", "uncertain": true}
+{"i": 278, "model": "EXPB-g9-best_val-best_val", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "数列算法正确但 n<=0 返回字符串、n=1/2 返回 int 而 n>=3 返回 list，返回类型不一致", "uncertain": true}
+{"i": 279, "model": "EXPB-g9-best_val-best_val", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "数列算法正确但返回类型随 n 变化（字符串/int/list）", "uncertain": true}
+{"i": 280, "model": "EXPB-g9-best_val-best_val", "name": "quicksort", "seed": 0, "script_passed": false, "score": 1, "reason": "划分完整但返回降序", "uncertain": false}
+{"i": 281, "model": "EXPB-g9-best_val-best_val", "name": "quicksort", "seed": 42, "script_passed": false, "score": 1, "reason": "arr[1:] 上 </> 划分，丢弃等于 pivot 的元素", "uncertain": false}
+{"i": 282, "model": "EXPB-g9-best_val-best_val", "name": "quicksort", "seed": 123, "script_passed": true, "score": 2, "reason": "三路划分正确", "uncertain": false}
+{"i": 283, "model": "EXPB-g9-best_val-best_val", "name": "quicksort", "seed": 999, "script_passed": false, "score": 1, "reason": "划分完整但返回降序", "uncertain": false}
+{"i": 284, "model": "EXPB-g9-best_val-best_val", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 1, "reason": "丢弃等于 pivot 的元素", "uncertain": false}
+{"i": 285, "model": "EXPB-g9-best_val-best_val", "name": "binary_search", "seed": 0, "script_passed": false, "score": 1, "reason": "索引二分正确但未找到返回 None", "uncertain": false}
+{"i": 286, "model": "EXPB-g9-best_val-best_val", "name": "binary_search", "seed": 42, "script_passed": false, "score": 1, "reason": "索引二分正确但未找到返回 None", "uncertain": false}
+{"i": 287, "model": "EXPB-g9-best_val-best_val", "name": "binary_search", "seed": 123, "script_passed": false, "score": 1, "reason": "索引二分正确但未找到返回 None", "uncertain": false}
+{"i": 288, "model": "EXPB-g9-best_val-best_val", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "索引二分正确但未找到返回 None（应 -1）", "uncertain": false}
+{"i": 289, "model": "EXPB-g9-best_val-best_val", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "索引二分正确但未找到返回 None", "uncertain": false}
+{"i": 290, "model": "EXPB-g9-best_val-best_val", "name": "two_sum", "seed": 0, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 291, "model": "EXPB-g9-best_val-best_val", "name": "two_sum", "seed": 42, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 292, "model": "EXPB-g9-best_val-best_val", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 293, "model": "EXPB-g9-best_val-best_val", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 294, "model": "EXPB-g9-best_val-best_val", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "正确找出配对但返回数值对而非索引", "uncertain": false}
+{"i": 295, "model": "EXPB-g9-best_val-best_val", "name": "mergesort", "seed": 0, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 296, "model": "EXPB-g9-best_val-best_val", "name": "mergesort", "seed": 42, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 297, "model": "EXPB-g9-best_val-best_val", "name": "mergesort", "seed": 123, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 298, "model": "EXPB-g9-best_val-best_val", "name": "mergesort", "seed": 999, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 299, "model": "EXPB-g9-best_val-best_val", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 1, "reason": "原地归并排序正确，但无 return", "uncertain": false}
+{"i": 300, "model": "EXPB-g9-best_val-best_val", "name": "is_palindrome", "seed": 0, "script_passed": false, "score": 0, "reason": "只做字符清洗，没有任何 return（返回 None）", "uncertain": false}
+{"i": 301, "model": "EXPB-g9-best_val-best_val", "name": "is_palindrome", "seed": 42, "script_passed": false, "score": 1, "reason": "s==s[::-1] 正确，但 len<=1 判 False", "uncertain": false}
+{"i": 302, "model": "EXPB-g9-best_val-best_val", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "去除非字母数字+小写+切片反转比较，全部正确", "uncertain": false}
+{"i": 303, "model": "EXPB-g9-best_val-best_val", "name": "is_palindrome", "seed": 999, "script_passed": true, "score": 2, "reason": "去除非字母数字+小写+切片反转比较，全部正确", "uncertain": false}
+{"i": 304, "model": "EXPB-g9-best_val-best_val", "name": "is_palindrome", "seed": 2024, "script_passed": false, "score": 0, "reason": "围绕中心的返回值拼接错误，运行抛 TypeError", "uncertain": false}
+{"i": 305, "model": "EXPB-g9-best_val-best_val", "name": "is_prime", "seed": 0, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确；末尾 print 无害", "uncertain": false}
+{"i": 306, "model": "EXPB-g9-best_val-best_val", "name": "is_prime", "seed": 42, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 307, "model": "EXPB-g9-best_val-best_val", "name": "is_prime", "seed": 123, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 308, "model": "EXPB-g9-best_val-best_val", "name": "is_prime", "seed": 999, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 309, "model": "EXPB-g9-best_val-best_val", "name": "is_prime", "seed": 2024, "script_passed": true, "score": 2, "reason": "标准试除法，n<=1 返回 False，正确", "uncertain": false}
+{"i": 310, "model": "EXPB-g9-best_val-best_val", "name": "reverse_string", "seed": 0, "script_passed": false, "score": 0, "reason": "按字符位置做递增位移，与反转无关", "uncertain": false}
+{"i": 311, "model": "EXPB-g9-best_val-best_val", "name": "reverse_string", "seed": 42, "script_passed": true, "score": 2, "reason": "切片倒序迭代构造，反转正确", "uncertain": false}
+{"i": 312, "model": "EXPB-g9-best_val-best_val", "name": "reverse_string", "seed": 123, "script_passed": true, "score": 2, "reason": "reversed(s) 反转正确", "uncertain": false}
+{"i": 313, "model": "EXPB-g9-best_val-best_val", "name": "reverse_string", "seed": 999, "script_passed": true, "score": 2, "reason": "列表推导 reversed 反转正确（测试 print 无害）", "uncertain": false}
+{"i": 314, "model": "EXPB-g9-best_val-best_val", "name": "reverse_string", "seed": 2024, "script_passed": true, "score": 2, "reason": "切片倒序迭代构造，反转正确", "uncertain": false}
+{"i": 315, "model": "EXPB-g9-best_val-best_val", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "仅小写元音字符串，小写输入正确", "uncertain": false}
+{"i": 316, "model": "EXPB-g9-best_val-best_val", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "仅小写元音字符串，小写输入正确", "uncertain": false}
+{"i": 317, "model": "EXPB-g9-best_val-best_val", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "大小写元音集合+sum，正确", "uncertain": false}
+{"i": 318, "model": "EXPB-g9-best_val-best_val", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "仅小写元音字符串，小写输入正确", "uncertain": false}
+{"i": 319, "model": "EXPB-g9-best_val-best_val", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "仅小写元音字符串，小写输入正确", "uncertain": false}
+{"i": 320, "model": "EXPB-g9-best_val-best_val", "name": "sum_list", "seed": 0, "script_passed": true, "score": 2, "reason": "正确求和（无显式空表判断但循环天然返回 0）", "uncertain": false}
+{"i": 321, "model": "EXPB-g9-best_val-best_val", "name": "sum_list", "seed": 42, "script_passed": true, "score": 2, "reason": "正确求和（无显式空表判断但循环天然返回 0）", "uncertain": false}
+{"i": 322, "model": "EXPB-g9-best_val-best_val", "name": "sum_list", "seed": 123, "script_passed": true, "score": 2, "reason": "正确求和，空列表返回 0", "uncertain": false}
+{"i": 323, "model": "EXPB-g9-best_val-best_val", "name": "sum_list", "seed": 999, "script_passed": true, "score": 2, "reason": "正确求和（无显式空表判断但循环天然返回 0）", "uncertain": false}
+{"i": 324, "model": "EXPB-g9-best_val-best_val", "name": "sum_list", "seed": 2024, "script_passed": true, "score": 2, "reason": "正确求和（无显式空表判断但循环天然返回 0）", "uncertain": false}
+{"i": 325, "model": "EXPB-g9-best_val-best_val", "name": "factorial", "seed": 0, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 326, "model": "EXPB-g9-best_val-best_val", "name": "factorial", "seed": 42, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 327, "model": "EXPB-g9-best_val-best_val", "name": "factorial", "seed": 123, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 328, "model": "EXPB-g9-best_val-best_val", "name": "factorial", "seed": 999, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}
+{"i": 329, "model": "EXPB-g9-best_val-best_val", "name": "factorial", "seed": 2024, "script_passed": true, "score": 2, "reason": "阶乘实现正确（0!=1）", "uncertain": false}

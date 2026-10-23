@@ -1,0 +1,110 @@
+{"i": 0, "model": "SFT1B-gold147-merged-final", "name": "fibonacci", "seed": 0, "script_passed": false, "score": 1, "reason": "实现本身正确，但返回前 n 项列表而非第 n 个斐波那契数，与底座接口不符", "uncertain": false}
+{"i": 1, "model": "SFT1B-gold147-merged-final", "name": "fibonacci", "seed": 42, "script_passed": false, "score": 1, "reason": "实现本身正确，但返回前 n 项列表而非第 n 个斐波那契数，与底座接口不符", "uncertain": false}
+{"i": 2, "model": "SFT1B-gold147-merged-final", "name": "fibonacci", "seed": 123, "script_passed": false, "score": 1, "reason": "实现本身正确，但返回前 n 项列表而非第 n 个斐波那契数，与底座接口不符", "uncertain": false}
+{"i": 3, "model": "SFT1B-gold147-merged-final", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "实现本身正确，但返回前 n 项列表而非第 n 个斐波那契数，与底座接口不符", "uncertain": false}
+{"i": 4, "model": "SFT1B-gold147-merged-final", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "实现本身正确，但返回前 n 项列表而非第 n 个斐波那契数，与底座接口不符", "uncertain": false}
+{"i": 5, "model": "SFT1B-gold147-merged-final", "name": "quicksort", "seed": 0, "script_passed": false, "score": 2, "reason": "pivot 三分划分（<、=、>）后递归拼接返回，无丢元素无重复，排序正确", "uncertain": false}
+{"i": 6, "model": "SFT1B-gold147-merged-final", "name": "quicksort", "seed": 42, "script_passed": false, "score": 2, "reason": "pivot 三分划分（<、=、>）后递归拼接返回，无丢元素无重复，排序正确", "uncertain": false}
+{"i": 7, "model": "SFT1B-gold147-merged-final", "name": "quicksort", "seed": 123, "script_passed": false, "score": 2, "reason": "pivot 三分划分（<、=、>）后递归拼接返回，无丢元素无重复，排序正确", "uncertain": false}
+{"i": 8, "model": "SFT1B-gold147-merged-final", "name": "quicksort", "seed": 999, "script_passed": false, "score": 2, "reason": "pivot 三分划分（<、=、>）后递归拼接返回，无丢元素无重复，排序正确", "uncertain": false}
+{"i": 9, "model": "SFT1B-gold147-merged-final", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 2, "reason": "pivot 三分划分（<、=、>）后递归拼接返回，无丢元素无重复，排序正确", "uncertain": false}
+{"i": 10, "model": "SFT1B-gold147-merged-final", "name": "binary_search", "seed": 0, "script_passed": false, "score": 1, "reason": "二分循环与边界正确、命中返回下标，但未找到时返回 None 而非基准口径 -1", "uncertain": false}
+{"i": 11, "model": "SFT1B-gold147-merged-final", "name": "binary_search", "seed": 42, "script_passed": false, "score": 1, "reason": "二分循环与边界正确、命中返回下标，但未找到时返回 None 而非基准口径 -1", "uncertain": false}
+{"i": 12, "model": "SFT1B-gold147-merged-final", "name": "binary_search", "seed": 123, "script_passed": false, "score": 1, "reason": "二分循环与边界正确、命中返回下标，但未找到时返回 None 而非基准口径 -1", "uncertain": false}
+{"i": 13, "model": "SFT1B-gold147-merged-final", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "二分循环与边界正确、命中返回下标，但未找到时返回 None 而非基准口径 -1", "uncertain": false}
+{"i": 14, "model": "SFT1B-gold147-merged-final", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "二分循环与边界正确、命中返回下标，但未找到时返回 None 而非基准口径 -1", "uncertain": false}
+{"i": 15, "model": "SFT1B-gold147-merged-final", "name": "two_sum", "seed": 0, "script_passed": false, "score": 1, "reason": "散列法正确找出所有相加等于 target 的数对，但返回数值对而非成对下标", "uncertain": false}
+{"i": 16, "model": "SFT1B-gold147-merged-final", "name": "two_sum", "seed": 42, "script_passed": false, "score": 1, "reason": "散列法正确找出所有相加等于 target 的数对，但返回数值对而非成对下标", "uncertain": false}
+{"i": 17, "model": "SFT1B-gold147-merged-final", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "散列法找到首个相加等于 target 的数对，但返回数值对而非下标对", "uncertain": false}
+{"i": 18, "model": "SFT1B-gold147-merged-final", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "散列法正确找出所有相加等于 target 的数对，但返回数值对而非成对下标", "uncertain": false}
+{"i": 19, "model": "SFT1B-gold147-merged-final", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "散列法正确找出所有相加等于 target 的数对，但返回数值对而非成对下标", "uncertain": false}
+{"i": 20, "model": "SFT1B-gold147-merged-final", "name": "mergesort", "seed": 0, "script_passed": false, "score": 2, "reason": "标准原地归并排序，双指针合并与尾段收尾完整（原地或返回均正确）", "uncertain": false}
+{"i": 21, "model": "SFT1B-gold147-merged-final", "name": "mergesort", "seed": 42, "script_passed": false, "score": 2, "reason": "标准原地归并排序，双指针合并与尾段收尾完整（原地或返回均正确）", "uncertain": false}
+{"i": 22, "model": "SFT1B-gold147-merged-final", "name": "mergesort", "seed": 123, "script_passed": false, "score": 2, "reason": "标准原地归并排序，双指针合并与尾段收尾完整（原地或返回均正确）", "uncertain": false}
+{"i": 23, "model": "SFT1B-gold147-merged-final", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "标准原地归并排序，双指针合并与尾段收尾完整（原地或返回均正确）", "uncertain": false}
+{"i": 24, "model": "SFT1B-gold147-merged-final", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "标准原地归并排序，双指针合并与尾段收尾完整（原地或返回均正确）", "uncertain": false}
+{"i": 25, "model": "SFT1B-gold147-merged-final", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "去非字母数字并转小写后与逆序比较，判据正确，边界（空串/大小写）也成立", "uncertain": false}
+{"i": 26, "model": "SFT1B-gold147-merged-final", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "去非字母数字并转小写后与逆序比较，判据正确，边界（空串/大小写）也成立", "uncertain": false}
+{"i": 27, "model": "SFT1B-gold147-merged-final", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "去非字母数字并转小写后与逆序比较，判据正确，边界（空串/大小写）也成立", "uncertain": false}
+{"i": 28, "model": "SFT1B-gold147-merged-final", "name": "is_palindrome", "seed": 999, "script_passed": true, "score": 2, "reason": "去非字母数字并转小写后与逆序比较，判据正确，边界（空串/大小写）也成立", "uncertain": false}
+{"i": 29, "model": "SFT1B-gold147-merged-final", "name": "is_palindrome", "seed": 2024, "script_passed": true, "score": 2, "reason": "去非字母数字并转小写后与逆序比较，判据正确，边界（空串/大小写）也成立", "uncertain": false}
+{"i": 30, "model": "SFT1B-gold147-merged-final", "name": "is_prime", "seed": 0, "script_passed": false, "score": 1, "reason": "奇数试除骨架正确，但先把 n%2==0 判 False 导致 n=2 被误判为非素数", "uncertain": false}
+{"i": 31, "model": "SFT1B-gold147-merged-final", "name": "is_prime", "seed": 42, "script_passed": false, "score": 1, "reason": "奇数试除骨架正确，但先把 n%2==0 判 False 导致 n=2 被误判为非素数", "uncertain": false}
+{"i": 32, "model": "SFT1B-gold147-merged-final", "name": "is_prime", "seed": 123, "script_passed": false, "score": 0, "reason": "sieve 建表正确但判据 sum(sieve)>n 恒假，任何 n（含素数）都返回 False", "uncertain": false}
+{"i": 33, "model": "SFT1B-gold147-merged-final", "name": "is_prime", "seed": 999, "script_passed": false, "score": 1, "reason": "奇数试除骨架正确，但先把 n%2==0 判 False 导致 n=2 被误判为非素数", "uncertain": false}
+{"i": 34, "model": "SFT1B-gold147-merged-final", "name": "is_prime", "seed": 2024, "script_passed": true, "score": 2, "reason": "先特判 n==2 为 True，偶数返回 False，奇数到 sqrt 试除，判据正确", "uncertain": false}
+{"i": 35, "model": "SFT1B-gold147-merged-final", "name": "reverse_string", "seed": 0, "script_passed": false, "score": 2, "reason": "直接 `return s[::-1]`，切片逆序正确，覆盖空串与单字符", "uncertain": false}
+{"i": 36, "model": "SFT1B-gold147-merged-final", "name": "reverse_string", "seed": 42, "script_passed": false, "score": 2, "reason": "直接 `return s[::-1]`，切片逆序正确，覆盖空串与单字符", "uncertain": false}
+{"i": 37, "model": "SFT1B-gold147-merged-final", "name": "reverse_string", "seed": 123, "script_passed": false, "score": 2, "reason": "直接 `return s[::-1]`，切片逆序正确，覆盖空串与单字符", "uncertain": false}
+{"i": 38, "model": "SFT1B-gold147-merged-final", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 2, "reason": "直接 `return s[::-1]`，切片逆序正确，覆盖空串与单字符", "uncertain": false}
+{"i": 39, "model": "SFT1B-gold147-merged-final", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 2, "reason": "直接 `return s[::-1]`，切片逆序正确，覆盖空串与单字符", "uncertain": false}
+{"i": 40, "model": "SFT1B-gold147-merged-final", "name": "count_vowels", "seed": 0, "script_passed": true, "score": 2, "reason": "元音集合含大小写两种写法，逐字符计数正确，无需预处理也不会漏", "uncertain": false}
+{"i": 41, "model": "SFT1B-gold147-merged-final", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音集合含大小写两种写法，逐字符计数正确，无需预处理也不会漏", "uncertain": false}
+{"i": 42, "model": "SFT1B-gold147-merged-final", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "元音集合含大小写两种写法，逐字符计数正确，无需预处理也不会漏", "uncertain": false}
+{"i": 43, "model": "SFT1B-gold147-merged-final", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "元音集合含大小写两种写法，逐字符计数正确，无需预处理也不会漏", "uncertain": false}
+{"i": 44, "model": "SFT1B-gold147-merged-final", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "元音集合含大小写两种写法，逐字符计数正确，无需预处理也不会漏", "uncertain": false}
+{"i": 45, "model": "SFT1B-gold147-merged-final", "name": "sum_list", "seed": 0, "script_passed": false, "score": 0, "reason": "只写 docstring 与 `# Example usage` 占位注释，无函数体（调用名还写成 sum_numbers）", "uncertain": false}
+{"i": 46, "model": "SFT1B-gold147-merged-final", "name": "sum_list", "seed": 42, "script_passed": false, "score": 0, "reason": "只写 docstring 与 `# Example usage` 占位注释，无函数体（调用名还写成 sum_numbers）", "uncertain": false}
+{"i": 47, "model": "SFT1B-gold147-merged-final", "name": "sum_list", "seed": 123, "script_passed": false, "score": 0, "reason": "只写 docstring 与 `# Example usage` 占位注释，无函数体（调用名还写成 sum_numbers）", "uncertain": false}
+{"i": 48, "model": "SFT1B-gold147-merged-final", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "只写 docstring 与 `# Example usage` 占位注释，无函数体（调用名还写成 sum_numbers）", "uncertain": false}
+{"i": 49, "model": "SFT1B-gold147-merged-final", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "只写 docstring 与 `# Example usage` 占位注释，无函数体（调用名还写成 sum_numbers）", "uncertain": false}
+{"i": 50, "model": "SFT1B-gold147-merged-final", "name": "factorial", "seed": 0, "script_passed": false, "score": 0, "reason": "只有 docstring 与 `# Example usage` 占位注释，无阶乘实现", "uncertain": false}
+{"i": 51, "model": "SFT1B-gold147-merged-final", "name": "factorial", "seed": 42, "script_passed": false, "score": 0, "reason": "只有 docstring 与 `# Example usage` 占位注释，无阶乘实现", "uncertain": false}
+{"i": 52, "model": "SFT1B-gold147-merged-final", "name": "factorial", "seed": 123, "script_passed": false, "score": 0, "reason": "只有 docstring 与 `# Example usage` 占位注释，无阶乘实现", "uncertain": false}
+{"i": 53, "model": "SFT1B-gold147-merged-final", "name": "factorial", "seed": 999, "script_passed": false, "score": 0, "reason": "只有 docstring 与 `# Example usage` 占位注释，无阶乘实现", "uncertain": false}
+{"i": 54, "model": "SFT1B-gold147-merged-final", "name": "factorial", "seed": 2024, "script_passed": false, "score": 0, "reason": "只有 docstring 与 `# Example usage` 占位注释，无阶乘实现", "uncertain": false}
+{"i": 55, "model": "SFT1B-gold147-merged-best_val", "name": "fibonacci", "seed": 0, "script_passed": false, "score": 1, "reason": "实现本身正确，但返回前 n 项列表而非第 n 个斐波那契数，与底座接口不符", "uncertain": false}
+{"i": 56, "model": "SFT1B-gold147-merged-best_val", "name": "fibonacci", "seed": 42, "script_passed": false, "score": 1, "reason": "实现本身正确，但返回前 n 项列表而非第 n 个斐波那契数，与底座接口不符", "uncertain": false}
+{"i": 57, "model": "SFT1B-gold147-merged-best_val", "name": "fibonacci", "seed": 123, "script_passed": false, "score": 1, "reason": "实现本身正确，但返回前 n 项列表而非第 n 个斐波那契数，与底座接口不符", "uncertain": false}
+{"i": 58, "model": "SFT1B-gold147-merged-best_val", "name": "fibonacci", "seed": 999, "script_passed": false, "score": 1, "reason": "实现返回第 n-1 个斐波那契数（fib_c(10)=34 而非 55），且 n<=0 返回提示串，边界差一", "uncertain": false}
+{"i": 59, "model": "SFT1B-gold147-merged-best_val", "name": "fibonacci", "seed": 2024, "script_passed": false, "score": 1, "reason": "实现本身正确，但返回前 n 项列表而非第 n 个斐波那契数，与底座接口不符", "uncertain": false}
+{"i": 60, "model": "SFT1B-gold147-merged-best_val", "name": "quicksort", "seed": 0, "script_passed": false, "score": 2, "reason": "pivot 三分划分（<、=、>）后递归拼接返回，无丢元素无重复，排序正确", "uncertain": false}
+{"i": 61, "model": "SFT1B-gold147-merged-best_val", "name": "quicksort", "seed": 42, "script_passed": false, "score": 2, "reason": "pivot 三分划分（<、=、>）后递归拼接返回，无丢元素无重复，排序正确", "uncertain": false}
+{"i": 62, "model": "SFT1B-gold147-merged-best_val", "name": "quicksort", "seed": 123, "script_passed": false, "score": 2, "reason": "pivot 三分划分（<、=、>）后递归拼接返回，无丢元素无重复，排序正确", "uncertain": false}
+{"i": 63, "model": "SFT1B-gold147-merged-best_val", "name": "quicksort", "seed": 999, "script_passed": false, "score": 2, "reason": "pivot 三分划分（<、=、>）后递归拼接返回，无丢元素无重复，排序正确", "uncertain": false}
+{"i": 64, "model": "SFT1B-gold147-merged-best_val", "name": "quicksort", "seed": 2024, "script_passed": false, "score": 2, "reason": "pivot 三分划分（<、=、>）后递归拼接返回，无丢元素无重复，排序正确", "uncertain": false}
+{"i": 65, "model": "SFT1B-gold147-merged-best_val", "name": "binary_search", "seed": 0, "script_passed": false, "score": 1, "reason": "二分循环与边界正确、命中返回下标，但未找到时返回 None 而非基准口径 -1", "uncertain": false}
+{"i": 66, "model": "SFT1B-gold147-merged-best_val", "name": "binary_search", "seed": 42, "script_passed": false, "score": 1, "reason": "二分循环与边界正确、命中返回下标，但未找到时返回 None 而非基准口径 -1", "uncertain": false}
+{"i": 67, "model": "SFT1B-gold147-merged-best_val", "name": "binary_search", "seed": 123, "script_passed": false, "score": 1, "reason": "二分循环与边界正确、命中返回下标，但未找到时返回 None 而非基准口径 -1", "uncertain": false}
+{"i": 68, "model": "SFT1B-gold147-merged-best_val", "name": "binary_search", "seed": 999, "script_passed": false, "score": 1, "reason": "二分循环与边界正确、命中返回下标，但未找到时返回 None 而非基准口径 -1", "uncertain": false}
+{"i": 69, "model": "SFT1B-gold147-merged-best_val", "name": "binary_search", "seed": 2024, "script_passed": false, "score": 1, "reason": "二分循环与边界正确、命中返回下标，但未找到时返回 None 而非基准口径 -1", "uncertain": false}
+{"i": 70, "model": "SFT1B-gold147-merged-best_val", "name": "two_sum", "seed": 0, "script_passed": false, "score": 1, "reason": "散列法正确找出所有相加等于 target 的数对，但返回数值对而非成对下标", "uncertain": false}
+{"i": 71, "model": "SFT1B-gold147-merged-best_val", "name": "two_sum", "seed": 42, "script_passed": false, "score": 0, "reason": "写成二分查找首次出现并返回单个下标，与 two_sum 任务完全无关", "uncertain": false}
+{"i": 72, "model": "SFT1B-gold147-merged-best_val", "name": "two_sum", "seed": 123, "script_passed": false, "score": 1, "reason": "散列法正确找出所有相加等于 target 的数对，但返回数值对而非成对下标", "uncertain": false}
+{"i": 73, "model": "SFT1B-gold147-merged-best_val", "name": "two_sum", "seed": 999, "script_passed": false, "score": 1, "reason": "散列法正确找出所有相加等于 target 的数对，但返回数值对而非成对下标", "uncertain": false}
+{"i": 74, "model": "SFT1B-gold147-merged-best_val", "name": "two_sum", "seed": 2024, "script_passed": false, "score": 1, "reason": "散列法正确找出所有相加等于 target 的数对，但返回数值对而非成对下标", "uncertain": false}
+{"i": 75, "model": "SFT1B-gold147-merged-best_val", "name": "mergesort", "seed": 0, "script_passed": false, "score": 2, "reason": "标准原地归并排序，双指针合并与尾段收尾完整（原地或返回均正确）", "uncertain": false}
+{"i": 76, "model": "SFT1B-gold147-merged-best_val", "name": "mergesort", "seed": 42, "script_passed": false, "score": 2, "reason": "标准原地归并排序，双指针合并与尾段收尾完整（原地或返回均正确）", "uncertain": false}
+{"i": 77, "model": "SFT1B-gold147-merged-best_val", "name": "mergesort", "seed": 123, "script_passed": false, "score": 2, "reason": "标准原地归并排序，双指针合并与尾段收尾完整（原地或返回均正确）", "uncertain": false}
+{"i": 78, "model": "SFT1B-gold147-merged-best_val", "name": "mergesort", "seed": 999, "script_passed": false, "score": 2, "reason": "标准原地归并排序，双指针合并与尾段收尾完整（原地或返回均正确）", "uncertain": false}
+{"i": 79, "model": "SFT1B-gold147-merged-best_val", "name": "mergesort", "seed": 2024, "script_passed": false, "score": 2, "reason": "标准原地归并排序，双指针合并与尾段收尾完整（原地或返回均正确）", "uncertain": false}
+{"i": 80, "model": "SFT1B-gold147-merged-best_val", "name": "is_palindrome", "seed": 0, "script_passed": true, "score": 2, "reason": "去非字母数字并转小写后与逆序比较，判据正确，边界（空串/大小写）也成立", "uncertain": false}
+{"i": 81, "model": "SFT1B-gold147-merged-best_val", "name": "is_palindrome", "seed": 42, "script_passed": true, "score": 2, "reason": "去非字母数字并转小写后与逆序比较，判据正确，边界（空串/大小写）也成立", "uncertain": false}
+{"i": 82, "model": "SFT1B-gold147-merged-best_val", "name": "is_palindrome", "seed": 123, "script_passed": true, "score": 2, "reason": "去非字母数字并转小写后与逆序比较，判据正确，边界（空串/大小写）也成立", "uncertain": false}
+{"i": 83, "model": "SFT1B-gold147-merged-best_val", "name": "is_palindrome", "seed": 999, "script_passed": true, "score": 2, "reason": "去非字母数字并转小写后与逆序比较，判据正确，边界（空串/大小写）也成立", "uncertain": false}
+{"i": 84, "model": "SFT1B-gold147-merged-best_val", "name": "is_palindrome", "seed": 2024, "script_passed": true, "score": 2, "reason": "去非字母数字并转小写后与逆序比较，判据正确，边界（空串/大小写）也成立", "uncertain": false}
+{"i": 85, "model": "SFT1B-gold147-merged-best_val", "name": "is_prime", "seed": 0, "script_passed": false, "score": 1, "reason": "奇数试除骨架正确，但先把 n%2==0 判 False 导致 n=2 被误判为非素数", "uncertain": false}
+{"i": 86, "model": "SFT1B-gold147-merged-best_val", "name": "is_prime", "seed": 42, "script_passed": false, "score": 1, "reason": "奇数试除骨架正确，但先把 n%2==0 判 False 导致 n=2 被误判为非素数", "uncertain": false}
+{"i": 87, "model": "SFT1B-gold147-merged-best_val", "name": "is_prime", "seed": 123, "script_passed": false, "score": 1, "reason": "奇数试除骨架正确，但先把 n%2==0 判 False 导致 n=2 被误判为非素数", "uncertain": false}
+{"i": 88, "model": "SFT1B-gold147-merged-best_val", "name": "is_prime", "seed": 999, "script_passed": false, "score": 1, "reason": "奇数试除骨架正确，但先把 n%2==0 判 False 导致 n=2 被误判为非素数", "uncertain": false}
+{"i": 89, "model": "SFT1B-gold147-merged-best_val", "name": "is_prime", "seed": 2024, "script_passed": false, "score": 1, "reason": "奇数试除骨架正确，但先把 n%2==0 判 False 导致 n=2 被误判为非素数", "uncertain": false}
+{"i": 90, "model": "SFT1B-gold147-merged-best_val", "name": "reverse_string", "seed": 0, "script_passed": false, "score": 2, "reason": "直接 `return s[::-1]`，切片逆序正确，覆盖空串与单字符", "uncertain": false}
+{"i": 91, "model": "SFT1B-gold147-merged-best_val", "name": "reverse_string", "seed": 42, "script_passed": false, "score": 2, "reason": "直接 `return s[::-1]`，切片逆序正确，覆盖空串与单字符", "uncertain": false}
+{"i": 92, "model": "SFT1B-gold147-merged-best_val", "name": "reverse_string", "seed": 123, "script_passed": false, "score": 2, "reason": "直接 `return s[::-1]`，切片逆序正确，覆盖空串与单字符", "uncertain": false}
+{"i": 93, "model": "SFT1B-gold147-merged-best_val", "name": "reverse_string", "seed": 999, "script_passed": false, "score": 2, "reason": "直接 `return s[::-1]`，切片逆序正确，覆盖空串与单字符", "uncertain": false}
+{"i": 94, "model": "SFT1B-gold147-merged-best_val", "name": "reverse_string", "seed": 2024, "script_passed": false, "score": 2, "reason": "直接 `return s[::-1]`，切片逆序正确，覆盖空串与单字符", "uncertain": false}
+{"i": 95, "model": "SFT1B-gold147-merged-best_val", "name": "count_vowels", "seed": 0, "script_passed": false, "score": 1, "reason": "判据写反：统计的是非元音字母数（char.lower() not in vowels），结果颠倒", "uncertain": false}
+{"i": 96, "model": "SFT1B-gold147-merged-best_val", "name": "count_vowels", "seed": 42, "script_passed": true, "score": 2, "reason": "元音集合含大小写两种写法，逐字符计数正确，无需预处理也不会漏", "uncertain": false}
+{"i": 97, "model": "SFT1B-gold147-merged-best_val", "name": "count_vowels", "seed": 123, "script_passed": true, "score": 2, "reason": "元音集合含大小写两种写法，逐字符计数正确，无需预处理也不会漏", "uncertain": false}
+{"i": 98, "model": "SFT1B-gold147-merged-best_val", "name": "count_vowels", "seed": 999, "script_passed": true, "score": 2, "reason": "元音集合含大小写两种写法，逐字符计数正确，无需预处理也不会漏", "uncertain": false}
+{"i": 99, "model": "SFT1B-gold147-merged-best_val", "name": "count_vowels", "seed": 2024, "script_passed": true, "score": 2, "reason": "元音集合含大小写两种写法，逐字符计数正确，无需预处理也不会漏", "uncertain": false}
+{"i": 100, "model": "SFT1B-gold147-merged-best_val", "name": "sum_list", "seed": 0, "script_passed": false, "score": 0, "reason": "只写 docstring 与 `# Example usage` 占位注释，无函数体（调用名还写成 sum_numbers）", "uncertain": false}
+{"i": 101, "model": "SFT1B-gold147-merged-best_val", "name": "sum_list", "seed": 42, "script_passed": false, "score": 0, "reason": "只写 docstring 与 `# Example usage` 占位注释，无函数体（调用名还写成 sum_numbers）", "uncertain": false}
+{"i": 102, "model": "SFT1B-gold147-merged-best_val", "name": "sum_list", "seed": 123, "script_passed": false, "score": 0, "reason": "只写 docstring 与 `# Example usage` 占位注释，无函数体（调用名还写成 sum_numbers）", "uncertain": false}
+{"i": 103, "model": "SFT1B-gold147-merged-best_val", "name": "sum_list", "seed": 999, "script_passed": false, "score": 0, "reason": "只写 docstring 与 `# Example usage` 占位注释，无函数体（调用名还写成 sum_numbers）", "uncertain": false}
+{"i": 104, "model": "SFT1B-gold147-merged-best_val", "name": "sum_list", "seed": 2024, "script_passed": false, "score": 0, "reason": "只写 docstring 与 `# Example usage` 占位注释，无函数体（调用名还写成 sum_numbers）", "uncertain": false}
+{"i": 105, "model": "SFT1B-gold147-merged-best_val", "name": "factorial", "seed": 0, "script_passed": false, "score": 0, "reason": "只有 docstring 与 `# Example usage` 占位注释，无阶乘实现", "uncertain": false}
+{"i": 106, "model": "SFT1B-gold147-merged-best_val", "name": "factorial", "seed": 42, "script_passed": false, "score": 0, "reason": "只有 docstring 与 `# Example usage` 占位注释，无阶乘实现", "uncertain": false}
+{"i": 107, "model": "SFT1B-gold147-merged-best_val", "name": "factorial", "seed": 123, "script_passed": false, "score": 0, "reason": "只有 docstring 与 `# Example usage` 占位注释，无阶乘实现", "uncertain": false}
+{"i": 108, "model": "SFT1B-gold147-merged-best_val", "name": "factorial", "seed": 999, "script_passed": false, "score": 0, "reason": "只有 docstring 与 `# Example usage` 占位注释，无阶乘实现", "uncertain": false}
+{"i": 109, "model": "SFT1B-gold147-merged-best_val", "name": "factorial", "seed": 2024, "script_passed": false, "score": 0, "reason": "只有 docstring 与 `# Example usage` 占位注释，无阶乘实现", "uncertain": false}
