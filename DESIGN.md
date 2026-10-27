@@ -275,7 +275,7 @@ The 435M was rebuilt at 1.1B (20 layers, d_model 2048, 16 heads, d_ff 5120, 32K 
 
 **The signature-column fix carries over.** The 5:1 mix lifts the 1B's signature column from 65/67 to **85/91** of 110 with the instruction column unchanged (95/97 → 98/97), and the equal-token control in §7.4 attributes that gain to composition rather than to the extra 47% of data. The best single 1B checkpoint by combined score is the mix arm on the `merged` base at selection point `best_val`: 91 + 97 = 188 of 220.
 
-Raw per-item scores for both models: [`results/post-training-audit/`](results/post-training-audit/).
+The weights are published as [`TightX/code-llm-1b-base`](https://huggingface.co/TightX/code-llm-1b-base) and [`TightX/code-llm-1b-sft`](https://huggingface.co/TightX/code-llm-1b-sft); each repository carries the weights, the tokenizer, the config and a model card with the architecture table. Raw per-item scores for both models: [`results/post-training-audit/`](results/post-training-audit/).
 
 ## References
 

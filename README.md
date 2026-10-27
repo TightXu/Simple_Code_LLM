@@ -70,7 +70,16 @@ The 435M v2 model this repo describes is published on Hugging Face Hub as two re
   instruction-tuned variant: the same architecture, tokenizer and context length, fine-tuned on
   gold-standard instruction data (the checkpoint selected in `post-training/`).
 
-Both repositories are public on the Hub.
+The 1B rebuild described in [§12](DESIGN.md) is published alongside it:
+
+- [`TightX/code-llm-1b-base`](https://huggingface.co/TightX/code-llm-1b-base) — 1,095,845,888
+  parameters, merged from the last 21 checkpoints of a 30.98 B-token run (best validation loss
+  1.1609).
+- [`TightX/code-llm-1b-sft`](https://huggingface.co/TightX/code-llm-1b-sft) — the 5:1
+  gold:signature fine-tune, 91/110 on the signature column and 97/110 on the instruction column
+  of the hand-graded 11-task benchmark.
+
+All four repositories are public on the Hub.
 
 ## How to run
 
